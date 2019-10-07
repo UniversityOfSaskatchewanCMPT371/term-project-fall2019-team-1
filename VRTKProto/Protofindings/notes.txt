@@ -1,0 +1,7 @@
+https://github.com/ExtendRealityLtd/VRTK
+
+https://academy.vrtk.io/Documentation/HowToGuides/CameraRigs/AddingTheUnityXRCameraRig/
+
+https://www.youtube.com/watch?v=uZ1VBWSlOnc
+
+git submodule update --init --recursive
