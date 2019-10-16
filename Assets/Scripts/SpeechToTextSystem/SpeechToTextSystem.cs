@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
 
 public class SpeechToTextSystem : MonoBehaviour
 {
+    public KeyCode toggleKey;
+
+    public Text text;
+
     private string phraseSpoken;
 
-    public string MyProperty
+    public string PhraseSpoken
     {
         get {
             if (phraseSpoken != null)
@@ -35,8 +40,25 @@ public class SpeechToTextSystem : MonoBehaviour
             phraseSpoken = text;
             // Write the text to the log.
             GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
+            this.text.text = phraseSpoken;
         };
 
+        text.gameObject.SetActive(false);
+
         dictationRecognizer.Start();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(toggleKey))
+        {
+            if (text.gameObject.activeSelf)
+            {
+                text.gameObject.SetActive(false);
+            } else
+            {
+                text.gameObject.SetActive(true);
+            }
+        }
     }
 }
