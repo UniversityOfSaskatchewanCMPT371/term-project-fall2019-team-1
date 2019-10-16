@@ -5,6 +5,22 @@ using UnityEngine.Windows.Speech;
 
 public class SpeechToTextSystem : MonoBehaviour
 {
+    private string phraseSpoken;
+
+    public string MyProperty
+    {
+        get {
+            if (phraseSpoken != null)
+            {
+                return phraseSpoken;
+            }
+            else
+            {
+                throw new UnassignedReferenceException("No recognized speech.");
+            }
+        }
+    }
+
     // Converts speech to text.
     private DictationRecognizer dictationRecognizer;
 
@@ -16,8 +32,9 @@ public class SpeechToTextSystem : MonoBehaviour
         // When speech has been recognized.
         dictationRecognizer.DictationResult += (text, confidence) =>
         {
+            phraseSpoken = text;
             // Write the text to the log.
-            GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(text);
+            GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
         };
 
         dictationRecognizer.Start();
