@@ -20,14 +20,19 @@ public class LogSystem : MonoBehaviour
         // Clear the log file when scene starts.
         File.WriteAllText(AssetDatabase.GetAssetPath(logFile), string.Empty);
 
-        writeToFile("yeet");
-        writeToFile("asdfsadvcxbvcx");
-        writeToFile("Last");
-
-        printToTextField();
+        UIText.gameObject.SetActive(false);
     }
 
-    public void writeToFile(string text)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UIText.gameObject.SetActive(true);
+            PrintToTextField();
+        }
+    }
+
+    public void WriteToFile(string text)
     {
         // Build stream writer for the log file.
         StreamWriter sw = new StreamWriter(AssetDatabase.GetAssetPath(logFile), append: true);
@@ -38,7 +43,7 @@ public class LogSystem : MonoBehaviour
         sw.Close();
     }
 
-    public void printToTextField()
+    public void PrintToTextField()
     {
         StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
         UIText.GetComponent<Text>().text = sr.ReadToEnd();
