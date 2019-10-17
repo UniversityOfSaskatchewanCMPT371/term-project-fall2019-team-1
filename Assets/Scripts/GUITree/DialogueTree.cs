@@ -9,7 +9,7 @@ public class DialogueTree : MonoBehaviour
         
     public void Awake()
     {
-        Dialogues = Resources.LoadAll("Tree/Tree1");
+        Dialogues = Resources.LoadAll("DialogueTree/Tree1");
         currentNode = (Dialogue)Dialogues[0];
     }
 
@@ -23,11 +23,12 @@ public class DialogueTree : MonoBehaviour
             if(currentNode.response[i] == speech)
             {
                 //TODO: send to text-to-speech
+                Debug.Log(speech);
 
                 //swap to next node
                 currentNode = currentNode.next[i];
                 
-                //check if current node exists
+                //check if current node doesn't exists
                 if(currentNode == null)
                 {
                     //TODO: do something
