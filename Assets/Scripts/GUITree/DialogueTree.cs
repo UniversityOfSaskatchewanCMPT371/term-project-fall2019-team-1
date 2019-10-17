@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using SpeechLib;
 
 public class DialogueTree : MonoBehaviour
 { 
@@ -10,8 +10,12 @@ public class DialogueTree : MonoBehaviour
     public int tree;
     LogSystem log;
 
+    SpVoice voice;
+ 
+
     public void Awake()
     {
+        voice = new SpVoice();
         log = GetComponent<LogSystem>();
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
         currentNode = (Dialogue)Dialogues[0];
@@ -28,7 +32,8 @@ public class DialogueTree : MonoBehaviour
             {
                 //TODO: send to text-to-speech
                 log.WriteToFile(speech);
-
+                voice = new SpVoice();
+                voice.Speak(speech);
 
                 //swap to next node
                 currentNode = currentNode.next[i];
