@@ -16,7 +16,7 @@ public class NodeEditor : EditorWindow {
 
 
     public void Awake(){
-        Dialogues = Resources.LoadAll("Tree/Tree1");        
+        Dialogues = Resources.LoadAll("DialogueTree/Tree1");        
     }
  
     [MenuItem("Window/Node editor")]
