@@ -6,10 +6,13 @@ public class DialogueTree : MonoBehaviour
 { 
     Object[] Dialogues;
     Dialogue currentNode;
-        
+    public int tree;
+    LogSystem log;
+
     public void Awake()
     {
-        Dialogues = Resources.LoadAll("DialogueTree/Tree1");
+        log = GetComponent<LogSystem>();
+        Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
         currentNode = (Dialogue)Dialogues[0];
     }
 
@@ -23,7 +26,8 @@ public class DialogueTree : MonoBehaviour
             if(currentNode.response[i] == speech)
             {
                 //TODO: send to text-to-speech
-                Debug.Log(speech);
+                log.WriteToFile(speech);
+
 
                 //swap to next node
                 currentNode = currentNode.next[i];
