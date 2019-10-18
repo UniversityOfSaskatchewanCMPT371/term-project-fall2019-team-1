@@ -10,6 +10,8 @@ public class SpeechToTextSystem : MonoBehaviour
 
     public Text text;
 
+    public DialogueTree dialogueTree;
+
     private string phraseSpoken;
 
     public string PhraseSpoken
@@ -41,6 +43,7 @@ public class SpeechToTextSystem : MonoBehaviour
             // Write the text to the log.
             GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
             this.text.text = phraseSpoken;
+            dialogueTree.inTree(phraseSpoken);
         };
 
         text.gameObject.SetActive(false);
