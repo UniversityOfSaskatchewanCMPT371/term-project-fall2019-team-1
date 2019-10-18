@@ -15,17 +15,60 @@ public class NodeEditor : EditorWindow {
     Dialogue Dialogue;
 
 
+    Rect Tree_Section;
+    Rect Node_Section;
+    Color Tree_Section_Colour = new Color(13f/255f, 32f/255f, 46f/255f, 1f);
+    Texture2D Tree_Section_texture;
+
+
+    public void init_texture()
+    {
+        Tree_Section_texture = new Texture2D(1, 1);
+        Tree_Section_texture.SetPixel(0, 0, Tree_Section_Colour);
+        Tree_Section_texture.Apply();
+
+    }
+
+    public void init_Layout()
+    {
+
+        Tree_Section.x = 0;
+        Tree_Section.y = 0;
+        Tree_Section.width = Screen.width / 15f;
+        Tree_Section.height = Screen.height;
+        GUI.DrawTexture(Tree_Section, Tree_Section_texture);
+
+        Node_Section.x = Screen.width / 10f;
+        Node_Section.y = 10;
+        Node_Section.width = Screen.width;
+        Node_Section.height = Screen.height;
+
+
+    }
+    private void OnEnable()
+    {
+        init_texture();
+    }
+
+
     public void Awake(){
-        Dialogues = Resources.LoadAll("DialogueTree/Tree1");        
+    
+
+        Dialogues = Resources.LoadAll("DialogueTree/Tree1");
+        
     }
  
     [MenuItem("Window/Node editor")]
     static void ShowEditor() {
         NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
+       
         editor.Show();
     }
 
     void OnGUI() {
+
+        init_Layout();
+
         if (windowsToAttach.Count == 2) {
             attachedWindows.Add(windowsToAttach[0]);
             attachedWindows.Add(windowsToAttach[1]);
@@ -38,14 +81,17 @@ public class NodeEditor : EditorWindow {
             }
 
         }
+        GUILayout.BeginArea(Node_Section);
         BeginWindows();
         DrawDialogueTree();
         EndWindows();
-
+        GUILayout.EndArea();
     }
 
     void DrawDialogueTree()
-    {
+
+    { 
+        
         for (int i = 0; i < Dialogues.Length; i++)
         {
             dialoguewindows.Add(new Rect(x, y, 150, 100));
@@ -57,6 +103,7 @@ public class NodeEditor : EditorWindow {
             
         }
 
+
         //for every dialogue node
         for (int i = 0; i < Dialogues.Length; i++)
         {
@@ -67,11 +114,12 @@ public class NodeEditor : EditorWindow {
                 if (((Dialogue)Dialogues[i]).next[j] != null)
                 {
                     //draw a line from the current node, to the response node
-                    DrawNodeCurve(dialoguewindows[i], 
+                    DrawNodeCurve(dialoguewindows[i],
                         dialoguewindows[getNodeIndex(((Dialogue)Dialogues[i]).next[j])]);
                 }
             }
         }
+
     }
 
       void DrawDialogueNode(int id){
