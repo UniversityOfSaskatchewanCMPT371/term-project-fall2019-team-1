@@ -4,13 +4,24 @@ using UnityEngine;
 using SpeechLib;
 
 public class DialogueTree : MonoBehaviour
-{ 
+{
+    Rect Tree_Section;
     Object[] Dialogues;
     Dialogue currentNode;
     public int tree;
     LogSystem log;
 
+
     SpVoice voice;
+
+    public void init_Layout()
+    {
+        Tree_Section.x = 0;
+        Tree_Section.y = Screen.height;
+        Tree_Section.width = Screen.width / 8f;
+        Tree_Section.height = Screen.width - 50;
+
+    }
  
 
     public void Awake()
