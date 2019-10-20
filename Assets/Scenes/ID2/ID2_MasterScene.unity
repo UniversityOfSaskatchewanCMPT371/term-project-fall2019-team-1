@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -294,8 +294,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -240, y: -225}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 265.75, y: -6.5}
+  m_SizeDelta: {x: 463.5, y: 495}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &477355625
 MonoBehaviour:
@@ -315,6 +315,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
@@ -371,8 +373,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -236.5, y: -182.5}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -244.99997, y: -6.5}
+  m_SizeDelta: {x: 490, y: 495}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &525565903
 MonoBehaviour:
@@ -392,6 +394,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
@@ -486,6 +490,11 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 525565903}
+    - target: {fileID: 1491951451583740806, guid: e0ef21acf61a240609a89fb343786f5a,
+        type: 3}
+      propertyPath: dialogueTree
+      value: 
+      objectReference: {fileID: 2038761136}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0ef21acf61a240609a89fb343786f5a, type: 3}
 --- !u!1001 &949318794
@@ -734,7 +743,8 @@ PrefabInstance:
       propertyPath: UIText
       value: 
       objectReference: {fileID: 477355625}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9186708843775630978, guid: bd25866b5a62a449d81982dfafbd18b6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd25866b5a62a449d81982dfafbd18b6, type: 3}
 --- !u!1 &2021857781
 GameObject:
@@ -805,3 +815,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &2038761136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9186708843775630977, guid: bd25866b5a62a449d81982dfafbd18b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1145318752}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f82659d04dee14db23e9e116da255b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
