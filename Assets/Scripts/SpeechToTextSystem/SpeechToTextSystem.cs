@@ -43,6 +43,7 @@ public class SpeechToTextSystem : MonoBehaviour
             // Write the text to the log.
             GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
             this.text.text = phraseSpoken;
+           if (dialogueTree != null)
             dialogueTree.inTree(phraseSpoken);
         };
 
