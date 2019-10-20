@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
   m_Name: dialogue 1
   m_EditorClassIdentifier: 
-  prompt: Yeet Yeet
+  prompt: 
   response: []
   next: []
