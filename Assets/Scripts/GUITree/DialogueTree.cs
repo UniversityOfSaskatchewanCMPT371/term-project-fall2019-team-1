@@ -9,7 +9,6 @@ public class DialogueTree : MonoBehaviour
     Object[] Dialogues;
     Dialogue currentNode;
     public int tree;
-    LogSystem log;
 
 
     SpVoice voice;
@@ -27,7 +26,6 @@ public class DialogueTree : MonoBehaviour
     public void Awake()
     {
         voice = new SpVoice();
-        log = GetComponent<LogSystem>();
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
         currentNode = (Dialogue)Dialogues[0];
     }
@@ -35,16 +33,18 @@ public class DialogueTree : MonoBehaviour
 
     public bool inTree(string speech)
     {
+        Debug.Log(speech);
         //for each response in the current node
         for(int i = 0; i < currentNode.response.Count; i++)
         {
             //if the response is the same as the string
             if(currentNode.response[i] == speech)
             {
+                Debug.Log("match");
                 //TODO: send to text-to-speech
-                log.WriteToFile(speech);
+                GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.next[i].prompt);
                 voice = new SpVoice();
-                voice.Speak(speech);
+                voice.Speak(currentNode.next[i].prompt);
 
                 //swap to next node
                 currentNode = currentNode.next[i];
