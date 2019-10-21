@@ -1,2 +1,4 @@
-# term-project-fall2019-team-1
-term-project-fall2019-team-1-1 created by GitHub Classroom.
+## Hot Fix 1
+
+This branch is dedicated to fixing the build error.
+
