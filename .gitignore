@@ -74,6 +74,9 @@ ehthumbs_vista.db
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+# VSCode settings
+.vscode/
+
 # Windows Installer files
 *.cab
 *.msi
