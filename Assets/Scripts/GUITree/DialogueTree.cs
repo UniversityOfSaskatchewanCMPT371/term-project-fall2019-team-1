@@ -28,31 +28,38 @@ public class DialogueTree : MonoBehaviour
         voice = new SpVoice();
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
         currentNode = (Dialogue)Dialogues[0];
+        voice.Speak(currentNode.prompt);
+        
+        //display the prompt
+        GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
     }
 
 
     public bool inTree(string speech)
     {
-        Debug.Log(speech);
         //for each response in the current node
         for(int i = 0; i < currentNode.response.Count; i++)
         {
             //if the response is the same as the string
-            if(currentNode.response[i] == speech)
+            if(currentNode.response[i].ToLower() == speech.ToLower())
             {
-                Debug.Log("match");
-                //TODO: send to text-to-speech
-                GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.next[i].prompt);
+                Debug.Log(speech + " matches "  + currentNode.response[i]);
                 voice = new SpVoice();
-                voice.Speak(currentNode.next[i].prompt);
-
-                //swap to next node
-                currentNode = currentNode.next[i];
                 
-                //check if current node doesn't exists
-                if(currentNode == null)
+                //check if current node has a next 
+                if(currentNode.next.Count == 0)
                 {
-                    //TODO: do something
+                    //if it doesnt, display a message
+                    Debug.Log("Finished Tree");
+                }
+                else
+                { 
+                    //swap to next node, and speak the prompt
+                    currentNode = currentNode.next[i];
+                    voice.Speak(currentNode.prompt);
+
+                    //and dislpay prompt in log
+                    GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
                 }
                 return true;
             }

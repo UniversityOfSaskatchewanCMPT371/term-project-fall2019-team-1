@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: dialogue 2
+  m_Name: dialogue
   m_EditorClassIdentifier: 
-  prompt: GoodBye
+  prompt: Hello
   response:
-  - GOODBYE
-  next: []
+  - HELLO
+  next:
+  - {fileID: 11400000, guid: e3d986659b5346448a71d780a017f9ec, type: 2}
