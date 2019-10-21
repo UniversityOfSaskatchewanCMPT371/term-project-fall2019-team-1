@@ -10,12 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: dialogue
+  m_Name: dialogue 3
   m_EditorClassIdentifier: 
-  prompt: Hello
-  response:
-  - Yeet
-  - German
-  next:
-  - {fileID: 11400000, guid: 33adb20d7b3db0f4cbfe47477970a3c0, type: 2}
-  - {fileID: 11400000, guid: e3d986659b5346448a71d780a017f9ec, type: 2}
+  prompt: 
+  response: []
+  next: []
