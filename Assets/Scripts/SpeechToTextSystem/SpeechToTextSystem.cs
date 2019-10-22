@@ -34,7 +34,7 @@ public class SpeechToTextSystem : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        dictationRecognizer.Stop();
+        dictationRecognizer.Stop(); 
         dictationRecognizer.Dispose(); 
 
     }
@@ -62,6 +62,8 @@ public class SpeechToTextSystem : MonoBehaviour
 
     public void Update()
     {
+
+        //Debug.Log("this is a test to see if pausing happens!"); 
         if (Input.GetKeyDown(toggleKey))
         {
             if (text.gameObject.activeSelf)

@@ -15,4 +15,5 @@ MonoBehaviour:
   prompt: GoodBye
   response:
   - GOODBYE
-  next: []
+  next:
+  - {fileID: 11400000, guid: 651ba8257e86b8149be9ce2578a7d38c, type: 2}
