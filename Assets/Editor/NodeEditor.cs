@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
- 
- 
+
+#if UNITY_EDITOR
+
 public class NodeEditor : EditorWindow {
  
     List<Rect> dialoguewindows = new List<Rect>();
@@ -168,3 +169,4 @@ public class NodeEditor : EditorWindow {
     }
 }
 
+#endif

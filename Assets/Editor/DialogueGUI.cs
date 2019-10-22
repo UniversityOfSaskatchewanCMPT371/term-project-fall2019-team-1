@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(Dialogue))]
 public class DialogueGUI : EditorWindow
 {
@@ -56,3 +58,5 @@ public class DialogueGUI : EditorWindow
 
 
 }
+
+#endif
