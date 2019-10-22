@@ -18,7 +18,7 @@ public class LogSystem : MonoBehaviour
     void Start()
     {
         // Clear the log file when scene starts.
-        File.WriteAllText(AssetDatabase.GetAssetPath(logFile), string.Empty);
+        File.WriteAllText("logfile.txt", string.Empty);
 
         UIText.gameObject.SetActive(false);
     }
@@ -35,7 +35,7 @@ public class LogSystem : MonoBehaviour
     public void WriteToFile(string text)
     {
         // Build stream writer for the log file.
-        StreamWriter sw = new StreamWriter(AssetDatabase.GetAssetPath(logFile), append: true);
+        StreamWriter sw = new StreamWriter("logfile.txt", append: true);
         // Prepend time to text.
         string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
 
@@ -45,7 +45,7 @@ public class LogSystem : MonoBehaviour
 
     public void PrintToTextField()
     {
-        StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
+        StreamReader sr = new StreamReader("logfile.txt");
         UIText.GetComponent<Text>().text = sr.ReadToEnd();
         sr.Close();
     }
