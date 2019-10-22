@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
   m_Name: dialogue 3
   m_EditorClassIdentifier: 
-  prompt: 
-  response: []
+  prompt: Everybody dance now Everybody dance now Give me the music Give me the music
+    Everybody dance now Everybody dance now Yeah Yeah Yeah Everybody dance now Yeah
+    Yeah Yeah Everybody Here is the dome, back with the bass The jam is live in effect
+    and I don't waste time On the mic with a dope rhyme Jump to the rhythm, jump,
+    jump to the rhythm jump And I'm here to combine Beats and lyrics to make your
+    shake your pants Take a chance, come on and dance Guys grab a girl, don't wait,
+    make her twirl
+  response:
+  - test
   next: []
