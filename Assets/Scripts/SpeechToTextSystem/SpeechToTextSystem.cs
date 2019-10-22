@@ -31,6 +31,14 @@ public class SpeechToTextSystem : MonoBehaviour
     // Converts speech to text.
     private DictationRecognizer dictationRecognizer;
 
+
+    private void OnApplicationQuit()
+    {
+        dictationRecognizer.Stop();
+        dictationRecognizer.Dispose(); 
+
+    }
+
     // Start is called before the first frame update.
     public void Start()
     {
