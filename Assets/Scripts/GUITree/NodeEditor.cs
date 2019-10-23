@@ -123,9 +123,6 @@ public class NodeEditor : EditorWindow {
     }
 
       void DrawDialogueNode(int id){
-          if (GUILayout.Button("Attach")) {
-            windowsToAttach.Add(id-1);
-        }
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("prompt");
