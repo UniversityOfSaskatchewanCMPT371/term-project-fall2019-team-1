@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +28,7 @@ public class LogSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
         {
             ToggleDebug();
         }
@@ -36,7 +36,7 @@ public class LogSystem : MonoBehaviour
 
    public void ToggleDebug()
    {
-      UIText.gameObject.SetActive(true);
+      UIText.gameObject.SetActive(!UIText.gameObject.activeSelf);
       PrintToTextField();
    }
 
