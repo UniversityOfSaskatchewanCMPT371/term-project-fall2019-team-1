@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,28 +14,36 @@ public class LogSystem : MonoBehaviour
 
     public Text UIText;
 
+   // Key that is pressed to toggle the debug UI.
+   public KeyCode debugToggle;
+
     // Start is called before the first frame update
     void Start()
     {
         // Clear the log file when scene starts.
-        File.WriteAllText("logfile.txt", string.Empty);
+        File.WriteAllText(AssetDatabase.GetAssetPath(logFile), string.Empty);
 
         UIText.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
         {
-            UIText.gameObject.SetActive(true);
-            PrintToTextField();
+            ToggleDebug();
         }
     }
+
+   public void ToggleDebug()
+   {
+      UIText.gameObject.SetActive(!UIText.gameObject.activeSelf);
+      PrintToTextField();
+   }
 
     public void WriteToFile(string text)
     {
         // Build stream writer for the log file.
-        StreamWriter sw = new StreamWriter("logfile.txt", append: true);
+        StreamWriter sw = new StreamWriter(AssetDatabase.GetAssetPath(logFile), append: true);
         // Prepend time to text.
         string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
 
@@ -45,8 +53,19 @@ public class LogSystem : MonoBehaviour
 
     public void PrintToTextField()
     {
-        StreamReader sr = new StreamReader("logfile.txt");
-        UIText.GetComponent<Text>().text = sr.ReadToEnd();
-        sr.Close();
+        
+        try
+        {
+            StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
+            UIText.GetComponent<Text>().text = sr.ReadToEnd();
+            sr.Close();
+        }
+        catch (Exception e)
+        {
+            UIText.gameObject.SetActive(true);
+            UIText.GetComponent<Text>().text = "Error reading log file: \n" +
+                e.Message;
+            throw;
+        }
     }
 }
