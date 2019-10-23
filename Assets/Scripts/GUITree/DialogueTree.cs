@@ -10,12 +10,12 @@ using System.Runtime.InteropServices;
 public class DialogueTree : MonoBehaviour
 {
     Rect Tree_Section;
-    Object[] Dialogues;
-    Dialogue currentNode;
+    public Object[] Dialogues;
+    public Dialogue currentNode;
     public int tree;
 
     // Voice, uses speechLib to produce speech from a text input.
-    SpVoice voice;
+    public SpVoice voice;
 
     // a thread that we want to run the speech system from.
     Thread newThread; 
@@ -114,7 +114,7 @@ public class DialogueTree : MonoBehaviour
                     }
 
                     //and dislpay prompt in log
-                    GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
+                   // GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
                 }
                 return true;
             }
