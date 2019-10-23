@@ -25,9 +25,8 @@ namespace Tests
         {
             var logSystem = setUpLogSystem();
             yield return null;
-            logSystem.ToggleDebug();
-            yield return null;
-            Assert.AreEqual(false, logSystem.UIText.gameObject.activeSelf);
+            
+            Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
         }
 
         private LogSystem setUpLogSystem()

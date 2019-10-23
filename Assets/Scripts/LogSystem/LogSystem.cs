@@ -46,10 +46,6 @@ public class LogSystem : MonoBehaviour
 
     public void WriteToFile(string text)
     {
-        // Build stream writer for the log file.
-        StreamWriter sw = new StreamWriter("logfile.txt", append: true);
-        // Prepend time to text.
-        string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
 
         if (logFile != null)
         {

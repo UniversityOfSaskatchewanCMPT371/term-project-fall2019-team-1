@@ -15,5 +15,9 @@ MonoBehaviour:
   prompt: Hello
   response:
   - HELLO
+  - Does Your stomach hurt
+  - What is the average airspeed velocity of an unladen swallow
   next:
   - {fileID: 11400000, guid: e3d986659b5346448a71d780a017f9ec, type: 2}
+  - {fileID: 11400000, guid: b55388bf1e4ef164088bae5351d0c8a4, type: 2}
+  - {fileID: 11400000, guid: db3c09f1503731044820581e457ae0db, type: 2}
