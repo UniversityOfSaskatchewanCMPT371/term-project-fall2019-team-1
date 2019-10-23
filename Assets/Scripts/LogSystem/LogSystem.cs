@@ -53,8 +53,19 @@ public class LogSystem : MonoBehaviour
 
     public void PrintToTextField()
     {
-        StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
-        UIText.GetComponent<Text>().text = sr.ReadToEnd();
-        sr.Close();
+        
+        try
+        {
+            StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
+            UIText.GetComponent<Text>().text = sr.ReadToEnd();
+            sr.Close();
+        }
+        catch (Exception e)
+        {
+            UIText.gameObject.SetActive(true);
+            UIText.GetComponent<Text>().text = "Error reading log file: \n" +
+                e.Message;
+            throw;
+        }
     }
 }
