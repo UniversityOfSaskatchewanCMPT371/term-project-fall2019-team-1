@@ -66,17 +66,20 @@ public class SpeechToTextSystem : MonoBehaviour
         //Debug.Log("this is a test to see if pausing happens!"); 
         if (Input.GetKeyDown(toggleKey))
         {
-                text.gameObject.SetActive(true);
+            if (text.gameObject.activeSelf)
+            {
+
+
+                text.gameObject.SetActive(false);
+            }
+            else
+            {
+
+                text.gameObject.SetActive(true); 
+
+            }
             
         }
-
-
-
-        //if (text.gameObject.activeSelf)
-      //  {
-
-       //     text.gameObject.SetActive(false); 
-       // }
         
     }
 }

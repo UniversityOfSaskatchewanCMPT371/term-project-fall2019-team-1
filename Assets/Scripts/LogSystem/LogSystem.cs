@@ -23,12 +23,20 @@ public class LogSystem : MonoBehaviour
         UIText.gameObject.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UIText.gameObject.SetActive(true);
-            PrintToTextField();
+            if (UIText.gameObject.activeSelf)
+            {
+
+                UIText.gameObject.SetActive(false);
+            }
+            else
+            {
+                UIText.gameObject.SetActive(true);
+                PrintToTextField();
+            }
         }
     }
 
