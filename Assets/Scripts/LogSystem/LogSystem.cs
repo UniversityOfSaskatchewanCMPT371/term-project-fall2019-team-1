@@ -34,19 +34,27 @@ public class LogSystem : MonoBehaviour
 
     public void WriteToFile(string text)
     {
-        // Build stream writer for the log file.
-        StreamWriter sw = new StreamWriter("logfile.txt", append: true);
-        // Prepend time to text.
-        string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
 
-        sw.WriteLine(finalAnswer);
-        sw.Close();
+        if (logFile != null)
+        {
+            // Build stream writer for the log file.
+            StreamWriter sw = new StreamWriter("logfile.txt", append: true);
+            // Prepend time to text.
+            string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
+
+            sw.WriteLine(finalAnswer);
+            sw.Close();
+
+        }
     }
 
     public void PrintToTextField()
     {
-        StreamReader sr = new StreamReader("logfile.txt");
-        UIText.GetComponent<Text>().text = sr.ReadToEnd();
-        sr.Close();
+        if (logFile != null)
+        {
+            StreamReader sr = new StreamReader("logfile.txt");
+            UIText.GetComponent<Text>().text = sr.ReadToEnd();
+            sr.Close();
+        }
     }
 }
