@@ -1,2 +1,3 @@
 # term-project-fall2019-team-1
-term-project-fall2019-team-1-1 created by GitHub Classroom.
+## [ID1 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID1)
+## [ID2 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID2.1.1)
