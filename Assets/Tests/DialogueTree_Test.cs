@@ -28,7 +28,7 @@ namespace Tests
 
             Assert.AreEqual(test.inTree("HELLO"), true);
             Assert.AreEqual(test.inTree("GOODBYE"), true);
-            Assert.AreEqual(test.inTree("test"), true);
+            Assert.AreEqual(test.inTree("test"), false);
             // Use the Assert class to test conditions
         }
 
