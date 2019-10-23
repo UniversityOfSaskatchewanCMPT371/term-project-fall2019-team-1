@@ -57,6 +57,12 @@ public class SpeechToTextSystem : MonoBehaviour
 
         text.gameObject.SetActive(false);
 
+        if (Microphone.devices.Length == 0)
+        {
+            text.text = "Warning: There are no audio input devices connected!";
+            text.gameObject.SetActive(true);
+        }
+
         dictationRecognizer.Start();
     }
 
