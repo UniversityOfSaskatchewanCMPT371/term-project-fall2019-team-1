@@ -26,19 +26,23 @@ public class LogSystem : MonoBehaviour
         UIText.gameObject.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
         {
-            ToggleDebug();
+            if (UIText.gameObject.activeSelf)
+            {
+
+                UIText.gameObject.SetActive(false);
+            }
+            else
+            {
+                UIText.gameObject.SetActive(true);
+                PrintToTextField();
+            }
         }
     }
 
-   public void ToggleDebug()
-   {
-      UIText.gameObject.SetActive(!UIText.gameObject.activeSelf);
-      PrintToTextField();
-   }
 
     public void WriteToFile(string text)
     {
@@ -47,25 +51,27 @@ public class LogSystem : MonoBehaviour
         // Prepend time to text.
         string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
 
-        sw.WriteLine(finalAnswer);
-        sw.Close();
+        if (logFile != null)
+        {
+            // Build stream writer for the log file.
+            StreamWriter sw = new StreamWriter("logfile.txt", append: true);
+            // Prepend time to text.
+            string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
+
+            sw.WriteLine(finalAnswer);
+            sw.Close();
+
+        }
     }
 
     public void PrintToTextField()
     {
-        
-        try
+        if (logFile != null)
         {
-            StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
+            StreamReader sr = new StreamReader("logfile.txt");
             UIText.GetComponent<Text>().text = sr.ReadToEnd();
             sr.Close();
         }
-        catch (Exception e)
-        {
-            UIText.gameObject.SetActive(true);
-            UIText.GetComponent<Text>().text = "Error reading log file: \n" +
-                e.Message;
-            throw;
-        }
+
     }
 }

@@ -56,7 +56,7 @@ public class DialogueTree : MonoBehaviour
         }
 
         //display the prompt
-        GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
+        GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
     }
 
     // force the NPC to stop speaking if unity stops running.
@@ -114,7 +114,8 @@ public class DialogueTree : MonoBehaviour
                     }
 
                     //and dislpay prompt in log
-                    GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
+                    GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
+
                 }
                 return true;
             }
