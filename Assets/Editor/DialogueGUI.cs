@@ -1,0 +1,62 @@
+﻿using UnityEngine;
+using UnityEditor;
+
+#if UNITY_EDITOR
+
+[CustomEditor(typeof(Dialogue))]
+public class DialogueGUI : EditorWindow
+{
+
+    public Dialogue dialogue;
+    private int id;
+     void OnEnable(){
+         dialogue = ScriptableObject.CreateInstance<Dialogue>();
+     }
+
+
+    [MenuItem("Window/Dialogue")]
+     static void OpenWindow(){
+         
+        DialogueGUI window = (DialogueGUI)EditorWindow.GetWindow(typeof(DialogueGUI));
+        window.minSize = new Vector2(200, 400);
+        window.maxSize = new Vector2(400, 400);
+        window.Show();
+
+    }
+      void OnGUI()
+    {
+        if(dialogue == null){
+             dialogue = new Dialogue();
+        }
+
+        dialogue.prompt = EditorGUILayout.TextField("Enter prompt", dialogue.prompt);
+
+
+
+        SerializedObject dialogue_s = new SerializedObject(dialogue);
+        SerializedProperty response_prop = dialogue_s.FindProperty("response");
+        SerializedProperty nextid_prop = dialogue_s.FindProperty("next");
+
+         EditorGUILayout.PropertyField(response_prop, true);
+         EditorGUILayout.PropertyField(nextid_prop, true); // True means show children
+         dialogue_s.ApplyModifiedProperties(); 
+
+         if(GUI.changed){
+             EditorUtility.SetDirty(dialogue);
+         }
+
+
+        if(GUILayout.Button("button"))
+        {
+            AssetDatabase.CreateAsset(dialogue, "Assets/Resources/Dialogues/Dialogue"+id+".asset");
+            id++;
+        }
+
+        // if(GUILayout.Button(("Reset Dial")))
+    }
+
+
+
+}
+
+#endif
