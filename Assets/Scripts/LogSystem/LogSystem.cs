@@ -14,11 +14,14 @@ public class LogSystem : MonoBehaviour
 
     public Text UIText;
 
+   // Key that is pressed to toggle the debug UI.
+   public KeyCode debugToggle;
+
     // Start is called before the first frame update
     void Start()
     {
         // Clear the log file when scene starts.
-        File.WriteAllText("logfile.txt", string.Empty);
+        File.WriteAllText(AssetDatabase.GetAssetPath(logFile), string.Empty);
 
         UIText.gameObject.SetActive(false);
     }
@@ -27,15 +30,20 @@ public class LogSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UIText.gameObject.SetActive(true);
-            PrintToTextField();
+            ToggleDebug();
         }
     }
+
+   public void ToggleDebug()
+   {
+      UIText.gameObject.SetActive(true);
+      PrintToTextField();
+   }
 
     public void WriteToFile(string text)
     {
         // Build stream writer for the log file.
-        StreamWriter sw = new StreamWriter("logfile.txt", append: true);
+        StreamWriter sw = new StreamWriter(AssetDatabase.GetAssetPath(logFile), append: true);
         // Prepend time to text.
         string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
 
@@ -45,7 +53,7 @@ public class LogSystem : MonoBehaviour
 
     public void PrintToTextField()
     {
-        StreamReader sr = new StreamReader("logfile.txt");
+        StreamReader sr = new StreamReader(AssetDatabase.GetAssetPath(logFile));
         UIText.GetComponent<Text>().text = sr.ReadToEnd();
         sr.Close();
     }
