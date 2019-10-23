@@ -74,11 +74,18 @@ public class SpeechToTextSystem : MonoBehaviour
         {
             if (text.gameObject.activeSelf)
             {
+
+
                 text.gameObject.SetActive(false);
-            } else
-            {
-                text.gameObject.SetActive(true);
             }
+            else
+            {
+
+                text.gameObject.SetActive(true); 
+
+            }
+            
         }
+        
     }
 }
