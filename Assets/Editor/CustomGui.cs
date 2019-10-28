@@ -6,12 +6,20 @@ using System.Collections.Generic;
 
 public class CustomGUI : EditorWindow
 {
-    Object[] Trees;
+    public Object[] Trees;
+    public List<Rect> dialoguewindows = new List<Rect>();
+    public List<Rect> responsewindows = new List<Rect>();
+    public List<int> attachedWindows = new List<int>();
+    public int x = 10;
+    public int y = 10;
+    public Object[] Dialogues;
+    public Dialogue Dialogue;
+    public Dialogue currentNode;
 
     // Called after all gameObjects are initialized, Used to initialized variables 
     public void Awake()
     {
-        Trees = Resources.LoadAll("DialogueTree");
+        
     }
 
     // Adds the button on the window tab
@@ -24,9 +32,9 @@ public class CustomGUI : EditorWindow
     }
      
     // Called several times per frame, used to redraw the GUI
-    void OnGUI()
+    public void OnGUI()
     {
-
+        Debug.Log("OnGUI runs");
 
     }
 
@@ -38,7 +46,7 @@ public class CustomGUI : EditorWindow
      * POST - Tree is displayed in the cusotmGUI window
      * RETURN - NULL
      */
-    void drawTree(int index)
+    public void drawTree(int index)
     {
 
     }
@@ -50,7 +58,7 @@ public class CustomGUI : EditorWindow
     * POST - Node is displayed in the cusotmGUI window
     * RETURN - NULL
     */
-    void drawNode(int id)
+    public void drawNode(int id)
     {
 
     }
@@ -62,7 +70,7 @@ public class CustomGUI : EditorWindow
     * POST - All of the responses in the node are displayed in the cusotmGUI window
     * RETURN - NULL
     */
-    void drawReponse(int id)
+    public void drawReponse(int id)
     {
 
     }
@@ -74,7 +82,7 @@ public class CustomGUI : EditorWindow
     * POST - NONE
     * RETURN - the index of the node in the Dialogue[] array
     */
-    int getNodeIndex(Dialogue node)
+    public int getNodeIndex(Dialogue node)
     {
         return 0;
     }
@@ -101,6 +109,18 @@ public class CustomGUI : EditorWindow
         }
 
         Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
+    }
+    
+    /* A helper function that finds the current node. if there is more than one current node
+     * throw and error. if there is no selected current, set current to the first node.
+    * 
+    * PRE -  The tree is not null.
+    * POST - NONE.
+    * RETURN - A dialogue that is asigned as the current node.
+    */
+    public Dialogue findCurrent()
+    {
+        return null;
     }
 
 

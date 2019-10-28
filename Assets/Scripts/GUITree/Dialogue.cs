@@ -7,7 +7,8 @@ public class Dialogue : ScriptableObject
 {
     public string prompt;
     public List<string> response;
-    public List<Dialogue> next; 
+    public List<Dialogue> next;
+    public bool current;
 
 
 }
