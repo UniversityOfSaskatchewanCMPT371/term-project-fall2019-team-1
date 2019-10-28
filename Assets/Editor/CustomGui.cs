@@ -15,11 +15,12 @@ public class CustomGUI : EditorWindow
     public Object[] Dialogues;
     public Dialogue Dialogue;
     public Dialogue currentNode;
+    public int currentTree;
 
     // Called after all gameObjects are initialized, Used to initialized variables 
     public void Awake()
     {
-        
+        Trees = Resources.LoadAll("DialogueTree");
     }
 
     // Adds the button on the window tab
@@ -34,7 +35,6 @@ public class CustomGUI : EditorWindow
     // Called several times per frame, used to redraw the GUI
     public void OnGUI()
     {
-        Debug.Log("OnGUI runs");
 
     }
 
