@@ -1,12 +1,14 @@
 {
-    "name": "Tests",
+    "name": "Tests-EditMode",
     "references": [
         "Project"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
     ],
-    "includePlatforms": ["Editor"],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
