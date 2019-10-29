@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.IO;
 
 #if UNITY_EDITOR
 
 public class CustomGUI : EditorWindow
 {
-    public Object[] Trees;
+    public int Trees;
     public List<Rect> dialoguewindows = new List<Rect>();
     public List<Rect> responsewindows = new List<Rect>();
     public List<int> attachedWindows = new List<int>();
@@ -14,20 +15,37 @@ public class CustomGUI : EditorWindow
     public int y = 10;
     public Object[] Dialogues;
     public Dialogue Dialogue;
+    public List<Dialogue> toDestroy;
     public Dialogue currentNode;
     public int currentTree;
+    public Vector2 scrollBar;
+    private FileInfo info;
+    List<int> found;
+    List<int> treesToDelete;
+
 
     // Called after all gameObjects are initialized, Used to initialized variables 
     public void Awake()
     {
-        Trees = Resources.LoadAll("DialogueTree");
+        found = new List<int>();
+        treesToDelete = new List<int>();
+
+        // Obtain all of the Dialogue Objects.
+        Dialogues = Resources.LoadAll("DialogueTree");
+        Debug.Assert(Dialogues != null, "failure loading dialgoues");
+
+        // Find the amount of trees.
+        Trees = findTrees();
+
+        // The first tree will be the default tree.
+        currentTree = 1;
     }
 
     // Adds the button on the window tab
     [MenuItem("Window/customGUI")]
     static void ShowEditor()
     {
-        NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
+        CustomGUI editor = EditorWindow.GetWindow<CustomGUI>();
         editor.Show();
         Debug.Assert(editor != null, "there is no editor");
     }
@@ -35,6 +53,49 @@ public class CustomGUI : EditorWindow
     // Called several times per frame, used to redraw the GUI
     public void OnGUI()
     {
+        Trees = findTrees();
+        drawTree(currentTree);
+
+        // Load the dialogue objects for the given tree.
+        Dialogues = Resources.LoadAll("DialogueTree/Tree" + currentTree);
+
+        EditorGUILayout.BeginHorizontal();
+        
+        scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(120));
+
+        // For every tree.
+        for(int i = 0; i < Trees; i++)
+        {
+            GUILayout.BeginHorizontal();
+
+            if (!treesToDelete.Contains(i))
+            {
+                // Make a button for that tree.
+                GUI.backgroundColor = Color.white;
+                if (GUILayout.Button("Tree " + (i + 1)))
+                {
+                    currentTree = i + 1;
+                    Debug.Log(currentTree);
+                }
+                // Make a button to delete that tree.
+                GUI.backgroundColor = Color.red;
+                if (GUILayout.Button("x"))
+                {
+                    GUI.backgroundColor = Color.red;
+                    treesToDelete.Add(i);
+                }
+
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
+        //TODO: Add a button that creates a new tree
+
+        EditorGUILayout.EndScrollView();
+
+        EditorGUILayout.EndHorizontal();
+
 
     }
 
@@ -60,7 +121,6 @@ public class CustomGUI : EditorWindow
     */
     public void drawNode(int id)
     {
-
     }
 
     /* Draws a node
@@ -122,6 +182,29 @@ public class CustomGUI : EditorWindow
     {
         return null;
     }
+
+    /* Returns the amount of trees that are currently in the resources folder.
+    * 
+    * PRE -  NONE
+    * POST - NONE.
+    * RETURN - the number of trees in the resources folder
+    */
+    public int findTrees()
+    {
+        Dialogues = Resources.LoadAll("DialogueTree");
+
+        // For every node
+        for (int i = 0; i < Dialogues.Length; i++)
+        {
+            // If that node belongs to a tree that has not been found yet 
+            if(!found.Contains(((Dialogue)Dialogues[i]).tree))
+            {
+                found.Add(((Dialogue)Dialogues[i]).tree);
+            }
+        }
+        return found.Count;
+    }
+
 
 
 }

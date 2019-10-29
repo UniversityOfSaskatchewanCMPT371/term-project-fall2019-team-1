@@ -22,7 +22,7 @@ namespace Tests
 
             // Testing that relies on OnGUI().
             GUI.OnGUI();
-            if ((GUI.Trees != null) && (GUI.Dialogues.Length > 0)) // If the tree exists, and there is atleast one node.
+            if ((GUI.Trees > 0) && (GUI.Dialogues.Length > 0)) // If the tree exists, and there is atleast one node.
             {
                 Assert.IsTrue(GUI.findCurrent() != null, "Failure to find currentNode"); // There has to be a current node.
                 Assert.IsTrue(GUI.getNodeIndex((Dialogue)GUI.Dialogues[0]) == 0, "getNodeIndex failed to return proper index");
