@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: dialogue 3
+  m_Name: Dialogue
   m_EditorClassIdentifier: 
-  tree: 7
+  tree: 1
   prompt: 
   response: []
   next: []
-  start: 0
+  start: 1
