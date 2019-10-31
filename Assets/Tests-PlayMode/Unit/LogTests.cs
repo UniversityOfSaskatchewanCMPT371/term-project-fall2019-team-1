@@ -9,16 +9,6 @@ namespace Tests
 {
     public class LogTests
     {
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
-        [UnityTest]
-        public IEnumerator TurnsOffUITextOnStart()
-        {
-            var logSystem = setUpLogSystem();
-            yield return null;
-            Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
-            yield return null;
-        }
 
         [UnityTest]
         public IEnumerator ToggleDebugTurnsOnUIText()
@@ -27,6 +17,17 @@ namespace Tests
             yield return null;
             
             Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
+        }
+
+        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
+        // `yield return null;` to skip a frame.
+        [UnityTest]
+        public IEnumerator TurnsOffUITextOnStart()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+            Assert.AreEqual(false, logSystem.UIText.gameObject.activeSelf);
+            yield return null;
         }
 
         private LogSystem setUpLogSystem()
