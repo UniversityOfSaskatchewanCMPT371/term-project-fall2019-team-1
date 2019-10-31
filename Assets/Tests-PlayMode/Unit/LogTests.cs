@@ -27,9 +27,7 @@ namespace Tests
             yield return null;
 
             // Check that the file is empty
-            StreamReader sr = new StreamReader("logfile.txt");
-            string text = sr.ReadToEnd();
-            sr.Close();
+            string text = getLogText();
             Assert.AreEqual(string.Empty, text);
             yield return null;
         }
@@ -91,16 +89,25 @@ namespace Tests
             // Log an empty string. Should still write time.
             logSystem.WriteToFile("");
 
-            // Check that the file is empty
-            StreamReader sr = new StreamReader("logfile.txt");
-            string text = sr.ReadToEnd();
-            sr.Close();
+            string text = getLogText();
             yield return null;
 
             // Check that the string contatins the time
             Assert.IsTrue(Regex.IsMatch(text, "\\d{1,2}:\\d{2}:\\d{2} [a-zA-Z]{2}"));
 
             yield return null;
+        }
+
+        /// <summary>
+        /// Reads the log file and returns its contents.
+        /// </summary>
+        private string getLogText()
+        {
+            // Check that the file is empty
+            StreamReader sr = new StreamReader("logfile.txt");
+            string text = sr.ReadToEnd();
+            sr.Close();
+            return text;
         }
 
         /// <summary>
