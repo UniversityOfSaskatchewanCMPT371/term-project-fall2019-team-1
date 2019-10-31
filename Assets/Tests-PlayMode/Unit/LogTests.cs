@@ -33,6 +33,24 @@ namespace Tests
         }
 
         /// <summary>
+        /// Checks that the uiText is empty if the log is empty.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator PrintToTextTextUIEmptyOnEmptyLog()
+        {
+            // Should clear log file.
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            logSystem.PrintToTextField();
+            yield return null;
+
+            var uiText = logSystem.UIText.text;
+            Assert.AreEqual("", uiText);
+            yield return null;
+        }
+
+        /// <summary>
         /// Checks that calling toggle debug once turns on the UIText
         /// of the log system.
         /// </summary>
