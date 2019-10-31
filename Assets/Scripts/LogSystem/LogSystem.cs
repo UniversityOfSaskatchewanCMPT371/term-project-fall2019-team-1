@@ -78,6 +78,5 @@ public class LogSystem : MonoBehaviour
             UIText.GetComponent<Text>().text = sr.ReadToEnd();
             sr.Close();
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +31,7 @@ namespace Tests
             string text = sr.ReadToEnd();
             sr.Close();
             Assert.AreEqual(string.Empty, text);
+            yield return null;
         }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace Tests
             logSystem.ToggleUIText();
             yield return null;
             Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
+            yield return null;
         }
 
         /// <summary>
@@ -60,6 +63,7 @@ namespace Tests
             logSystem.ToggleUIText();
             yield return null;
             Assert.AreEqual(false, logSystem.UIText.gameObject.activeSelf);
+            yield return null;
         }
 
         /// <summary>
@@ -74,6 +78,35 @@ namespace Tests
             yield return null;
         }
 
+        /// <summary>
+        /// Checks that WriteToFile() writes the time to the log file before
+        /// writing the given Text.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator WriteToFileDisplaysTimeOfLog()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            // Log an empty string. Should still write time.
+            logSystem.WriteToFile("");
+
+            // Check that the file is empty
+            StreamReader sr = new StreamReader("logfile.txt");
+            string text = sr.ReadToEnd();
+            sr.Close();
+            yield return null;
+
+            // Check that the string contatins the time
+            Assert.IsTrue(Regex.IsMatch(text, "\\d{1,2}:\\d{2}:\\d{2} [a-zA-Z]{2}"));
+
+            yield return null;
+        }
+
+        /// <summary>
+        /// Creates a new log system and populates it's properties so it can
+        /// be tested. (These properties would normally be set in the editor)
+        /// </summary>
         private LogSystem setUpLogSystem()
         {
             // Create gameobject to store UI text component and add the text.
