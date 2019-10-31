@@ -77,6 +77,25 @@ namespace Tests
         }
 
         /// <summary>
+        /// Checks that the given text is written to the log file.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator WriteToFileDisplaysGivenText()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            string textToMatch = "Hello World";
+
+            logSystem.WriteToFile(textToMatch);
+            yield return null;
+
+            string text = getLogText();
+            Assert.AreEqual(textToMatch, text.Substring(13, textToMatch.Length));
+            yield return null;
+        }
+
+        /// <summary>
         /// Checks that WriteToFile() writes the time to the log file before
         /// writing the given Text.
         /// </summary>
@@ -93,7 +112,7 @@ namespace Tests
             yield return null;
 
             // Check that the string contatins the time
-            Assert.IsTrue(Regex.IsMatch(text, "\\d{1,2}:\\d{2}:\\d{2} [a-zA-Z]{2}"));
+            Assert.IsTrue(Regex.IsMatch(text, "\\d{1,2}:\\d{2}:\\d{2} [a-zA-Z]{2}: "));
 
             yield return null;
         }
