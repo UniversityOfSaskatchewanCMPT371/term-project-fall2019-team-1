@@ -43,6 +43,19 @@ public class LogSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggles the UI text belonging to this LogSystem.
+    /// Inputs: None
+    /// Outputs: None
+    /// Pre-Conditions: None
+    /// Post-Conditions: If the UI was active before invoking the method it will
+    /// be inactive after. If it was inactive, it will be active.
+    /// </summary>
+    public void ToggleUIText()
+    {
+
+    }
+
 
     public void WriteToFile(string text)
     {

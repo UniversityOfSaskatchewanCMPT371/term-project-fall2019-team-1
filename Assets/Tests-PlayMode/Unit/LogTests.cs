@@ -15,7 +15,7 @@ namespace Tests
         {
             var logSystem = setUpLogSystem();
             yield return null;
-            
+
             Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
         }
 
