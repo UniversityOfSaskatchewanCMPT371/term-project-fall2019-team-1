@@ -77,7 +77,7 @@ namespace Tests
         }
 
         /// <summary>
-        /// Checks that the given text is written to the log file.
+        /// Checks that the given text is written to the log file after the time.
         /// </summary>
         [UnityTest]
         public IEnumerator WriteToFileDisplaysGivenText()
@@ -91,7 +91,11 @@ namespace Tests
             yield return null;
 
             string text = getLogText();
-            Assert.AreEqual(textToMatch, text.Substring(13, textToMatch.Length));
+            string[] messages = splitLog(text);
+
+            Assert.AreEqual(2, messages.Length);
+
+            checkMessage(messages[0], textToMatch);
             yield return null;
         }
 
@@ -115,6 +119,46 @@ namespace Tests
             Assert.IsTrue(Regex.IsMatch(text, "\\d{1,2}:\\d{2}:\\d{2} [a-zA-Z]{2}: "));
 
             yield return null;
+        }
+
+        /// <summary>
+        /// Checks that the given text is written to the log file twice.
+        /// </summary>
+        /// <returns></returns>
+        [UnityTest]
+        public IEnumerator WriteToFileLogsMessageTwice()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            string textToMatch1 = "Hello World";
+            string textToMatch2 = "Message 2";
+
+            logSystem.WriteToFile(textToMatch1);
+            yield return null;
+            logSystem.WriteToFile(textToMatch2);
+
+            string text = getLogText();
+            string[] messages = splitLog(text);
+
+            // Check that there are the correct amount of lines in the log.
+            Assert.AreEqual(3, messages.Length);
+
+            // Check the second message
+            checkMessage(messages[0], textToMatch1);
+            // Check the first message
+            checkMessage(messages[1], textToMatch2);
+            yield return null;
+        }
+
+        /// <summary>
+        /// Checks that the message in a single log entry matches textToMatch
+        /// </summary>
+        /// <param name="message">The individual log message.</param>
+        /// <param name="textToMatch">The text to match the content of the log message.</param>
+        private void checkMessage(string message, string textToMatch)
+        {
+            Assert.AreEqual(textToMatch, message.Substring(message.Length - textToMatch.Length, textToMatch.Length));
         }
 
         /// <summary>
@@ -146,6 +190,16 @@ namespace Tests
             logSystem.UIText = uiText;
             GameObject logSystemObject = MonoBehaviour.Instantiate(prefab);
             return logSystemObject.GetComponent<LogSystem>();
+        }
+
+        /// <summary>
+        /// Splits a log into individual lines.
+        /// </summary>
+        /// <param name="log">The content of the log to split.</param>
+        /// <returns>An array of strings containing the lines of the log file.</returns>
+        private string[] splitLog(string log)
+        {
+            return log.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
         }
     }
 }
