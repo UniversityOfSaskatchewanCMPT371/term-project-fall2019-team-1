@@ -20,6 +20,18 @@ namespace Tests
             Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
         }
 
+        [UnityTest]
+        public IEnumerator ToggleDebugTwiceTurnsOffUIText()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+            logSystem.ToggleUIText();
+            yield return null;
+            logSystem.ToggleUIText();
+            yield return null;
+            Assert.AreEqual(false, logSystem.UIText.gameObject.activeSelf);
+        }
+
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]

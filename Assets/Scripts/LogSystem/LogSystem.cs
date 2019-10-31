@@ -46,7 +46,6 @@ public class LogSystem : MonoBehaviour
     {
         if (UIText.gameObject.activeSelf)
         {
-
             UIText.gameObject.SetActive(false);
         }
         else
