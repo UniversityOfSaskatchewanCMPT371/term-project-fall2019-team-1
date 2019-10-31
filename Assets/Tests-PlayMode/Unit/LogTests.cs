@@ -33,7 +33,33 @@ namespace Tests
         }
 
         /// <summary>
-        /// Checks that the uiText is empty if the log is empty.
+        /// Checks that print to text displays the correct message that was logged.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator PrintToTextTextIsMessage()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            string textToMatch = "Hello World";
+
+            logSystem.WriteToFile(textToMatch);
+            yield return null;
+
+            logSystem.PrintToTextField();
+            yield return null;
+
+            string[] messages = splitLog(logSystem.UIText.text);
+
+            // Check for correct amount of messages
+            Assert.AreEqual(messages.Length, 2);
+
+            checkMessage(messages[0], textToMatch);
+        }
+
+        /// <summary>
+        /// Checks that the uiText is empty if the log is empty after calling
+        /// print to text.
         /// </summary>
         [UnityTest]
         public IEnumerator PrintToTextTextUIEmptyOnEmptyLog()
@@ -142,7 +168,6 @@ namespace Tests
         /// <summary>
         /// Checks that the given text is written to the log file twice.
         /// </summary>
-        /// <returns></returns>
         [UnityTest]
         public IEnumerator WriteToFileLogsMessageTwice()
         {
