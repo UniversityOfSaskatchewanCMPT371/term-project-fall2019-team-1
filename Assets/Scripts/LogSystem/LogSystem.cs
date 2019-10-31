@@ -30,16 +30,7 @@ public class LogSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
         {
-            if (UIText.gameObject.activeSelf)
-            {
-
-                UIText.gameObject.SetActive(false);
-            }
-            else
-            {
-                UIText.gameObject.SetActive(true);
-                PrintToTextField();
-            }
+            ToggleUIText();
         }
     }
 
@@ -53,7 +44,16 @@ public class LogSystem : MonoBehaviour
     /// </summary>
     public void ToggleUIText()
     {
+        if (UIText.gameObject.activeSelf)
+        {
 
+            UIText.gameObject.SetActive(false);
+        }
+        else
+        {
+            UIText.gameObject.SetActive(true);
+            PrintToTextField();
+        }
     }
 
 
