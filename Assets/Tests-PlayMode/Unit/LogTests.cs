@@ -32,6 +32,10 @@ namespace Tests
             Assert.AreEqual(string.Empty, text);
         }
 
+        /// <summary>
+        /// Checks that calling toggle debug once turns on the UIText
+        /// of the log system.
+        /// </summary>
         [UnityTest]
         public IEnumerator ToggleDebugTurnsOnUIText()
         {
