@@ -4,11 +4,33 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.TestTools;
+using System.IO;
 
 namespace Tests
 {
     public class LogTests
     {
+        /// <summary>
+        /// Checks that the log file is empty after creating a new log system.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator ClearsLogFileOnStart()
+        {
+            // Write to the file so it isn't empty
+            StreamWriter sw = new StreamWriter("logfile.txt");
+            sw.Write("Hello World");
+            sw.Close();
+
+            // Create log system. Should empty file.
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            // Check that the file is empty
+            StreamReader sr = new StreamReader("logfile.txt");
+            string text = sr.ReadToEnd();
+            sr.Close();
+            Assert.AreEqual(string.Empty, text);
+        }
 
         [UnityTest]
         public IEnumerator ToggleDebugTurnsOnUIText()
@@ -56,7 +78,6 @@ namespace Tests
             logSystem.UIText = uiText;
             GameObject logSystemObject = MonoBehaviour.Instantiate(prefab);
             return logSystemObject.GetComponent<LogSystem>();
-            
         }
     }
 }

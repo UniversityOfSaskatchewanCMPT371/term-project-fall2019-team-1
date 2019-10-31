@@ -58,7 +58,6 @@ public class LogSystem : MonoBehaviour
 
     public void WriteToFile(string text)
     {
-
         if (logFile != null)
         {
             // Build stream writer for the log file.
@@ -68,7 +67,6 @@ public class LogSystem : MonoBehaviour
 
             sw.WriteLine(finalAnswer);
             sw.Close();
-
         }
     }
 
