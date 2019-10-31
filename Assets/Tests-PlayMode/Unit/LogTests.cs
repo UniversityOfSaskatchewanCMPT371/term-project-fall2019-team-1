@@ -62,8 +62,9 @@ namespace Tests
             Assert.AreEqual(false, logSystem.UIText.gameObject.activeSelf);
         }
 
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
+        /// <summary>
+        /// Checks that when a logSystem is created it's UIText is inactive.
+        /// </summary>
         [UnityTest]
         public IEnumerator TurnsOffUITextOnStart()
         {
