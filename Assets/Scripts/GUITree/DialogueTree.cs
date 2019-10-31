@@ -14,6 +14,7 @@ public class DialogueTree : MonoBehaviour
     public Dialogue currentNode;
     public int tree;
 
+    public bool usingSpeechLib; 
     // Voice, uses speechLib to produce speech from a text input.
     public SpVoice voice;
 
@@ -21,6 +22,7 @@ public class DialogueTree : MonoBehaviour
     Thread newThread; 
     bool newThreadPause = false; 
 
+       
 
 
     public void init_Layout()
@@ -39,22 +41,24 @@ public class DialogueTree : MonoBehaviour
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
         currentNode = (Dialogue)Dialogues[0];
 
-        // speak the first prompt that the NPC gives us!
-        newThread = new Thread(runSpeech);
-
-        // begin the thread, if it is not alive, begin this thread.
-        if (!newThread.IsAlive)
+        if (usingSpeechLib)
         {
+            // speak the first prompt that the NPC gives us!
+            newThread = new Thread(runSpeech);
 
-            newThread.Start(); 
-        } 
-        else
-        {
+            // begin the thread, if it is not alive, begin this thread.
+            if (!newThread.IsAlive)
+            {
 
-            newThreadPause = !newThreadPause; 
+                newThread.Start();
+            }
+            else
+            {
 
+                newThreadPause = !newThreadPause;
+
+            }
         }
-
         //display the prompt
         GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
 
@@ -101,18 +105,23 @@ public class DialogueTree : MonoBehaviour
                 { 
                     //swap to next node, and speak the prompt
                     currentNode = currentNode.next[i];
-
-                    newThread = new Thread(runSpeech);
                     
-                 
+                    if (usingSpeechLib)
+                    {
 
-                    if (!newThread.IsAlive)
-                    {
-                        newThread.Start();
-                    }
-                    else
-                    {
-                        newThreadPause = !newThreadPause; 
+
+                        newThread = new Thread(runSpeech);
+
+
+
+                        if (!newThread.IsAlive)
+                        {
+                            newThread.Start();
+                        }
+                        else
+                        {
+                            newThreadPause = !newThreadPause;
+                        }
                     }
 
                     //and dislpay prompt in log
