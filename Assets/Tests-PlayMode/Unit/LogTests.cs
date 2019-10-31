@@ -46,6 +46,10 @@ namespace Tests
             Assert.AreEqual(true, logSystem.UIText.gameObject.activeSelf);
         }
 
+        /// <summary>
+        /// Checks that when toggle debug is called twice the UIText
+        /// of the log system is inactive.
+        /// </summary>
         [UnityTest]
         public IEnumerator ToggleDebugTwiceTurnsOffUIText()
         {
