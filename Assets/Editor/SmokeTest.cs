@@ -14,17 +14,6 @@ public class SmokeTest : MonoBehaviour
 
     public void MainTest()
     {
-        StartCoroutine(LoadAsyncScene());
-    }
-
-    public IEnumerator LoadAsyncScene()
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("ID2_MasterScene");
-
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-        Debug.Log("Scene Loaded Successfully");
+        
     }
 }
