@@ -28,7 +28,23 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="input">The input from the stt.</param>
     public void RecieveInput(string input)
     {
-        
+        // log our input
+        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: input: '{0}'", input));
+
+        // get options we have at current node.
+        string[][] options = treeUI.GetCurrentOptions();
+
+        // log our options
+        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: options: {0}", options));
+
+        // now get the decision to make
+        int decisionIndex = BestDecision(input, options);
+
+        // log our options
+        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
+
+        // with the decision, traverse the tree.
+        treeUI.TakeOption(decisionIndex);
     }
 
     /// <summary>
