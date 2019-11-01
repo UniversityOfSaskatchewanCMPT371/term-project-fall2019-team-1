@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treeUI: {fileID: 6265206989134906742}
+  log: {fileID: 2942811201462950863}
+  debugLog: {fileID: 8534629523249983075}
 --- !u!1 &2536332081543928970
 GameObject:
   m_ObjectHideFlags: 0
