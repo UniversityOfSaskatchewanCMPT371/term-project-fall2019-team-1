@@ -5,6 +5,9 @@ using UnityEngine;
 /// <summary>
 /// This is takes in a String from SpeechToText, and uses it to traverse the TreeUI.
 /// </summary>
+/// <authors>
+/// Mason Demerais
+/// </authors>
 public class LanguageEngine : MonoBehaviour
 {
     /// <summary>
@@ -25,6 +28,12 @@ public class LanguageEngine : MonoBehaviour
     /// <summary>
     /// Recieves input from the SpeechToText output.
     /// </summary>
+    /// <preconditions>
+    /// We must be on a valid node in the tree ui.
+    /// </preconditions>
+    /// <postconditions>
+    /// The tree ui current node will be updated.
+    /// </postconditions>
     /// <param name="input">The input from the stt.</param>
     public void RecieveInput(string input)
     {

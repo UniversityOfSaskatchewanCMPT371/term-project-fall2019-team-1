@@ -5,6 +5,9 @@ using UnityEngine;
 /// <summary>
 /// This logs various operations that happen within our system to console and an optional file.
 /// </summary>
+/// <authors>
+/// Mason Demerais
+/// </authors>
 public class Log : MonoBehaviour
 {
     /// <summary>

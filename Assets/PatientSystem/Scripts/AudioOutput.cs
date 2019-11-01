@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This object will play the audio file in the world.
+/// </summary>
 public class AudioOutput : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    /// <summary>
+    /// The NPC to play the sound file.
+    /// </summary>
+    public NPC npc;
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Plays the sound.
+    /// </summary>
+    /// <preconditions>
+    /// The file must exist and be a proper sound file.
+    /// </preconditions>
+    /// <param name="fileName">The sound file to play.</param>
+    public void PlaySound(string fileName)
     {
-        
+
     }
 }

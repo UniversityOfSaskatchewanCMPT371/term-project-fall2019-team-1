@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The NPC to play animations and sounds on.
+/// </summary>
+/// <authors>
+/// Mason Demerais
+/// </authors>
 public class NPC : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
