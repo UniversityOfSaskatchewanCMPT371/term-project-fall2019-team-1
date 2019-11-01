@@ -610,6 +610,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &476305774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 476305775}
+  - component: {fileID: 476305776}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &476305775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476305774}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 995098056862557439}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &476305776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476305774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fd299fedf620074b8e4ce0978a7f425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActivationStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.Action+BooleanUnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  defaultValue: 0
+  sources: []
+  Activated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.BooleanAction+UnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.BooleanAction+UnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.BooleanAction+UnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &496862207
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,6 +2501,16 @@ PrefabInstance:
       propertyPath: npc
       value: 
       objectReference: {fileID: 995098056862557436}
+    - target: {fileID: 8839418603167607655, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: LE
+      value: 
+      objectReference: {fileID: 995098056862557437}
+    - target: {fileID: 7872390931817968197, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: audioOutput
+      value: 
+      objectReference: {fileID: 995098056862557438}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
 --- !u!114 &995098056862557436 stripped
@@ -2450,3 +2525,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36356a0cd40b8748b1216dd1b8d30b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &995098056862557437 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1539503291101111622, guid: 87ec392c4dbe1504b844c8e546cad406,
+    type: 3}
+  m_PrefabInstance: {fileID: 995098056862557435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874d7bdcd40d68d44acb8ddd2507e679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &995098056862557438 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 923852232508445481, guid: 87ec392c4dbe1504b844c8e546cad406,
+    type: 3}
+  m_PrefabInstance: {fileID: 995098056862557435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bfa934e650bf47439c47e5e1014cdde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &995098056862557439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9162568796512687265, guid: 87ec392c4dbe1504b844c8e546cad406,
+    type: 3}
+  m_PrefabInstance: {fileID: 995098056862557435}
+  m_PrefabAsset: {fileID: 0}
