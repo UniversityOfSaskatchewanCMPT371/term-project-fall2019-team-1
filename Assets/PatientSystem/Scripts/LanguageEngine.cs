@@ -38,7 +38,17 @@ public class LanguageEngine : MonoBehaviour
         log.WriteToLog(string.Format("LanguageEngine::RecieveInput: options: {0}", options));
 
         // now get the decision to make
-        int decisionIndex = BestDecision(input, options);
+        int decisionIndex;
+        try
+        {
+            decisionIndex = BestDecision(input, options);
+        }
+        catch (NoBestDecision e)
+        {
+            log.WriteToLog(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+            return;
+        }
+        Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Length, "decisionIndex is out of bounds of options");
 
         // log our options
         log.WriteToLog(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
@@ -56,6 +66,6 @@ public class LanguageEngine : MonoBehaviour
     /// </returns>
     public int BestDecision(string input, string[][] options)
     {
-        return 0;
+        throw new NoBestDecision();
     }
 }
