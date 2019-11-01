@@ -10,14 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: Dialogue
+  m_Name: dialogue 1
   m_EditorClassIdentifier: 
-  tree: 1
-  prompt: 
-  response:
-  - hi
-  - hello
-  next:
-  - {fileID: 11400000, guid: b55388bf1e4ef164088bae5351d0c8a4, type: 2}
-  - {fileID: 11400000, guid: e3d986659b5346448a71d780a017f9ec, type: 2}
-  start: 1
+  tree: 0
+  prompt: you said hi
+  response: []
+  next: []
+  start: 0
