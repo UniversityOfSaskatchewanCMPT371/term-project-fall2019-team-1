@@ -4,16 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
 
+
+/**
+ * Authors: Matt Radke, James Scarrow
+ * 
+ * SpeechToTextSystem takes speech from the player and converts it into useable
+ * text(string data type)
+ * 
+ */
 public class SpeechToTextSystem : MonoBehaviour
 {
+    // a button to press, set this in the inspector.
     public KeyCode toggleKey;
 
+    // text spoken.
     public Text text;
 
+    // reference to the dialougeTree.
     public DialogueTree dialogueTree;
 
+    // the phrase that was spoken, this value is the acutal value.
     private string phraseSpoken;
 
+    // getter/setter for phraseSpoken!
     public string PhraseSpoken
     {
         get {
@@ -31,7 +44,14 @@ public class SpeechToTextSystem : MonoBehaviour
     // Converts speech to text.
     private DictationRecognizer dictationRecognizer;
 
-
+    /**
+     * OnApplicationQuit():
+     * pre:none
+     * post: special unity function, when the unity stops running we want to dispose of the 
+     * diction reconginzer, as to not cause errors.
+     * 
+     * return: none void.
+     */
     private void OnApplicationQuit()
     {
         dictationRecognizer.Stop(); 
@@ -39,7 +59,18 @@ public class SpeechToTextSystem : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update.
+    /**
+     * start():
+     * 
+     * pre: none
+     * 
+     * post: setup the data required to run the dictationReconginzer. Once the 
+     * dictationReconginzer is up and running we can begin logging what the player says.
+     * only need to setup this content once, so at beginning of play time we will do this.
+     * Once phrase is spoken, we will log it, and then send it to the dialogueTree. 
+     * 
+     * return: nothing void. 
+     */
     public void Start()
     {
         dictationRecognizer = new DictationRecognizer();
@@ -66,6 +97,12 @@ public class SpeechToTextSystem : MonoBehaviour
         dictationRecognizer.Start();
     }
 
+    /**
+     * update():
+     * pre: none
+     * post: checks to see if the toggle key was pressed, if it was activate the debug log. Else unactivate it.
+     * return: none void.
+     */ 
     public void Update()
     {
 
