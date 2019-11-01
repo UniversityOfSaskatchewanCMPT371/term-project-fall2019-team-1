@@ -5894,6 +5894,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1099d871ea74aed47abfd17757899481, type: 2}
+    - target: {fileID: 9526514, guid: 1d3b1a1513de66247974634911345b98, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d3b1a1513de66247974634911345b98, type: 3}
 --- !u!1001 &1224820089
@@ -6126,6 +6130,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: facf14ae9ce68b7479827bcf72fba835, type: 3}
+--- !u!114 &1262108321 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9186708843775630977, guid: bd25866b5a62a449d81982dfafbd18b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1859687273}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f82659d04dee14db23e9e116da255b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1267869976
 GameObject:
   m_ObjectHideFlags: 0
@@ -8607,6 +8623,11 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 2038396162}
+    - target: {fileID: 1491951451583740806, guid: e0ef21acf61a240609a89fb343786f5a,
+        type: 3}
+      propertyPath: dialogueTree
+      value: 
+      objectReference: {fileID: 1262108321}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0ef21acf61a240609a89fb343786f5a, type: 3}
 --- !u!4 &1841400988 stripped
