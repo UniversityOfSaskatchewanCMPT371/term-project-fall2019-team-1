@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This logs various operations that happen within our system to console and an optional file.
+/// </summary>
 public class Log : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// This writes the string to the log.
+    /// </summary>
+    /// <param name="w">The string to write.</param>
+    public void WriteToLog(string w)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
