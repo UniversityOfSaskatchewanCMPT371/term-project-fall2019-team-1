@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SmokeTest : MonoBehaviour
+public class SmokeTest
 {
     // Start is called before the first frame update
     public static void Start()
@@ -14,6 +14,6 @@ public class SmokeTest : MonoBehaviour
 
     public void MainTest()
     {
-        
+        Debug.Log("Smoketest Start");
     }
 }
