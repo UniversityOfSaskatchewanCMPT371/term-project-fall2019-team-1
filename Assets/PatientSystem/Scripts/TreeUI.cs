@@ -47,6 +47,6 @@ public class TreeUI : MonoBehaviour
     /// <returns>The prompt at the current node.</returns>
     public string GetCurrentPrompt()
     {
-        return null;
+        return "hi";
     }
 }

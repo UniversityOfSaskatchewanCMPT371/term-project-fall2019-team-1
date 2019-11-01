@@ -14,7 +14,17 @@ public class AudioFeed : MonoBehaviour
     /// <summary>
     /// The file name to be created and recorded to.
     /// </summary>
-    private string fileName;
+    private string fileName = "";
+
+    /// <summary>
+    /// The Log object.
+    /// </summary>
+    public Log log;
+
+    /// <summary>
+    /// The STT system.
+    /// </summary>
+    public SpeechToText STT;
 
     /// <summary>
     /// Starts recording to the filename.
@@ -29,7 +39,11 @@ public class AudioFeed : MonoBehaviour
     /// <param name="fileName">The file to be recording to.</param>
     public void StartRecording(string fileName)
     {
+        Debug.Assert(this.fileName == "");
 
+        log.WriteToLog(string.Format("AudioFeed::StartRecording: fileName: {0}", fileName));
+
+        this.fileName = fileName;
     }
 
     /// <summary>
@@ -43,6 +57,12 @@ public class AudioFeed : MonoBehaviour
     /// </postconditions>
     public void StopRecording()
     {
+        Debug.Assert(fileName != "");
 
+        log.WriteToLog(string.Format("AudioFeed::StopRecording: fileName: {0}", fileName));
+
+        STT.ReceiveAudioFile(fileName);
+
+        fileName = "";
     }
 }
