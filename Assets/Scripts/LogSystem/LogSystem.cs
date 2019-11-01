@@ -6,18 +6,34 @@ using UnityEditor;
 using System.IO;
 using System;
 
-
+/**
+ * Authors: Matt Radke, James Scarrow
+ * 
+ * Log System:
+ * 
+ * uses a text file to log conversation that is said within a a certain player and NPC
+ * interaction.
+ * 
+ */ 
 public class LogSystem : MonoBehaviour
 {
     // Text file used for logging. Drag and drop file in editor.
     public TextAsset logFile;
 
+    // the Text box that data from text file is displayed in.
     public Text UIText;
 
    // Key that is pressed to toggle the debug UI.
    public KeyCode debugToggle;
 
-    // Start is called before the first frame update
+    
+    /**
+     * Start():
+     * preCond: None
+     * post:text file is reset, and UITEXT is set to false.
+     * return: None void.
+     * 
+     */  
     void Start()
     {
         // Clear the log file when scene starts.
@@ -26,6 +42,13 @@ public class LogSystem : MonoBehaviour
         UIText.gameObject.SetActive(false);
     }
 
+    /**
+     * update():
+     * pre:None
+     * post:monitors when the spacebar button is pressed! when pressed activates text field.
+     * return: Nothing void.
+     * 
+     */ 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
@@ -44,6 +67,15 @@ public class LogSystem : MonoBehaviour
     }
 
 
+     /*
+      * writeToFile(text):
+      * pre:    text: string, the string text that is wanted to be stored in a text file.
+      * post:  builds a stream writer and appends the text string value into the text file. Also
+      *        finds the current time and gives the string a time stamp before adding to text file.
+      *       
+      * return: Nothing void.
+      * 
+      */ 
     public void WriteToFile(string text)
     {
 
@@ -60,6 +92,14 @@ public class LogSystem : MonoBehaviour
         }
     }
 
+    /**
+     * PrintToTextField():
+     * pre: none
+     * post: transfers the content of logfile.txt into the UI text field UITEXT.
+     * 
+     * return Nothing void.
+     * 
+     */ 
     public void PrintToTextField()
     {
         if (logFile != null)
