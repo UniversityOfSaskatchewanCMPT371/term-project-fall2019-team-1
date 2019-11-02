@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+
 public class SmokeTest
 {
     // Start is called before the first frame update
