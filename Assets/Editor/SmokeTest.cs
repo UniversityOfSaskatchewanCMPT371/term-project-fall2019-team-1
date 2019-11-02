@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 public class SmokeTest
 {
@@ -15,5 +16,7 @@ public class SmokeTest
     public void MainTest()
     {
         Debug.Log("Smoketest Start");
+        EditorSceneManager.OpenScene("Assets/Scenes/ID2/ID2_MasterScene.unity");
+        Debug.Log("Smoketest Finished");
     }
 }
