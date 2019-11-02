@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 
+#if UNITY_EDITOR
 public class SmokeTest
 {
     // Start is called before the first frame update
@@ -20,3 +21,4 @@ public class SmokeTest
         Debug.Log("Smoketest Finished");
     }
 }
+#endif
