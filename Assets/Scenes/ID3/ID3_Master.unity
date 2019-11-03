@@ -4907,7 +4907,7 @@ MonoBehaviour:
   defaultValue: 0
   sources:
   - {fileID: 267728707}
-  - {fileID: 267728707}
+  - {fileID: 1121906544}
   Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -5152,6 +5152,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 725159f8098f5a441afc3603e317460c, type: 3}
+--- !u!114 &1046006863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114962603617584886, guid: 0bb103b515847514e866aa26155cc4b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 832979472}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc78f42e295d5c04ea5966fc2b206f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1053748877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5365,7 +5377,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'History:'
 --- !u!222 &1067625280
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5640,6 +5652,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d7795bf902095f459de275b1582f6da, type: 3}
+--- !u!114 &1121906544 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114752640224236270, guid: c3550842e5f2a1245ba3fac2bdb34c9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1404819735}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc78f42e295d5c04ea5966fc2b206f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1127144050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6348,7 +6372,7 @@ MonoBehaviour:
   defaultValue: 0
   sources:
   - {fileID: 1518136526}
-  - {fileID: 1518136526}
+  - {fileID: 1046006863}
   Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -9726,7 +9750,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Last thing said:'
 --- !u!222 &2038396163
 CanvasRenderer:
   m_ObjectHideFlags: 0
