@@ -16,6 +16,6 @@ public class Log : MonoBehaviour
     /// <param name="w">The string to write.</param>
     public void WriteToLog(string w)
     {
-
+        Debug.Log(w);
     }
 }

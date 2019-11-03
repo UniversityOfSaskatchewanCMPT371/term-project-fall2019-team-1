@@ -16,6 +16,11 @@ public class SpeechToText : MonoBehaviour
     public LanguageEngine LE;
 
     /// <summary>
+    /// The logger.
+    /// </summary>
+    public Log log;
+
+    /// <summary>
     /// Receives an audio file path to then send the interpreted string to the LanguageEngine.
     /// </summary>
     /// <preconditions>
@@ -24,7 +29,13 @@ public class SpeechToText : MonoBehaviour
     /// <param name="fileName">The audio file to interpret.</param>
     public void ReceiveAudioFile(string fileName)
     {
+        log.WriteToLog(string.Format("SpeechToText::ReceiveAudioFile: fileName: {0}", fileName));
 
+        string whatWasSaid = AudioToString(fileName);
+
+        log.WriteToLog(string.Format("SpeechToText::ReceiveAudioFile: whatWasSaid: {0}", whatWasSaid));
+
+        LE.RecieveInput(whatWasSaid);
     }
 
     /// <summary>
@@ -37,6 +48,6 @@ public class SpeechToText : MonoBehaviour
     /// <returns>The Speech To Text</returns>
     public string AudioToString(string fileName)
     {
-        return null;
+        return "hello";
     }
 }
