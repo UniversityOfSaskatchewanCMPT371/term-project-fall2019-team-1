@@ -17,8 +17,15 @@ namespace Tests
             CustomGUI GUI = ScriptableObject.CreateInstance<CustomGUI>();
 
             // Testing that relies on awake().
-            Assert.IsTrue(GUI != null, "failure to create GUI");
-            Assert.IsTrue(GUI.Trees != null, "failure to load the trees");
+            Debug.Assert(GUI.layers == 0, "failure to create found");
+            Debug.Assert(GUI.found != null, "failure to create found");
+            Debug.Assert(GUI.treeDialogues != null, "failure to create treesDialogues");
+            Debug.Assert(GUI.treesToDelete != null, "failure to create treesToDelete");
+            Debug.Assert(GUI.atLayer != null, "failure to create atlayer");
+            Debug.Assert(GUI.Dialogues != null, "failure loading dialgoues");
+            Debug.Assert(GUI.NodeLayer != null, "failure to create nodeLayer");
+            Debug.Assert(GUI.dialwindows != null, "failure to create dialwindows");
+            Debug.Assert(GUI.responsewindows != null, "failure to create dialwindows");
         }
     }
 }

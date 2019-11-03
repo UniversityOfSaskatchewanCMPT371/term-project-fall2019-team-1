@@ -14,14 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: 3
   prompt: 
-  response:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  next:
-  - {fileID: 0}
+  response: []
+  next: []
   start: 1

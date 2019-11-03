@@ -9,39 +9,30 @@ using System.IO;
 //TODO Description of class
 public class CustomGUI : EditorWindow
 {
-    public int Trees; // The amount of trees.
     public List<Rect> dialwindows = new List<Rect>(); // A list of prompt windows.
     public List<Rect> responsewindows = new List<Rect>(); // A list of the response windows.
-    public List<int> attachedWindows = new List<int>(); //A list of windows that are attacheds
     public Object[] Dialogues; // A list of all Dialogue objects.
-    public Dialogue Dialogue; // A specific Dialogue object.
     public List<Dialogue> treeDialogues; // A list of the Dialogues of the current tree
     public List<int> NodeLayer; // The Layer that the corrosponding node in dialogueWindows is in.
-    public List<Dialogue> toDestroy; // A lise of Dialogue objects to destory.
-    public Dialogue currentNode; // The current Dialogue node.
     public int currentTree; // The current Tree being drawn
     public Vector2 scrollBar; // A Scrollbar for the list of trees.
     public Vector2 scrollBar2; // The Dialogue Tree ScrollBar
-    private List<int> atLayer; // A list of nodes at a given layer.
-    List<int> found; // A list of found trees.
-    List<int> treesToDelete; // A list of trees to delete
-    List<Dialogue> nodesToDelete; // A list of dialogues to delete.
-    int layers; // The amount of layers in the Tree.
+    public List<int> atLayer; // A list of nodes at a given layer.
+    public List<int> found; // A list of found trees.
+    public List<int> treesToDelete; // A list of trees to delete
+    public int layers; // The amount of layers in the Tree.
 
     // Called after all gameObjects are initialized, Used to initialized variables 
     public void Awake()
     {
         layers = 0;
-//TODO: Add assert
+        Debug.Assert(layers == 0, "failure to create found");
 
         found = new List<int>();
         Debug.Assert(found != null, "failure to create found");
 
         treeDialogues = new List<Dialogue>();
         Debug.Assert(treeDialogues != null, "failure to create treesDialogues");
-
-        nodesToDelete = new List<Dialogue>();
-        Debug.Assert(nodesToDelete != null, "failure to create nodesToDelete");
 
         treesToDelete = new List<int>();
         Debug.Assert(treesToDelete != null, "failure to create treesToDelete");
@@ -53,21 +44,19 @@ public class CustomGUI : EditorWindow
         Dialogues = Resources.LoadAll("DialogueTree");
         Debug.Assert(Dialogues != null, "failure loading dialgoues");
 
-        // Find the amount of trees.
-        Trees = findTrees();
-        Debug.Assert(Trees >= 0, "failure to obtain number of trees");
-
-        // The first tree will be the default tree.
-        currentTree = found[0];
-        Debug.Assert(currentTree > 0, "failure to set tree to first tree");
+        // -1 indicates that there is no current tree selected.
+        currentTree = -1;
+        Debug.Assert(currentTree < 0, "failure to set tree to first tree");
+        
 
         NodeLayer = new List<int>();
         Debug.Assert(NodeLayer != null, "failure to create nodeLayer");
 
         dialwindows = new List<Rect>();
         Debug.Assert(dialwindows != null, "failure to create dialwindows");
-//TODO: more asserts
 
+        responsewindows = new List<Rect>();
+        Debug.Assert(responsewindows != null, "failure to create dialwindows");
     }
 
     // Adds the button on the window tab
@@ -82,15 +71,23 @@ public class CustomGUI : EditorWindow
     // Called several times per frame, used to redraw the GUI
     public void OnGUI()
     {
-        Trees = findTrees();
-        Debug.Assert(Trees >= 0, "Error in OnGUI, failure to obtain number of trees");
+        findTrees();
+        Debug.Assert(found.Count >= 0, "Error in OnGUI, failure to obtain number of trees");
 
+
+        // If a tree was found.
+        if (found.Count > 0 && currentTree < 0)
+        {
+            // The first tree will be the default tree.
+            currentTree = found[0];
+            Debug.Assert(currentTree > 0, "failure to set tree to first tree");
+        }
 
         // Load the dialogue objects for the given tree.
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + currentTree);
         Debug.Assert(Dialogues != null, "Error in OnGUI, failure to obtain Dialogues");
 
-        //Refresh Layer and atLayer
+        //Refresh and atLayer
         atLayer.Clear();
         Debug.Assert(atLayer != null, "Error in OnGUI, failure to refresh atLayer");
 
@@ -100,7 +97,7 @@ public class CustomGUI : EditorWindow
         scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(120));
 
         // For every tree.
-        for(int i = 0; i < Trees; i++)
+        for(int i = 0; i < found.Count; i++)
         {
             GUILayout.BeginHorizontal();
 
@@ -108,17 +105,25 @@ public class CustomGUI : EditorWindow
             {
                 // Make a button for that tree.
                 GUI.backgroundColor = Color.white;
+                // Make the button colour for the current tree cyan.
+                if(currentTree == i+1)
+                {
+                    GUI.backgroundColor = Color.cyan;
+                }
                 if (GUILayout.Button("Tree " + found[i]))
                 {
-                    currentTree = found[i];
+                    currentTree = i + 1;
                     Debug.Log(currentTree);
                 }
+
                 // Make a button to delete that tree.
                 GUI.backgroundColor = Color.red;
                 if (GUILayout.Button("x"))
                 {
                     GUI.backgroundColor = Color.red;
+                    AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree/Tree" + found[i]);
                     treesToDelete.Add(i);
+
                 }
             }
 
@@ -128,11 +133,12 @@ public class CustomGUI : EditorWindow
         // A button that makes a new tree.
         GUI.backgroundColor = Color.white;
         if (GUILayout.Button("Add"))
-        { 
+        {
+            bool treeAdded = false;
             // Make a new folder for the tree.
             int i = 1;
-            // While the Tree hasnt been made yet.
-            while (Trees == found.Count)
+            // While the Tree hasn't been made yet.
+            while (!treeAdded)
             {
                 Debug.Log(i);
 
@@ -151,11 +157,11 @@ public class CustomGUI : EditorWindow
 
                     // Add the new tree to found.
                     found.Add(i);
+                    treeAdded = true;
                 }
                 i++;
             }
-            //set the current Tree to the newly created one.
-            currentTree = i;
+            
         }
         EditorGUILayout.EndScrollView();
 
@@ -184,7 +190,12 @@ public class CustomGUI : EditorWindow
 
         }) ;
 
-        drawTree(currentTree);
+        // If there is atleast one tree.
+        if (found.Count != 0)
+        {
+            // Draw that tree
+            drawTree(currentTree);
+        }
 
         GUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
@@ -282,9 +293,7 @@ public class CustomGUI : EditorWindow
         NodeLayer.Add(layer);
 
         //if this node is not going to be deleted
-//TODO: might not need this
-        if (!nodesToDelete.Contains(dial))
-        {
+
 
             // Draw the node.
             EditorGUI.DrawRect(nodeRect, Color.grey);
@@ -299,8 +308,11 @@ public class CustomGUI : EditorWindow
                 dial.response.Add("");
                 dial.next.Add(null);
             }
-            // If the current node is not the head
-//TODO: remove button if this node has a child. OR delete all children
+        // If the current node is not the head
+
+        //Create a delete button if this is a leaf node.
+        if (dial.response.Count == 0)
+        {
             if (layer != 0)
             {
                 // Make a button for deleting the node.
@@ -311,30 +323,31 @@ public class CustomGUI : EditorWindow
                 }
                 GUI.backgroundColor = Color.white;
             }
-
-            //if this node has a list of responses
-            if (dial.response != null)
-            {
-                // For each of its responses, create a response node
-                for (int i = 0; i < dial.response.Count; i++)
-                {
-                    // if adding the response would make an new layer... 
-                    if (atLayer.Count == layer + 1)
-                    {
-                        // Make a new layer
-                        atLayer.Add(0);
-                    }
-
-                    Rect child = drawReponse(dial, layer + 1, i);
-                    Debug.Assert(child != null, "error in drawPrompt, the child was null");
-                    DrawNodeCurve(nodeRect, child);
-                }
-            }
-
-            // Notify the other nodes that this node is at the current layer.
-            atLayer[layer] ++;
-
         }
+
+        //if this node has a list of responses
+        if (dial.response != null)
+        {
+            // For each of its responses, create a response node
+            for (int i = 0; i < dial.response.Count; i++)
+            {
+                // if adding the response would make an new layer... 
+                if (atLayer.Count == layer + 1)
+                {
+                    // Make a new layer
+                    atLayer.Add(0);
+                }
+
+                Rect child = drawReponse(dial, layer + 1, i);
+                Debug.Assert(child != null, "error in drawPrompt, the child was null");
+                DrawNodeCurve(nodeRect, child);
+            }
+        }
+
+        // Notify the other nodes that this node is at the current layer.
+        atLayer[layer] ++;
+
+        
 
         return nodeRect;
     }
@@ -383,6 +396,7 @@ public class CustomGUI : EditorWindow
                     newDial.start = false;
                     newDial.tree = dial.tree;
                     newDial.response = new List<string>();
+                    newDial.prompt = "";
                     AssetDatabase.CreateAsset(newDial, "Assets/Resources/DialogueTree/Tree" + dial.tree + "/Dialogue" + Dialogues.Length + ".asset");
 
                     //if the current Dialogue doesnt have a next, make one
@@ -405,6 +419,7 @@ public class CustomGUI : EditorWindow
                     }
                 }
             }
+            Repaint();
         }
 
         // If the current response has no next, make a delete button.
@@ -513,6 +528,7 @@ public class CustomGUI : EditorWindow
                 found.Add(((Dialogue)Dialogues[i]).tree);
             }
         }
+        found.Sort();
         return found.Count;
     }
 }
