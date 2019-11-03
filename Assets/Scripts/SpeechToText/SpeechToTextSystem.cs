@@ -5,13 +5,21 @@ using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
 
 
-/**
- * Authors: Matt Radke, James Scarrow
- * 
- * SpeechToTextSystem takes speech from the player and converts it into useable
- * text(string data type)
- * 
- */
+/// <summary>
+/// 
+/// 
+/// <c>SpeechToTextSystem</c>
+/// 
+/// Description: SpeechToTextSystem takes speech from the player and converts it into useable
+/// text(string data type)
+/// 
+/// Pre-condition: Audio input devices
+/// 
+/// Post-condition: Returns speech text.
+/// </summary>
+/// 
+/// <author>Matt Radke, James Scarrow</author>
+
 public class SpeechToTextSystem : MonoBehaviour
 {
     // a button to press, set this in the inspector.
@@ -44,33 +52,39 @@ public class SpeechToTextSystem : MonoBehaviour
     // Converts speech to text.
     private DictationRecognizer dictationRecognizer;
 
-    /**
-     * OnApplicationQuit():
-     * pre:none
-     * post: special unity function, when the unity stops running we want to dispose of the 
-     * diction reconginzer, as to not cause errors.
-     * 
-     * return: none void.
-     */
+    /// <summary>
+    /// <c>OnApplicationQuit</c>
+    /// 
+    /// Description:special unity function, when the unity stops running we want to dispose of the 
+    /// diction recognizer, as to not cause errors.
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: removes diction recognizer
+    /// 
+    /// </summary>
+    /// <returns>NULL</returns>
     private void OnApplicationQuit()
     {
         dictationRecognizer.Stop(); 
-        dictationRecognizer.Dispose(); 
+        dictationRecognizer.Dispose();
 
     }
 
-    /**
-     * start():
-     * 
-     * pre: none
-     * 
-     * post: setup the data required to run the dictationReconginzer. Once the 
-     * dictationReconginzer is up and running we can begin logging what the player says.
-     * only need to setup this content once, so at beginning of play time we will do this.
-     * Once phrase is spoken, we will log it, and then send it to the dialogueTree. 
-     * 
-     * return: nothing void. 
-     */
+    /// <summary>
+    /// <c>start</c>
+    /// 
+    /// Description: Builds data before game begins for Speech-to-text system
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: set up the data required to run the dictationReconginzer. Once the 
+    /// dictationReconginzer is up and running we can begin logging what the player says.
+    /// only need to set up this content once, so at beginning of play time we will do this.
+    /// Once phrase is spoken, we will log it, and then send it to the dialogueTree.
+    /// 
+    /// </summary>
+    /// <returns>NULL</returns>
     public void Start()
     {
         dictationRecognizer = new DictationRecognizer();
@@ -97,12 +111,7 @@ public class SpeechToTextSystem : MonoBehaviour
         dictationRecognizer.Start();
     }
 
-    /**
-     * update():
-     * pre: none
-     * post: checks to see if the toggle key was pressed, if it was activate the debug log. Else unactivate it.
-     * return: none void.
-     */ 
+    // updates frame.
     public void Update()
     {
 

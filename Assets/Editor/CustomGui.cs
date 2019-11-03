@@ -4,25 +4,77 @@ using System.Collections.Generic;
 using System.IO;
 
 #if UNITY_EDITOR
-//TODO: Explain why this is here
 
-//TODO Description of class
+
+/// <summary>
+/// 
+/// Author: Clayton VanderStelt
+/// 
+/// <c>CustomGUI</c>
+/// Description:Panel which allows the users to successfully build a dialouge tree, when interacting with NPC
+/// entity. To find follow this path: Window/CustomGUI
+/// 
+/// Pre-condtion: System needs access to Dialouge GUI and Node editor scripts when running.
+/// 
+/// Post-condition: Builds a interactable tree editor window in unity.
+///
+/// </summary>
+/// 
+/// <authors>
+/// Clayton VanderStelt
+/// </authors>
 public class CustomGUI : EditorWindow
 {
-    public List<Rect> dialwindows = new List<Rect>(); // A list of prompt windows.
-    public List<Rect> responsewindows = new List<Rect>(); // A list of the response windows.
-    public Object[] Dialogues; // A list of all Dialogue objects.
-    public List<Dialogue> treeDialogues; // A list of the Dialogues of the current tree
-    public List<int> NodeLayer; // The Layer that the corrosponding node in dialogueWindows is in.
-    public int currentTree; // The current Tree being drawn
-    public Vector2 scrollBar; // A Scrollbar for the list of trees.
-    public Vector2 scrollBar2; // The Dialogue Tree ScrollBar
-    public List<int> atLayer; // A list of nodes at a given layer.
-    public List<int> found; // A list of found trees.
-    public List<int> treesToDelete; // A list of trees to delete
-    public int layers; // The amount of layers in the Tree.
+    // A list of prompt windows.
+    public List<Rect> dialwindows = new List<Rect>();
 
-    // Called after all gameObjects are initialized, Used to initialized variables 
+    // A list of the response windows.
+    public List<Rect> responsewindows = new List<Rect>();
+    
+    // A list of all Dialogue objects.
+    public Object[] Dialogues;
+
+    // A list of the Dialogues of the current tree.
+    public List<Dialogue> treeDialogues;
+
+    // The Layer that the corrosponding node in dialogueWindows is in.
+    public List<int> NodeLayer;
+
+    // The current Tree being drawn.
+    public int currentTree;
+
+    // A Scrollbar for the list of trees.
+    public Vector2 scrollBar;
+
+    // The Dialogue Tree ScrollBar.
+    public Vector2 scrollBar2;
+    // A list of nodes at a given layer.
+    public List<int> atLayer;
+
+    // A list of found trees.
+    public List<int> found;
+
+    // A list of trees to delete.
+    public List<int> treesToDelete;
+
+    // The amount of layers in the Tree.
+    public int layers;
+
+
+    /// <summary>
+    /// 
+    /// <c>Awake</c>
+    /// 
+    /// Description: Initalizes data for this class at game start time.
+    /// 
+    /// 
+    /// pre-condtions: Game running.
+    /// 
+    /// post-conditions: initalizes data for Custom GUI.
+    /// 
+    /// 
+    /// </summary>
+    /// <returns> NULL </returns>
     public void Awake()
     {
         layers = 0;
@@ -59,7 +111,18 @@ public class CustomGUI : EditorWindow
         Debug.Assert(responsewindows != null, "failure to create dialwindows");
     }
 
-    // Adds the button on the window tab
+    
+
+    /// <summary>
+    /// 
+    /// Description: Adds the button on the window tab.
+    /// 
+    /// Pre-condition: Node must not be NULL.
+    /// 
+    /// Post-condtion: Returns a new button
+    /// 
+    /// </summary>
+    /// <returns>NULL</returns>
     [MenuItem("Window/customGUI")]
     static void ShowEditor()
     {
@@ -171,15 +234,15 @@ public class CustomGUI : EditorWindow
 
         if(GUILayout.Button("import"))
         {
-//TODO: do import
+            //TODO: do import
         }
 
         if(GUILayout.Button("export"))
         {
-//TODO: do export
+            //TODO: do export
         }
         EditorGUILayout.EndHorizontal();
-//TODO: display what tree is active.
+           //TODO: display what tree is active.
 
 
         // Create an area for the nodes to be in.
@@ -193,7 +256,7 @@ public class CustomGUI : EditorWindow
         // If there is atleast one tree.
         if (found.Count != 0)
         {
-            // Draw that tree
+            // Draw that tree.
             drawTree(currentTree);
         }
 
@@ -205,16 +268,23 @@ public class CustomGUI : EditorWindow
     }
 
 
-    /* Draws the Dialogue Tree in the customGUI window
-     * 
-     * PARAM    treeNum - The number of the tree that is being drawn
-     * PRE -  The index of the tree being drawn
-     * POST - Tree is displayed in the cusotmGUI window
-     * RETURN - NULL
-     */
+    /// <summary>
+    /// 
+    /// <c>drawTree</c>
+    /// 
+    /// Description: Draws out the graphical tree in the unity window for Custom GUI window.
+    /// 
+    /// Pre-condition:The index of the tree being drawn
+    /// 
+    /// Post-condition: Tree is displayed in the cusotmGUI window.
+    /// 
+    /// </summary>
+    /// 
+    /// <param name="treeNum">The number of the tree that is being drawn</param>
+    /// <returns>NULL</returns>
     public void drawTree(int treeNum)
     {
-        //find the head node
+        //find the head node.
         Dialogue head = ScriptableObject.CreateInstance<Dialogue>();
 
         dialwindows.Clear();
@@ -223,7 +293,7 @@ public class CustomGUI : EditorWindow
 
         for (int i = 0; i < Dialogues.Length; i++)
         {
-            //if this node belongs to the current tree, and is the head of that tree
+            //if this node belongs to the current tree, and is the head of that tree.
             if ((((Dialogue)Dialogues[i]).tree == treeNum) && (((Dialogue)Dialogues[i]).start == true))
             {
                 head = (Dialogue)Dialogues[i];
@@ -241,14 +311,21 @@ public class CustomGUI : EditorWindow
         drawPrompt(head, 0);
     }
 
-    /* Draws a node
-    * 
-    * PARAM:    dial - the dialogue being draw.
-    *           layer - the layer of the node
-    * PRE -  The node being drawn is not null.
-    * POST - Node is displayed in the cusotmGUI window.
-    * RETURN - The Rect of the node.
-    */
+    /// <summary>
+    /// 
+    /// <c>DrawPrompt</c>
+    /// 
+    /// Description: Draws out a node in the CUSTOM GUI window. Draws "prompt" refers to the prompt in the node
+    /// being drawn.
+    /// 
+    /// Pre-condition: The node being drawn is not NULL.
+    /// 
+    /// post-condition: Node is displayed in the customGUI window.
+    ///
+    /// </summary>
+    /// <param name="dial">the dialogue being draw.</param>
+    /// <param name="layer">the layer of the node</param>
+    /// <returns>The Rect of the node.</returns>
     public Rect drawPrompt(Dialogue dial, int layer)
     {
         float biggestX = 0;
@@ -271,20 +348,21 @@ public class CustomGUI : EditorWindow
             }
         }
 
-        //if the response list doesnt exist
+        //if the response list doesnt exist.
         if (dial.response == null)
         {
             //Make one
             dial.response = new List<string>();
         }
 
-        //if the next list doesnt exist
+        //if the next list doesnt exist.
         if (dial.next == null)
         {
             //Make one
             dial.next = new List<Dialogue>();
         }
-//TODO: have node start below its parent.
+        //TODO: have node start below its parent.
+
         // Create the position of the node.
         Rect nodeRect = new Rect(dial.response.Count *100 + 20 + biggestX, layer * 100, 175, 65);
         Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
@@ -294,7 +372,7 @@ public class CustomGUI : EditorWindow
         dialwindows.Add(nodeRect);
         NodeLayer.Add(layer);
 
-        //if this node is not going to be deleted
+        //if this node is not going to be deleted.
 
 
             // Draw the node.
@@ -311,7 +389,7 @@ public class CustomGUI : EditorWindow
                 dial.response.Add("");
                 dial.next.Add(null);
             }
-        // If the current node is not the head
+        // If the current node is not the head.
 
         //Create a delete button if this is a leaf node.
         if (dial.response.Count == 0)
@@ -328,10 +406,10 @@ public class CustomGUI : EditorWindow
             }
         }
 
-        //if this node has a list of responses
+        //if this node has a list of responses.
         if (dial.response != null)
         {
-            // For each of its responses, create a response node
+            // For each of its responses, create a response node.
             for (int i = 0; i < dial.response.Count; i++)
             {
                 // if adding the response would make an new layer... 
@@ -355,15 +433,23 @@ public class CustomGUI : EditorWindow
         return nodeRect;
     }
 
-    /* Draws a node
-    * 
-    * PARAM:    dial - the dialogue being draw.
-    *           layer - the layer of the node
-    *           index - the index of the response being drawn
-    * PRE -  The id of the node being drawn is not null
-    * POST - All of the responses in the node are displayed in the cusotmGUI window
-    * RETURN - The rect of the response node
-    */
+    /// <summary>
+    /// 
+    /// <c>drawReponse</c>
+    /// 
+    /// Description: Draws a dialouge section within the node.
+    /// 
+    /// Pre-condtion:The id of the node being drawn is not null.
+    /// 
+    /// Post-condition: All of the responses in the node are displayed in the cusotmGUI window.
+    /// 
+    /// </summary>
+    /// 
+    /// <param name="dial">the dialogue being draw.</param>
+    /// <param name="layer">the layer of the node</param>
+    /// <param name="index">the index of the response being drawn</param>
+    /// 
+    /// <returns>The rect of the response node</returns>
     public Rect drawReponse(Dialogue dial, int layer, int index)
     {
         if(layer > layers)
@@ -459,29 +545,42 @@ public class CustomGUI : EditorWindow
         return nodeRect;
     }
 
-    /*a helper function to get the index of a given node
-    * 
-    * PARAM:    node -  dialogue node that exists in the Dialogue[] array
-    * PRE - The given node is not null
-    * POST - NONE
-    * RETURN - the index of the node in the Dialogue[] array
-    */
+    /// <summary>
+    /// 
+    /// <c>getNodeIndex</c>
+    /// 
+    /// Description: a helper function to get the index of a given node.
+    /// 
+    /// Pre-condition: The given node is not null.
+    /// 
+    /// Post-condition: NONE.
+    /// 
+    /// </summary>
+    /// <param name="node">dialogue node that exists in the Dialogue[] array</param>
+    /// <returns>the index of the node in the Dialogue[] array</returns>
     public int getNodeIndex(Dialogue node)
     {
         return 0;
     }
-//TODO: might not need.
+    //TODO: might not need.
 
 
-//TODO: find a better curve function.
-    /* A helper function that draws a line between nodes.
-    * 
-    * PARAM:    start - The node that the line is starting from
-    *           end - The node that the line is ending from
-    * PRE -  start and end are not null
-    * POST - Draws a line between two nodes
-    * RETURN - NONE
-    */
+    //TODO: find a better curve function.
+
+    /// <summary>
+    /// 
+    /// <c>DrawNodeCurve</c>
+    /// 
+    /// Description: A helper function that draws a line between nodes.
+    /// 
+    /// Pre-condition:start and end are not null.
+    /// 
+    ///Post-condtion:Draws a line between two nodes.
+    ///
+    /// </summary>
+    /// <param name="start">The node that the line is starting from</param>
+    /// <param name="end">The node that the line is ending from</param>
+    /// <returns>NULL</returns>
     void DrawNodeCurve(Rect start, Rect end)
     {
         int shadowLine = 1;
@@ -493,32 +592,44 @@ public class CustomGUI : EditorWindow
         Color shadowCol = new Color(0, 0, 0, 0.06f);
 
         for (int i = 0; i < shadowLine; i++)
-        {// Draw a shadow
+        {// Draw a shadow.
             Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.blue, null, (i + 1) * shadowEdge);
         }
 
         Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
     }
-    
-    /* A helper function that finds the current node. if there is more than one current node
-     * throw and error. if there is no selected current, set current to the first node.
-    * 
-    * PRE -  The tree is not null.
-    * POST - NONE.
-    * RETURN - A dialogue that is asigned as the current node.
-    */
+
+    /// <summary>
+    /// 
+    /// <c>Find Current</c>
+    /// 
+    /// Description:A helper function that finds the current node. if there is more than one current node
+    /// throw and error. if there is no selected current, set current to the first node.
+    /// 
+    /// Pre-condition:The tree is not null.
+    /// 
+    /// Post-condtion: NONE.
+    /// 
+    /// </summary>
+    /// <returns> A dialogue that is asigned as the current node.</returns>
     public Dialogue findCurrent()
     {
         return null;
     }
-//TODO: might not need.
+    //TODO: might not need.
 
-    /* Returns the amount of trees that are currently in the resources folder.
-    * 
-    * PRE -  NONE
-    * POST - NONE.
-    * RETURN - the number of trees in the resources folder
-    */
+    /// <summary>
+    /// 
+    /// <c>findTrees</c>
+    /// 
+    /// Description: Returns the amount of trees that are currently in the resources folder.
+    /// 
+    /// Pre-condition:None
+    /// 
+    /// Post-condition: None
+    /// 
+    /// </summary>
+    /// <returns>the number of trees in the resources folder</returns>
     public int findTrees()
     {
         Dialogues = Resources.LoadAll("DialogueTree");
@@ -526,7 +637,7 @@ public class CustomGUI : EditorWindow
         // For every node
         for (int i = 0; i < Dialogues.Length; i++)
         {
-            // If that node belongs to a tree that has not been found yet 
+            // If that node belongs to a tree that has not been found yet. 
             if(!found.Contains(((Dialogue)Dialogues[i]).tree))
             {
                 found.Add(((Dialogue)Dialogues[i]).tree);
