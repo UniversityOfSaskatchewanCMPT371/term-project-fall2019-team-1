@@ -200,6 +200,8 @@ public class CustomGUI : EditorWindow
         GUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
+
+        Repaint();
     }
 
 
@@ -304,7 +306,8 @@ public class CustomGUI : EditorWindow
 
             // Make a button for creating another node.
             if (GUI.Button(buttonRect, "new child"))
-            {                
+            {
+                GUI.FocusControl(null);
                 dial.response.Add("");
                 dial.next.Add(null);
             }
@@ -391,6 +394,8 @@ public class CustomGUI : EditorWindow
                 // Make a button for creating another node.
                 if (GUI.Button(buttonRect, "new child"))
                 {
+                    GUI.FocusControl(null);
+
                     // Make a new Dialogue, and set some of its parameters
                     Dialogue newDial = ScriptableObject.CreateInstance<Dialogue>();
                     newDial.start = false;
@@ -419,7 +424,6 @@ public class CustomGUI : EditorWindow
                     }
                 }
             }
-            Repaint();
         }
 
         // If the current response has no next, make a delete button.
