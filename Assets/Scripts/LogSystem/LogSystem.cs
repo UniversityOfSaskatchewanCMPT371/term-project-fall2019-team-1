@@ -51,7 +51,7 @@ public class LogSystem : MonoBehaviour
      */ 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
         {
             if (UIText.gameObject.activeSelf)
             {
@@ -63,7 +63,7 @@ public class LogSystem : MonoBehaviour
                 UIText.gameObject.SetActive(true);
                 PrintToTextField();
             }
-        }
+        }*/
     }
 
 
