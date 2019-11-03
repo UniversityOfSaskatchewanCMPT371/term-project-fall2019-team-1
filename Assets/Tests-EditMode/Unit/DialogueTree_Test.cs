@@ -25,10 +25,6 @@ namespace Tests
             test.currentNode = (Dialogue)tree1[0];
             test.voice = testVoice;
 
-
-            Assert.AreEqual(test.inTree("HELLO"), true);
-            Assert.AreEqual(test.inTree("GOODBYE"), true);
-            Assert.AreEqual(test.inTree("test"), false);
             // Use the Assert class to test conditions
         }
 

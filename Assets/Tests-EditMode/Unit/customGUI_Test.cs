@@ -14,23 +14,11 @@ namespace Tests
         {
             // Creating variables for testing.
             Object[] nodes = Resources.LoadAll("DialogueTree/Tree1");
-            CustomGUI GUI = new CustomGUI();
+            CustomGUI GUI = ScriptableObject.CreateInstance<CustomGUI>();
 
             // Testing that relies on awake().
             Assert.IsTrue(GUI != null, "failure to create GUI");
             Assert.IsTrue(GUI.Trees != null, "failure to load the trees");
-
-            // Testing that relies on OnGUI().
-            GUI.OnGUI();
-            if ((GUI.Trees > 0) && (GUI.Dialogues.Length > 0)) // If the tree exists, and there is atleast one node.
-            {
-                Assert.IsTrue(GUI.findCurrent() != null, "Failure to find currentNode"); // There has to be a current node.
-                Assert.IsTrue(GUI.getNodeIndex((Dialogue)GUI.Dialogues[0]) == 0, "getNodeIndex failed to return proper index");
-            }
-
-            
-
-
         }
     }
 }
