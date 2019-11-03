@@ -107,7 +107,7 @@ public class SpeechToTextSystem : MonoBehaviour
     {
 
         //Debug.Log("this is a test to see if pausing happens!"); 
-        if (Input.GetKeyDown(toggleKey))
+        /*if (Input.GetKeyDown(toggleKey))
         {
             if (text.gameObject.activeSelf)
             {
@@ -122,7 +122,7 @@ public class SpeechToTextSystem : MonoBehaviour
 
             }
             
-        }
+        }*/
         
     }
 }
