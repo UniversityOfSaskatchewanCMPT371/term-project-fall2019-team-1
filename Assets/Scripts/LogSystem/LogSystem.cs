@@ -45,6 +45,35 @@ public class LogSystem : MonoBehaviour
         UIText.gameObject.SetActive(false);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
+        {
+            ToggleUIText();
+        }
+    }
+
+    /// <summary>
+    /// Toggles the UI text belonging to this LogSystem.
+    /// Inputs: None
+    /// Outputs: None
+    /// Pre-Conditions: None
+    /// Post-Conditions: If the UI was active before invoking the method it will
+    /// be inactive after. If it was inactive, it will be active.
+    /// </summary>
+    public void ToggleUIText()
+    {
+        if (UIText.gameObject.activeSelf)
+        {
+            UIText.gameObject.SetActive(false);
+        }
+        else
+        {
+            UIText.gameObject.SetActive(true);
+            PrintToTextField();
+        }
+    }
+
 
     /// <summary>
     /// 
@@ -60,7 +89,6 @@ public class LogSystem : MonoBehaviour
    /// <returns>NULL</returns>
     public void WriteToFile(string text)
     {
-
         if (logFile != null)
         {
             // Build stream writer for the log file.
@@ -70,7 +98,6 @@ public class LogSystem : MonoBehaviour
 
             sw.WriteLine(finalAnswer);
             sw.Close();
-
         }
     }
 
@@ -93,6 +120,5 @@ public class LogSystem : MonoBehaviour
             UIText.GetComponent<Text>().text = sr.ReadToEnd();
             sr.Close();
         }
-
     }
 }
