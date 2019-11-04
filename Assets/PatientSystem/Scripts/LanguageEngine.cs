@@ -3,38 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This is takes in a String from SpeechToText, and uses it to traverse the TreeUI.
+/// 
+/// <c>Language Engine</c>
+/// 
+/// Descriptions: This is takes in a String from SpeechToText, and uses it to traverse the TreeUI.
+/// 
+/// pre-condition: Needs to be able to take input from Speech-To-Text system 
+/// 
+/// Post-Condition: Calculates a best branch option to progress the dialouge tree.
+/// 
 /// </summary>
+/// 
 /// <authors>
 /// Mason Demerais
 /// </authors>
 public class LanguageEngine : MonoBehaviour
 {
-    /// <summary>
-    /// The tree UI, setup in the inspector, or mocked.
-    /// </summary>
+
+    // The tree UI, setup in the inspector, or mocked.
+
     public TreeUI treeUI;
 
-    /// <summary>
-    /// The system logger.
-    /// </summary>
+
+    // The system logger.
+
     public Log log;
 
-    /// <summary>
-    /// The system debug logger.
-    /// </summary>
+
+    // The system debug logger.
+
     public DebugLog debugLog;
 
     /// <summary>
-    /// Recieves input from the SpeechToText output.
+    /// 
+    /// <c>Recieve Input</c>
+    /// 
+    /// Descriptions: Recieves input from the SpeechToText output.
+    /// 
+    /// preconditions: We must be on a valid node in the tree ui.
+    /// 
+    /// postconditions: The tree ui current node will be updated.
+    /// 
     /// </summary>
-    /// <preconditions>
-    /// We must be on a valid node in the tree ui.
-    /// </preconditions>
-    /// <postconditions>
-    /// The tree ui current node will be updated.
-    /// </postconditions>
+    /// 
     /// <param name="input">The input from the stt.</param>
+    /// <returns> NULL </returns>
     public void RecieveInput(string input)
     {
         // log our input
@@ -67,12 +80,21 @@ public class LanguageEngine : MonoBehaviour
     }
 
     /// <summary>
-    /// Will return the best decision given the input string and the options.
+    /// 
+    /// <c>Best Decision</c>
+    /// 
+    /// 
+    /// Description: Will return the best decision given the input string and the options.
+    /// 
+    /// Pre-conditions: None
+    /// 
+    /// Post-conditions: None
+    /// 
     /// </summary>
+    /// 
     /// <param name="input">A string to compare to the options.</param>
     /// <param name="options">The options, an array of array of strings.</param>
-    /// <returns>The index of the option to be taken.
-    /// </returns>
+    /// <returns>The index of the option to be taken.</returns>
     public int BestDecision(string input, string[][] options)
     {
         throw new NoBestDecision();
