@@ -43,4 +43,5 @@ The Next field will allow you to drag and drop new nodes into each of the corres
 
 ## [ID1 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID1)
 ## [ID2 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID2.1.1)
+## [ID3 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID3)
 
