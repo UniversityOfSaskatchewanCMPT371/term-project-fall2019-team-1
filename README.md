@@ -3,8 +3,10 @@
 ## Overview:
 
 All artifacts related to ID3 can be found in the following folder: https://drive.google.com/drive/folders/1Nc7zytRCG4MyBmbDWQX3XOz5LYbfVd95
+
 For all group organization information, please see the Group Policy Document here:
 https://drive.google.com/open?id=11sec8O1YRpXrZ_SmS7pG_yDxbLzbfYKHDlcEEOF8y9s
+
 Our Jenkins server (used for Continuous integration) can be found at the following: http://cmpt371g1.usask.ca:8080/
 
 ## Mini-Milestones:
