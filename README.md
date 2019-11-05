@@ -36,13 +36,14 @@ For the next deliverable, our milestones are as follows:
 * Update models in demo scene to be more representative of doctor's office
 
 ## Creating a Dialogue Tree:
+
 In Resources/DialogueTree/Tree1, right-click and select Create>ScriptableObject>Dialogue to create a new Dialogue Tree Node
 
 ## In the Inspector window: 
+
 The Prompt field is the text that you want the NPC to vocalize to the Scene User.
 The Response field will allow you to specify how many branches come off of the current node, as well as what keywords trigger each of the branches.
-The Next field will allow you to drag and drop new nodes into each of the corresponding branch locations.
-=======
+
 ## [ID1 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID1)
 ## [ID2 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID2.1.1)
 ## [ID3 Release](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/releases/tag/ID3)
