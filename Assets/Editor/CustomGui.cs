@@ -169,13 +169,13 @@ public class CustomGUI : EditorWindow
                 // Make a button for that tree.
                 GUI.backgroundColor = Color.white;
                 // Make the button colour for the current tree cyan.
-                if(currentTree == i+1)
+                if(currentTree == found[i])
                 {
                     GUI.backgroundColor = Color.cyan;
                 }
                 if (GUILayout.Button("Tree " + found[i]))
                 {
-                    currentTree = i + 1;
+                    currentTree = found[i];
                     Debug.Log(currentTree);
                 }
 
