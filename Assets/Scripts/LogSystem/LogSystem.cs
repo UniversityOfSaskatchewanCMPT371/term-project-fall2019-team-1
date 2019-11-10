@@ -6,15 +6,16 @@ using UnityEditor;
 using System.IO;
 using System;
 
-/**
- * Authors: Matt Radke, James Scarrow
- * 
- * Log System:
- * 
- * uses a text file to log conversation that is said within a a certain player and NPC
- * interaction.
- * 
- */ 
+/// <summary>
+/// <c>LogSystem</c>
+/// Description: stores text from NPC and Player conversation into text file
+/// 
+/// pre-condition: need both player and NPC systems running in unity scene editor.
+/// 
+/// Post-condition: Once text grabbed from player store in text file. 
+/// 
+/// </summary>
+/// <authors>Matt Radke, James Scarrow</authors>
 public class LogSystem : MonoBehaviour
 {
     // Text file used for logging. Drag and drop file in editor.
@@ -27,13 +28,15 @@ public class LogSystem : MonoBehaviour
    public KeyCode debugToggle;
 
     
-    /**
-     * Start():
-     * preCond: None
-     * post:text file is reset, and UITEXT is set to false.
-     * return: None void.
-     * 
-     */  
+    /// <summary>
+    /// <c>Start</c>
+    /// Description: Starts system, by clearing file and preping it for new text.
+    /// 
+    /// Pre-condition: need text file and Text ui in scene.
+    /// 
+    /// post-condition: sets system up for future use.
+    /// </summary>
+    /// <returns>NULL</returns>
     void Start()
     {
         // Clear the log file when scene starts.
@@ -42,43 +45,50 @@ public class LogSystem : MonoBehaviour
         UIText.gameObject.SetActive(false);
     }
 
-    /**
-     * update():
-     * pre:None
-     * post:monitors when the spacebar button is pressed! when pressed activates text field.
-     * return: Nothing void.
-     * 
-     */ 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
         {
-            if (UIText.gameObject.activeSelf)
-            {
+            ToggleUIText();
+        }
+    }
 
-                UIText.gameObject.SetActive(false);
-            }
-            else
-            {
-                UIText.gameObject.SetActive(true);
-                PrintToTextField();
-            }
+    /// <summary>
+    /// Toggles the UI text belonging to this LogSystem.
+    /// Inputs: None
+    /// Outputs: None
+    /// Pre-Conditions: None
+    /// Post-Conditions: If the UI was active before invoking the method it will
+    /// be inactive after. If it was inactive, it will be active.
+    /// </summary>
+    public void ToggleUIText()
+    {
+        if (UIText.gameObject.activeSelf)
+        {
+            UIText.gameObject.SetActive(false);
+        }
+        else
+        {
+            UIText.gameObject.SetActive(true);
+            PrintToTextField();
         }
     }
 
 
-     /*
-      * writeToFile(text):
-      * pre:    text: string, the string text that is wanted to be stored in a text file.
-      * post:  builds a stream writer and appends the text string value into the text file. Also
-      *        finds the current time and gives the string a time stamp before adding to text file.
-      *       
-      * return: Nothing void.
-      * 
-      */ 
+    /// <summary>
+    /// 
+    /// <c>writeToFile</c>
+    /// Description: stores text into a text file
+    /// 
+    /// pre-condition: need a text file in order to store text.
+    /// 
+    /// post-condition: writes text to a text file.
+    /// 
+    /// </summary>
+    /// <param name="text">the text you want to put into a text file.</param>
+   /// <returns>NULL</returns>
     public void WriteToFile(string text)
     {
-
         if (logFile != null)
         {
             // Build stream writer for the log file.
@@ -88,18 +98,20 @@ public class LogSystem : MonoBehaviour
 
             sw.WriteLine(finalAnswer);
             sw.Close();
-
         }
     }
 
-    /**
-     * PrintToTextField():
-     * pre: none
-     * post: transfers the content of logfile.txt into the UI text field UITEXT.
-     * 
-     * return Nothing void.
-     * 
-     */ 
+    /// <summary>
+    /// 
+    /// <c>PrintToTextField</c>
+    /// Description: print log file to text ui within system scene. 
+    /// 
+    /// Pre-condition: need text ui in scene
+    /// 
+    /// post-condition: text ui updated with text from log file. 
+    /// </summary>
+    /// 
+    /// <returns>NULL</returns>
     public void PrintToTextField()
     {
         if (logFile != null)
@@ -108,6 +120,5 @@ public class LogSystem : MonoBehaviour
             UIText.GetComponent<Text>().text = sr.ReadToEnd();
             sr.Close();
         }
-
     }
 }

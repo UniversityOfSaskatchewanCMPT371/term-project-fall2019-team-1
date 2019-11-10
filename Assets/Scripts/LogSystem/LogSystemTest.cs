@@ -4,11 +4,19 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-/**
- *Author: James Scarrow
- * 
- * builds and tests for  the Log system.
- */ 
+/// <summary>
+/// 
+/// <c>LogSystemTest</c>
+/// 
+/// Description: Tests for log system
+/// 
+/// pre-condition: need log system within scene in order to run this test.
+/// 
+/// post-condition: returns to system that test was done correctly or not. 
+/// 
+/// </summary>
+/// 
+/// <authors>Matt Radke, James Scarrow </authors>
 public class LogSystemTest : MonoBehaviour
 {
    // text file, used for testing the the log system.
@@ -20,28 +28,33 @@ public class LogSystemTest : MonoBehaviour
       StartCoroutine(TestLog());
    }
 
-    /**
-     * testLog():
-     * pre: none
-     * post: corroutine Ienumerator type, waits for when called. once called will wait 3 seconds and run
-     * check the log function.
-     * 
-     * return: force system running this script to wait three seconds.
-     */ 
-   private IEnumerator TestLog()
+    /// <summary>
+    /// 
+    /// <c>TestLog</c>
+    /// 
+    /// Desciption: coroutine waits to be called by test log. 
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// post-condition: returns a time in seconds that waits before executing in code again.
+    /// 
+    /// </summary>
+    /// <returns>force system running this script to wait three seconds.</returns>
+    private IEnumerator TestLog()
    {
       yield return new WaitForSeconds(3);
       CheckLog();
    }
 
-    /**
-     * CheckLog():
-     * pre: none
-     * post: runs the log system through a test scenario. appending a string into the text file and 
-     * testings its contents.
-     * 
-     * return: nothing void.
-     */
+    /// <summary>
+    /// Description: runs log test on system 
+    /// 
+    /// pre-condition: none
+    /// 
+    /// post-condition: test ran on system. 
+    /// 
+    /// </summary>
+    /// <returns>NULL</returns>
    private void CheckLog()
    {
       // GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile("Hello World");

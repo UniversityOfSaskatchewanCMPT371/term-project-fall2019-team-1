@@ -4,45 +4,80 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// This object records from the microphone for a time and stores to a file.
+/// 
+/// Description:This object records from the microphone for a time and stores to a file.
+/// 
+/// pre-condition: audio input device.
+/// 
+/// post-condition: creates a .wav file. 
+/// 
 /// </summary>
+/// 
 /// <authors>
 /// Mason Demerais
 /// </authors>
 public class AudioFeed : MonoBehaviour
 {
-    /// <summary>
-    /// The file name to be created and recorded to.
-    /// </summary>
-    private string fileName;
+ 
+    // The file name to be created and recorded to.
+ 
+    private string fileName = "";
+
+  
+    // The Log object.
+
+    public Log log;
+
+
+    // The STT system.
+ 
+    public SpeechToText STT;
 
     /// <summary>
-    /// Starts recording to the filename.
-    /// </summary>
-    /// <preconditions>
-    /// fileName must be "", ie: there must not be another recording taking place.
+    /// 
+    /// <c>StartRecording</c>
+    /// 
+    /// Description: Starts recording to the filename.
+    /// 
+    /// preconditions: fileName must be "", ie: there must not be another recording taking place.
     /// The application must have access to a audio input device.
-    /// </preconditions>
-    /// <postconditions>
-    /// this.fileName will equal fileName and a new file will be created and opened as the audio will be recorded to it.
-    /// </postconditions>
+    /// 
+    /// post-conditions: this.fileName will equal fileName and a new file will be created and opened
+    /// as the audio will be recorded to it.
+    /// 
+    /// </summary>
+    /// 
     /// <param name="fileName">The file to be recording to.</param>
+    /// <returns> NULL </returns>
     public void StartRecording(string fileName)
     {
+        Debug.Assert(this.fileName == "");
 
+        log.WriteToLog(string.Format("AudioFeed::StartRecording: fileName: {0}", fileName));
+
+        this.fileName = fileName;
     }
 
     /// <summary>
-    /// Stops recording and closes the file.
+    /// 
+    /// <c>StopRecording</c>
+    /// 
+    /// Description: Stops recording and closes the file.
+    /// 
+    /// pre-conditions: this.fileName must not be "", ie: There must be a recording happening.
+    /// 
+    /// post-conditions: this.fileName is now "" and the file is closed.
     /// </summary>
-    /// <preconditions>
-    /// this.fileName must not be "", ie: There must be a recording happening.
-    /// </preconditions>
-    /// <postconditions>
-    /// this.fileName is now "" and the file is closed.
-    /// </postconditions>
+    /// 
+    /// <returns> NULL </returns>
     public void StopRecording()
     {
+        Debug.Assert(fileName != "");
 
+        log.WriteToLog(string.Format("AudioFeed::StopRecording: fileName: {0}", fileName));
+
+        STT.ReceiveAudioFile(fileName);
+
+        fileName = "";
     }
 }
