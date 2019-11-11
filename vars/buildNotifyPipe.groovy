@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
 /// <summary>
-/// Runs an given job on a given branch and outputs the result to jenkins
-/// Inputs: Map buildResult [jobName: String Name of Job, branch: String name of branch]
+/// Runs a given job on a given branch and outputs the result to jenkins
+/// Inputs: Map buildResult [jobName: String Name of Job, branch: String name of branch, slackChannel: String name of slack channel to post to]
 /// Outputs: None
 /// Pre-Conditions: Inputted job and branch excist within Jenkins and GitHub
 /// Post-Conditions: Inputted job is build and results are posted to slack
@@ -40,7 +40,11 @@ def call(Map pipeParams) {
                 always {
                     script {
                         //pushes results to slack
-                        slackNotifier UnityBuildResults.result.toString()
+                        try{
+                            slackNotifier UnityBuildResults.result.toString(),  pipeParams.slackChannel
+                        }catch{
+                            slackNotifier UnityBuildResults.result.toString(),  '#jenkins'
+                        }
                         cleanWs()
                     }
                 }
