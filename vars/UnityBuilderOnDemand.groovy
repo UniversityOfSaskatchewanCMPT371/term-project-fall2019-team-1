@@ -1,4 +1,4 @@
 @Library('shared-library')_
 
-def paramMap = [branch: "${BRANCH}", jobName: 'Unity Builder', slackChannel: "${SLACK_ID}"]
+def paramMap = [branch: "${params.BRANCH}", jobName: 'Unity Builder', slackChannel: "${params.SLACK_ID}"]
 buildNotifyPipe paramMap
