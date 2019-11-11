@@ -1,13 +1,15 @@
 #!/usr/bin/env groovy
 
-def getCurrentBranch() {
-    return sh (
-        script: 'git rev-parse --abbrev-ref HEAD',
-        returnStdout: true
-    ).trim()
-}
-
+/// <summary>
+/// Runs an given job on a given branch and outputs the result to jenkins
+/// Inputs: Map buildResult [jobName: String Name of Job, branch: String name of branch]
+/// Outputs: None
+/// Pre-Conditions: Inputted job and branch excist within Jenkins and GitHub
+/// Post-Conditions: Inputted job is build and results are posted to slack
+/// <authors> sch923, Sam Horovatin
 def call(Map pipeParams) {
+
+    //gets trigger branch
     def scmVars
     node {
         stage('Clone source code') {
@@ -15,7 +17,8 @@ def call(Map pipeParams) {
         }
     }
 
-    if(pipeParams.branch.substring(2) == scmVars.GIT_BRANCH) {
+    //Only runs if input branch is identical to trigger branch
+    if(pipeParams.branch == scmVars.GIT_BRANCH) { 
         pipeline {
             agent any
             environment {
