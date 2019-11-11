@@ -42,7 +42,7 @@ def call(Map pipeParams) {
                         //pushes results to slack
                         try{
                             slackNotifier UnityBuildResults.result.toString(),  pipeParams.slackChannel
-                        }catch{
+                        } catch (Exception e) {
                             slackNotifier UnityBuildResults.result.toString(),  '#jenkins'
                         }
                         cleanWs()
