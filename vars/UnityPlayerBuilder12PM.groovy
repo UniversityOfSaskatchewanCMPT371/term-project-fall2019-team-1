@@ -1,3 +1,4 @@
 @Library('shared-library')_
 
-buildNotifyPipe [branch:'*/develop', jobName:'Unity Player Builder']
+def paramMap = [branch:'*/develop', jobName:'Unity Player Builder']
+buildNotifyPipe paramMap

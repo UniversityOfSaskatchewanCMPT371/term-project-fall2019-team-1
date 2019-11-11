@@ -1,3 +1,4 @@
 @Library('shared-library')_
 
-buildNotifyPipe [branch:'*/develop', jobName:'Full Test Suite']
+def paramMap = [branch:'*/develop', jobName:'Full Test Suite']
+buildNotifyPipe paramMap 

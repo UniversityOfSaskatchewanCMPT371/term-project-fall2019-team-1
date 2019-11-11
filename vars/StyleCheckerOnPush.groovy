@@ -1,3 +1,4 @@
 @Library('shared-library')_
 
-buildNotifyPipe [branch:'*/develop', jobName:'Style Checker']
+def paramMap = [branch:'*/develop', jobName:'Style Checker']
+buildNotifyPipe paramMap
