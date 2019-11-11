@@ -25,6 +25,15 @@ using System.IO;
 /// </authors>
 public class CustomGUI : EditorWindow
 {
+    int GUIwidth;
+    int GUIheight;
+   
+    //variables that affect the lines thickness, colour, etc...
+    int shadowLine = 1;
+    int shadowEdge = 4;
+    Color shadowCol = Color.blue;
+    Color lineCol = Color.black;
+
     // A list of prompt windows.
     public List<Rect> dialwindows = new List<Rect>();
 
@@ -164,7 +173,7 @@ public class CustomGUI : EditorWindow
         {
             GUILayout.BeginHorizontal();
 
-            if (!treesToDelete.Contains(i))
+            if (!treesToDelete.Contains(found[i]))
             {
                 // Make a button for that tree.
                 GUI.backgroundColor = Color.white;
@@ -185,7 +194,7 @@ public class CustomGUI : EditorWindow
                 {
                     GUI.backgroundColor = Color.red;
                     AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree/Tree" + found[i]);
-                    treesToDelete.Add(i);
+                    treesToDelete.Add(found[i]);
 
                 }
             }
@@ -242,16 +251,9 @@ public class CustomGUI : EditorWindow
             //TODO: do export
         }
         EditorGUILayout.EndHorizontal();
-           //TODO: display what tree is active.
-
 
         // Create an area for the nodes to be in.
-        scrollBar2 = GUILayout.BeginScrollView(scrollBar2, true, true, new
-            GUILayoutOption[]{
-                GUILayout.ExpandWidth(true),
-                GUILayout.ExpandHeight(true),
-
-        }) ;
+        scrollBar2 = GUILayout.BeginScrollView(scrollBar2, true, true);
 
         // If there is atleast one tree.
         if (found.Count != 0)
@@ -260,11 +262,23 @@ public class CustomGUI : EditorWindow
             drawTree(currentTree);
         }
 
+        float biggestX = 0;
+        // Find the highest x position.
+        for (int i = 0; i < atLayer.Count; i++)
+        {
+            if (atLayer[i] > biggestX)
+                biggestX = atLayer[i];
+            
+        }
+
+        GUI.backgroundColor = Color.clear;
+        GUILayout.Box("", GUILayout.Height(-15), GUILayout.Width(biggestX * 200 + 20));
+        GUILayout.Box("", GUILayout.Height(atLayer.Count *100 + 100), GUILayout.Width(0));
+
         GUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
-
-        Repaint();
+    
     }
 
 
@@ -364,7 +378,7 @@ public class CustomGUI : EditorWindow
         //TODO: have node start below its parent.
 
         // Create the position of the node.
-        Rect nodeRect = new Rect(dial.response.Count *100 + 20 + biggestX, layer * 100, 175, 65);
+        Rect nodeRect = new Rect(dial.response.Count *100 + 20 + biggestX, layer * 100 + 10, 175, 65);
         Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
         Rect buttonRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
         Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
@@ -417,6 +431,7 @@ public class CustomGUI : EditorWindow
                 {
                     // Make a new layer
                     atLayer.Add(0);
+                    
                 }
 
                 Rect child = drawReponse(dial, layer + 1, i);
@@ -458,7 +473,7 @@ public class CustomGUI : EditorWindow
         }
 
         // Create the position of the node.
-        Rect nodeRect = new Rect((atLayer[layer] * 200) + 10, layer * 100, 175, 70);
+        Rect nodeRect = new Rect((atLayer[layer] * 200) + 20, layer * 100+10, 175, 70);
         Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
         Rect buttonRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
         Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
@@ -583,40 +598,19 @@ public class CustomGUI : EditorWindow
     /// <returns>NULL</returns>
     void DrawNodeCurve(Rect start, Rect end)
     {
-        int shadowLine = 1;
-        int shadowEdge = 4;
         Vector3 startPos = new Vector3(start.x + start.width/2, start.y + start.height, 0);
         Vector3 endPos = new Vector3(end.x + end.width/2, end.y, 0);
         Vector3 startTan = startPos + Vector3.right * 50;
         Vector3 endTan = endPos + Vector3.left * 50;
-        Color shadowCol = new Color(0, 0, 0, 0.06f);
 
         for (int i = 0; i < shadowLine; i++)
-        {// Draw a shadow.
-            Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.blue, null, (i + 1) * shadowEdge);
+        {// Draw a shadow
+            Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * shadowEdge);
         }
 
-        Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
+        Handles.DrawBezier(startPos, endPos, startTan, endTan, lineCol, null, 1);
     }
-
-    /// <summary>
-    /// 
-    /// <c>Find Current</c>
-    /// 
-    /// Description:A helper function that finds the current node. if there is more than one current node
-    /// throw and error. if there is no selected current, set current to the first node.
-    /// 
-    /// Pre-condition:The tree is not null.
-    /// 
-    /// Post-condtion: NONE.
-    /// 
-    /// </summary>
-    /// <returns> A dialogue that is asigned as the current node.</returns>
-    public Dialogue findCurrent()
-    {
-        return null;
-    }
-    //TODO: might not need.
+   
 
     /// <summary>
     /// 

@@ -82,7 +82,26 @@ public class DialogueTree : MonoBehaviour
     {
         voice = new SpVoice();
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
-        currentNode = (Dialogue)Dialogues[0];
+
+        //find the head node
+        Dialogue currentNode = ScriptableObject.CreateInstance<Dialogue>();
+
+        for (int i = 0; i < Dialogues.Length; i++)
+        {
+            //if this node belongs to the current tree, and is the head of that tree
+            if ((((Dialogue)Dialogues[i]).tree == tree) && (((Dialogue)Dialogues[i]).start == true))
+            {
+                currentNode = (Dialogue)Dialogues[i];
+                goto Found;
+            }
+            else
+            {
+                //if it cant be found, set it ot the first one that appears.
+                currentNode = (Dialogue)Dialogues[0];
+            }
+        }
+
+        Found:
 
         if (usingSpeechLib)
         {
@@ -201,7 +220,7 @@ public class DialogueTree : MonoBehaviour
         }
         return false;
     }
-
+   
     /// <summary>
     /// 
     /// <c>runSpeech</c>
