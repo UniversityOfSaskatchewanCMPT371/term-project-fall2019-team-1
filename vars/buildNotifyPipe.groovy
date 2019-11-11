@@ -12,12 +12,11 @@ def call(Map pipeParams) {
     //gets trigger branch
     def scmVars
     node {
-        stage('Clone Source Sode') {
+        stage('Clone Source Code') {
             scmVars = checkout scm
         }
     }
 
-    
     if (pipeParams.branch.length() >= scmVars.GIT_BRANCH.length()){
         //Only runs if input branch is identical to trigger branch
         //Checks last n-lenght of current branch characters to avoid prepending "*/" or "origin/"
@@ -26,6 +25,7 @@ def call(Map pipeParams) {
                 agent any
                 environment {
                     UnityBuildResults = ''
+                    DefaultSlackChannel = '#jenkins'
                 }
                 stages {
                     stage('Build') {
@@ -46,7 +46,7 @@ def call(Map pipeParams) {
                             try{
                                 slackNotifier UnityBuildResults.result.toString(), pipeParams.slackChannel
                             } catch (Exception e) {
-                                slackNotifier UnityBuildResults.result.toString(), '#jenkins'
+                                slackNotifier UnityBuildResults.result.toString(), DefaultSlackChannel
                             }
                             cleanWs()
                         }
