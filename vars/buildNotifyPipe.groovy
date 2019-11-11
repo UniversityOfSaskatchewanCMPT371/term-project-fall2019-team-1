@@ -13,12 +13,9 @@ def call(Map pipeParams) {
         stage('Clone source code') {
             scmVars = checkout scm
         }
-        stage('test scope') {
-            echo scmVars.GIT_BRANCH
-        }
     }
-    
-    if(pipeParams.branch == scmVars.GIT_BRANCH) {
+
+    if(pipeParams.branch.substring(2) == scmVars.GIT_BRANCH) {
         pipeline {
             agent any
             environment {
