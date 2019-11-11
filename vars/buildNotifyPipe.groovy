@@ -12,7 +12,7 @@ def call(Map pipeParams) {
     //gets trigger branch
     def scmVars
     node {
-        stage('Clone source code') {
+        stage('Clone Source Sode') {
             scmVars = checkout scm
         }
     }
@@ -28,6 +28,7 @@ def call(Map pipeParams) {
                 stage('Build') {
                     steps {
                         script {
+                            //builds the inputted "jobName" job
                             UnityBuildResults = build(job: pipeParams.jobName, parameters: [string(name: 'BRANCH', value: pipeParams.branch)], propagate: true, wait: true) 
                             println UnityBuildResults.getRawBuild().getLog()
                         }
@@ -38,6 +39,7 @@ def call(Map pipeParams) {
             post {
                 always {
                     script {
+                        //pushes results to slack
                         slackNotifier UnityBuildResults.result.toString()
                         cleanWs()
                     }
