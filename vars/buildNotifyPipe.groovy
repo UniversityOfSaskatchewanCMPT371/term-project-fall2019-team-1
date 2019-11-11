@@ -17,35 +17,39 @@ def call(Map pipeParams) {
         }
     }
 
-    //Only runs if input branch is identical to trigger branch
-    if(pipeParams.branch == scmVars.GIT_BRANCH) { 
-        pipeline {
-            agent any
-            environment {
-                UnityBuildResults = ''
-            }
-            stages {
-                stage('Build') {
-                    steps {
-                        script {
-                            //builds the inputted "jobName" job
-                            UnityBuildResults = build(job: pipeParams.jobName, parameters: [string(name: 'BRANCH', value: pipeParams.branch)], propagate: true, wait: true) 
-                            println UnityBuildResults.getRawBuild().getLog()
+    
+    if (pipeParams.branch.length() >= scmVars.GIT_BRANCH.length()){
+        //Only runs if input branch is identical to trigger branch
+        //Checks last n-lenght of current branch characters to avoid prepending "*/" or "origin/"
+        if(pipeParams.branch.substring(pipeParams.branch.length() - scmVars.GIT_BRANCH.length()) == scmVars.GIT_BRANCH) { 
+            pipeline {
+                agent any
+                environment {
+                    UnityBuildResults = ''
+                }
+                stages {
+                    stage('Build') {
+                        steps {
+                            script {
+                                //builds the inputted "jobName" job
+                                UnityBuildResults = build(job: pipeParams.jobName, parameters: [string(name: 'BRANCH', value: pipeParams.branch)], propagate: true, wait: true) 
+                                println UnityBuildResults.getRawBuild().getLog()
+                            }
+                            
                         }
-                        
                     }
                 }
-            }
-            post {
-                always {
-                    script {
-                        //pushes results to slack
-                        try{
-                            slackNotifier UnityBuildResults.result.toString(),  pipeParams.slackChannel
-                        } catch (Exception e) {
-                            slackNotifier UnityBuildResults.result.toString(),  '#jenkins'
+                post {
+                    always {
+                        script {
+                            //pushes results to slack
+                            try{
+                                slackNotifier UnityBuildResults.result.toString(), pipeParams.slackChannel
+                            } catch (Exception e) {
+                                slackNotifier UnityBuildResults.result.toString(), '#jenkins'
+                            }
+                            cleanWs()
                         }
-                        cleanWs()
                     }
                 }
             }
