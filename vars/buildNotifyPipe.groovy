@@ -1,7 +1,24 @@
 #!/usr/bin/env groovy
 
+def getCurrentBranch() {
+    return sh (
+        script: 'git rev-parse --abbrev-ref HEAD',
+        returnStdout: true
+    ).trim()
+}
+
 def call(Map pipeParams) {
-    if(pipeParams.branch == env.BRANCH_NAME) {
+    def scmVars
+    node {
+        stage('Clone source code') {
+            scmVars = checkout scm
+        }
+        stage('test scope') {
+            echo scmVars.GIT_BRANCH
+        }
+    }
+    
+    if(pipeParams.branch == scmVars.GIT_BRANCH) {
         pipeline {
             agent any
             environment {
