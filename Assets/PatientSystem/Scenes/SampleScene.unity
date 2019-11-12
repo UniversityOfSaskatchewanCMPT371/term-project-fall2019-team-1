@@ -2620,6 +2620,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PatientSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 5158006905705294169, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2685,6 +2690,11 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 564929621}
+    - target: {fileID: 8534629523249983075, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: logBufferCount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1954660576, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.size
       value: 2
@@ -2697,6 +2707,18 @@ PrefabInstance:
       propertyPath: sources.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1954660576, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
+      propertyPath: ValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954660576, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
+      propertyPath: ValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_enabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 614762647, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
+      propertyPath: sources.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 614762647, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.data[0]
       value: 
@@ -2705,5 +2727,20 @@ PrefabInstance:
       propertyPath: sources.Array.data[1]
       value: 
       objectReference: {fileID: 146976115}
+    - target: {fileID: 2646940279935167331, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914418676761150678, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037820975545134637, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_Name
+      value: LogBufferText
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
