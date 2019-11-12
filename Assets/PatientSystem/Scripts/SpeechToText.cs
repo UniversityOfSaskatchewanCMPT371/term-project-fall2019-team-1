@@ -33,11 +33,15 @@ public class SpeechToText : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        Debug.Log(string.Format("SpeechToText::Start"));
+
+        // create the DictationRecognizer, it will start recog text from the mic.
         dictationRecognizer = new DictationRecognizer();
 
         // When speech has been recognized.
         dictationRecognizer.DictationResult += OnDictationResult;
 
+        // start it now.
         dictationRecognizer.Start();
     }
 
@@ -49,6 +53,10 @@ public class SpeechToText : MonoBehaviour
     private void OnDictationResult(string text, ConfidenceLevel confidence)
     {
         Debug.Log(string.Format("SpeechToText::OnDictationResult: text: {0}, confidence: {1}", text, confidence));
+
+        // send the string to the lang engine
+        Debug.Assert(LE != null);
+        LE.RecieveInput(text);
     }
 
     /// <summary>
@@ -57,6 +65,8 @@ public class SpeechToText : MonoBehaviour
     private void OnDestroy()
     {
         Debug.Assert(dictationRecognizer != null);
+
+        Debug.Log(string.Format("SpeechToText::OnDestroy"));
 
         // Stop and destroy
         dictationRecognizer.Stop();
