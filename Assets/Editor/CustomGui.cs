@@ -60,8 +60,8 @@ public class CustomGUI : EditorWindow
     // A list of nodes at a given layer.
     public List<int> atLayer;
 
-    // A list of found trees.
-    public List<int> found;
+    // A list of trees.
+    public List<int> trees;
 
     // A list of trees to delete.
     public List<int> treesToDelete;
@@ -89,8 +89,8 @@ public class CustomGUI : EditorWindow
         layers = 0;
         Debug.Assert(layers == 0, "failure to create found");
 
-        found = new List<int>();
-        Debug.Assert(found != null, "failure to create found");
+        trees = new List<int>();
+        Debug.Assert(trees != null, "failure to create found");
 
         treeDialogues = new List<Dialogue>();
         Debug.Assert(treeDialogues != null, "failure to create treesDialogues");
@@ -144,14 +144,15 @@ public class CustomGUI : EditorWindow
     public void OnGUI()
     {
         findTrees();
-        Debug.Assert(found.Count >= 0, "Error in OnGUI, failure to obtain number of trees");
+        Debug.Assert(trees.Count >= 0, "Error in OnGUI, failure to obtain number of trees");
+        Debug.Assert(trees != null, "Error in OnGUI, trees is null");
 
 
         // If a tree was found.
-        if (found.Count > 0 && currentTree < 0)
+        if (trees.Count > 0 && currentTree < 0)
         {
             // The first tree will be the default tree.
-            currentTree = found[0];
+            currentTree = trees[0];
             Debug.Assert(currentTree > 0, "failure to set tree to first tree");
         }
 
@@ -162,6 +163,7 @@ public class CustomGUI : EditorWindow
         //Refresh and atLayer
         atLayer.Clear();
         Debug.Assert(atLayer != null, "Error in OnGUI, failure to refresh atLayer");
+        Debug.Assert(atLayer.Count == 0, "Error in OnGUI, failure to refresh atLayer");
 
         EditorGUILayout.BeginHorizontal();
         
@@ -169,22 +171,22 @@ public class CustomGUI : EditorWindow
         scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(120));
 
         // For every tree.
-        for(int i = 0; i < found.Count; i++)
+        for(int i = 0; i < trees.Count; i++)
         {
             GUILayout.BeginHorizontal();
 
-            if (!treesToDelete.Contains(found[i]))
+            if (!treesToDelete.Contains(trees[i]))
             {
                 // Make a button for that tree.
                 GUI.backgroundColor = Color.white;
                 // Make the button colour for the current tree cyan.
-                if(currentTree == found[i])
+                if(currentTree == trees[i])
                 {
                     GUI.backgroundColor = Color.cyan;
                 }
-                if (GUILayout.Button("Tree " + found[i]))
+                if (GUILayout.Button("Tree " + trees[i]))
                 {
-                    currentTree = found[i];
+                    currentTree = trees[i];
                     Debug.Log(currentTree);
                 }
 
@@ -193,8 +195,8 @@ public class CustomGUI : EditorWindow
                 if (GUILayout.Button("x"))
                 {
                     GUI.backgroundColor = Color.red;
-                    AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree/Tree" + found[i]);
-                    treesToDelete.Add(found[i]);
+                    AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree/Tree" + trees[i]);
+                    treesToDelete.Add(trees[i]);
 
                 }
             }
@@ -215,20 +217,21 @@ public class CustomGUI : EditorWindow
                 Debug.Log(i);
 
                 // Make sure that tree doesnt already exist.
-                if (!found.Contains(i))
+                if (!trees.Contains(i))
                 {
                     // Make the folder.
                     AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
                     
                     // Make the head dialogue.
                     Dialogue newDial = new Dialogue();
+                    Debug.Assert(newDial != null, "failure in OnGUI, newDial creation failed");
                     newDial.tree = i;
                     newDial.start = true;
 
                     AssetDatabase.CreateAsset(newDial, "Assets/Resources/DialogueTree/Tree" + i + "/" + "Dialogue.asset");
 
                     // Add the new tree to found.
-                    found.Add(i);
+                    trees.Add(i);
                     treeAdded = true;
                 }
                 i++;
@@ -256,7 +259,7 @@ public class CustomGUI : EditorWindow
         scrollBar2 = GUILayout.BeginScrollView(scrollBar2, true, true);
 
         // If there is atleast one tree.
-        if (found.Count != 0)
+        if (trees.Count != 0)
         {
             // Draw that tree.
             drawTree(currentTree);
@@ -268,7 +271,6 @@ public class CustomGUI : EditorWindow
         {
             if (atLayer[i] > biggestX)
                 biggestX = atLayer[i];
-            
         }
 
         GUI.backgroundColor = Color.clear;
@@ -278,7 +280,6 @@ public class CustomGUI : EditorWindow
         GUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
-    
     }
 
 
@@ -443,8 +444,12 @@ public class CustomGUI : EditorWindow
         // Notify the other nodes that this node is at the current layer.
         atLayer[layer] ++;
 
-        
 
+        if (dial != null)
+        {
+            // Let unity know that the dialogue object needs to be saved.
+            EditorUtility.SetDirty(dial);
+        }
         return nodeRect;
     }
 
@@ -557,6 +562,13 @@ public class CustomGUI : EditorWindow
         // Notify the other nodes that this node is at the current layer.
         atLayer[layer]++;
 
+        if (dial != null)
+        {
+            // Let unity know that the dialogue object needs to be saved.
+            EditorUtility.SetDirty(dial);
+        }
+
+
         return nodeRect;
     }
 
@@ -632,13 +644,13 @@ public class CustomGUI : EditorWindow
         for (int i = 0; i < Dialogues.Length; i++)
         {
             // If that node belongs to a tree that has not been found yet. 
-            if(!found.Contains(((Dialogue)Dialogues[i]).tree))
+            if(!trees.Contains(((Dialogue)Dialogues[i]).tree))
             {
-                found.Add(((Dialogue)Dialogues[i]).tree);
+                trees.Add(((Dialogue)Dialogues[i]).tree);
             }
         }
-        found.Sort();
-        return found.Count;
+        trees.Sort();
+        return trees.Count;
     }
 }
 #endif
