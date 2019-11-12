@@ -562,8 +562,11 @@ public class CustomGUI : EditorWindow
         // Notify the other nodes that this node is at the current layer.
         atLayer[layer]++;
 
-        // Let unity know that the dialogue object needs to be saved.
-        EditorUtility.SetDirty(dial);
+        if (dial != null)
+        {
+            // Let unity know that the dialogue object needs to be saved.
+            EditorUtility.SetDirty(dial);
+        }
 
 
         return nodeRect;
