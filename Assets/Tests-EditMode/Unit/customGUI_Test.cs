@@ -18,7 +18,7 @@ namespace Tests
 
             // Testing that relies on awake().
             Debug.Assert(GUI.layers == 0, "failure to create found");
-            Debug.Assert(GUI.found != null, "failure to create found");
+            Debug.Assert(GUI.trees != null, "failure to create found");
             Debug.Assert(GUI.treeDialogues != null, "failure to create treesDialogues");
             Debug.Assert(GUI.treesToDelete != null, "failure to create treesToDelete");
             Debug.Assert(GUI.atLayer != null, "failure to create atlayer");
