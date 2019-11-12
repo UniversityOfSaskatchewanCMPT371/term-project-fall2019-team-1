@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Windows.Speech;
 
 /// <summary>
 /// 
@@ -19,9 +21,51 @@ public class SpeechToText : MonoBehaviour
 {
     
     // The Language Engine of the system.
-   
     public LanguageEngine LE;
 
+    #region WindowsSpeechRec
+    // Converts speech to text.
+    private DictationRecognizer dictationRecognizer;
+    
+    /// <summary>
+    /// Called when the game is started. <para/>
+    /// We setup the voice recog
+    /// </summary>
+    private void Start()
+    {
+        dictationRecognizer = new DictationRecognizer();
+
+        // When speech has been recognized.
+        dictationRecognizer.DictationResult += OnDictationResult;
+
+        dictationRecognizer.Start();
+    }
+
+    /// <summary>
+    /// When windows recognizes text, this will be called.
+    /// </summary>
+    /// <param name="text">the text that was said</param>
+    /// <param name="confidence">confidence of the recongized text</param>
+    private void OnDictationResult(string text, ConfidenceLevel confidence)
+    {
+        Debug.Log(string.Format("SpeechToText::OnDictationResult: text: {0}, confidence: {1}", text, confidence));
+    }
+
+    /// <summary>
+    /// Called when destroied. Clean up the speech reg.
+    /// </summary>
+    private void OnDestroy()
+    {
+        Debug.Assert(dictationRecognizer != null);
+
+        // Stop and destroy
+        dictationRecognizer.Stop();
+
+        dictationRecognizer.Dispose();
+    }
+    #endregion
+
+    #region API
     /// <summary>
     /// 
     /// <c>ReceiveAudioFile</c>
@@ -61,4 +105,5 @@ public class SpeechToText : MonoBehaviour
     {
         return "hello";
     }
+    #endregion
 }

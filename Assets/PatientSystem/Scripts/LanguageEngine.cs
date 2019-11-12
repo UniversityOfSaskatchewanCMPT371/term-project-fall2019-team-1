@@ -24,11 +24,6 @@ public class LanguageEngine : MonoBehaviour
 
     public TreeUI treeUI;
 
-
-    // The system debug logger.
-
-    public DebugLog debugLog;
-
     /// <summary>
     /// 
     /// <c>Recieve Input</c>
