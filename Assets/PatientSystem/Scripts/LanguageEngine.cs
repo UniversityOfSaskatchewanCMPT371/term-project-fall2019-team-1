@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions; 
+
 
 /// <summary>
 /// 
@@ -15,8 +17,11 @@ using UnityEngine;
 /// </summary>
 /// 
 /// <authors>
-/// Mason Demerais
+/// Mason Demerais, Matt Radke
 /// </authors>
+/// 
+
+
 public class LanguageEngine : MonoBehaviour
 {
 
@@ -33,6 +38,10 @@ public class LanguageEngine : MonoBehaviour
     // The system debug logger.
 
     public DebugLog debugLog;
+
+    private string testString = "hello good sir, haha!"; 
+
+
 
     /// <summary>
     /// 
@@ -97,6 +106,51 @@ public class LanguageEngine : MonoBehaviour
     /// <returns>The index of the option to be taken.</returns>
     public int BestDecision(string input, string[][] options)
     {
-        throw new NoBestDecision();
+
+        string [] wordBrokenDown = correctOutput(input);
+        
+
+        // prompt we want!
+        for(int prompt = 0; prompt < options.Length; prompt++) 
+        {
+
+            for(int j = 0;)
+
+        }
+
+
+        //throw new NoBestDecision();
+
+        return 0;
+    }
+
+
+
+    private string [] correctOutput(string input)
+    {
+
+        string[] wordBrokenDown = Regex.Split(input, " ");
+
+        for(int i = 0; i < wordBrokenDown.Length; i++)
+        {
+            Debug.Assert(wordBrokenDown[i] == null, "failed to build wordBrokenDown string array!");
+            Debug.Log(wordBrokenDown[i]); 
+
+        }
+
+        return wordBrokenDown; 
+
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("attempting to build string array of different words!"); 
+            correctOutput(this.testString); 
+
+        }
+
+       // print("test");     
     }
 }

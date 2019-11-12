@@ -84,27 +84,34 @@ public class DialogueTree : MonoBehaviour
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + tree);
 
         //find the head node
-        Dialogue currentNode = ScriptableObject.CreateInstance<Dialogue>();
+        this.currentNode = ScriptableObject.CreateInstance<Dialogue>();
 
         for (int i = 0; i < Dialogues.Length; i++)
         {
             //if this node belongs to the current tree, and is the head of that tree
             if ((((Dialogue)Dialogues[i]).tree == tree) && (((Dialogue)Dialogues[i]).start == true))
             {
+                
+
                 currentNode = (Dialogue)Dialogues[i];
+
                 goto Found;
             }
             else
             {
+
                 //if it cant be found, set it ot the first one that appears.
                 currentNode = (Dialogue)Dialogues[0];
             }
         }
 
+
+
         Found:
 
         if (usingSpeechLib)
         {
+
             // speak the first prompt that the NPC gives us!
             newThread = new Thread(runSpeech);
 
@@ -120,9 +127,11 @@ public class DialogueTree : MonoBehaviour
                 newThreadPause = !newThreadPause;
 
             }
+        
         }
+
         //display the prompt
-        GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
+        //GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
 
     }
 
@@ -173,25 +182,60 @@ public class DialogueTree : MonoBehaviour
     /// <returns>true if successful, else false.</returns>
     public bool inTree(string speech)
     {
+        if (this.usingSpeechLib)
+        {
+
+            return this.speechLib(speech); 
+
+        }
+
+        return false; 
+    }
+   
+    /// <summary>
+    /// 
+    /// <c>runSpeech</c>
+    /// 
+    /// Description: small function that runs on a thread.
+    /// Pre-Condition: None
+    /// Post-Condition:for our speech thread, when we want to talk we will set it up on a sperate thread. This
+    /// function is placed on that thread.
+    /// 
+    /// </summary>
+    /// <returns>NULL</returns>
+   private void runSpeech()
+    {
+
+        this.voice.Speak( this.currentNode.prompt ); 
+
+
+    }
+
+
+    private bool speechLib(string speech)
+    {
+
+        Debug.Log("yeetyaw"); 
+
         //for each response in the current node
-        for(int i = 0; i < currentNode.response.Count; i++)
+        for (int i = 0; i < currentNode.response.Count; i++)
         {
             //if the response is the same as the string
-            if(currentNode.response[i].ToLower() == speech.ToLower())
+            if (currentNode.response[i].ToLower() == speech.ToLower())
             {
-                Debug.Log(speech + " matches "  + currentNode.response[i]);
-                
+                Debug.Log(speech + " matches " + currentNode.response[i]);
+
                 //check if current node has a next 
-                if(currentNode.next.Count == 0)
+                if (currentNode.next.Count == 0)
                 {
                     //if it doesnt, display a message
                     Debug.Log("Finished Tree");
                 }
                 else
-                { 
+                {
                     //swap to next node, and speak the prompt
                     currentNode = currentNode.next[i];
-                    
+
                     if (usingSpeechLib)
                     {
 
@@ -215,28 +259,13 @@ public class DialogueTree : MonoBehaviour
                     // GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
                     GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(currentNode.prompt);
                 }
+
                 return true;
             }
+
         }
+
         return false;
-    }
-   
-    /// <summary>
-    /// 
-    /// <c>runSpeech</c>
-    /// 
-    /// Description: small function that runs on a thread.
-    /// Pre-Condition: None
-    /// Post-Condition:for our speech thread, when we want to talk we will set it up on a sperate thread. This
-    /// function is placed on that thread.
-    /// 
-    /// </summary>
-    /// <returns>NULL</returns>
-   private void runSpeech()
-    {
-
-        this.voice.Speak(currentNode.prompt); 
-
 
     }
 }
