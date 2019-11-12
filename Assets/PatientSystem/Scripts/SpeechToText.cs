@@ -22,11 +22,6 @@ public class SpeechToText : MonoBehaviour
    
     public LanguageEngine LE;
 
-
-    // The logger.
-  
-    public Log log;
-
     /// <summary>
     /// 
     /// <c>ReceiveAudioFile</c>
@@ -41,11 +36,11 @@ public class SpeechToText : MonoBehaviour
     ///  <returns> NULL </returns>
     public void ReceiveAudioFile(string fileName)
     {
-        log.WriteToLog(string.Format("SpeechToText::ReceiveAudioFile: fileName: {0}", fileName));
+        Debug.Log(string.Format("SpeechToText::ReceiveAudioFile: fileName: {0}", fileName));
 
         string whatWasSaid = AudioToString(fileName);
 
-        log.WriteToLog(string.Format("SpeechToText::ReceiveAudioFile: whatWasSaid: {0}", whatWasSaid));
+        Debug.Log(string.Format("SpeechToText::ReceiveAudioFile: whatWasSaid: {0}", whatWasSaid));
 
         LE.RecieveInput(whatWasSaid);
     }

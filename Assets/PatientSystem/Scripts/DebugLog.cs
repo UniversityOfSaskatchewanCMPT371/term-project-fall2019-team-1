@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class DebugLog : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Application.logMessageReceived += (string condition, string stackTrace, LogType type) =>
+        {
+            Debug.Log("ya woo");
+        };
     }
 }

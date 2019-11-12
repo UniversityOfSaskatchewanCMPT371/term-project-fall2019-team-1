@@ -25,11 +25,6 @@ public class LanguageEngine : MonoBehaviour
     public TreeUI treeUI;
 
 
-    // The system logger.
-
-    public Log log;
-
-
     // The system debug logger.
 
     public DebugLog debugLog;
@@ -51,13 +46,13 @@ public class LanguageEngine : MonoBehaviour
     public void RecieveInput(string input)
     {
         // log our input
-        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: input: '{0}'", input));
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: input: '{0}'", input));
 
         // get options we have at current node.
         string[][] options = treeUI.GetCurrentOptions();
 
         // log our options
-        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: options: {0}", options));
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: {0}", options));
 
         // now get the decision to make
         int decisionIndex;
@@ -67,13 +62,13 @@ public class LanguageEngine : MonoBehaviour
         }
         catch (NoBestDecision e)
         {
-            log.WriteToLog(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
             return;
         }
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Length, "decisionIndex is out of bounds of options");
 
         // log our options
-        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
 
         // with the decision, traverse the tree.
         treeUI.TakeOption(decisionIndex);
