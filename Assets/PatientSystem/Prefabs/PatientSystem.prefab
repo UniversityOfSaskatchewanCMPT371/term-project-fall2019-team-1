@@ -397,8 +397,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8364f263644f3c44d90bb10f08ca32e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  log: {fileID: 0}
-  STT: {fileID: 0}
+  log: {fileID: 2942811201462950863}
+  STT: {fileID: 8839418603167607655}
 --- !u!1 &4179876845708777209
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LE: {fileID: 1539503291101111622}
-  log: {fileID: 0}
+  log: {fileID: 2942811201462950863}
 --- !u!1 &7801705656818349861
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,3 +661,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36356a0cd40b8748b1216dd1b8d30b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  animator: {fileID: 0}
