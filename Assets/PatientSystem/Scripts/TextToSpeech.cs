@@ -16,6 +16,7 @@ using System.Threading;
 /// 
 /// </summary>
 /// <authors>
+/// Matt Radke
 /// Mason Demerais
 /// </authors>
 public class TextToSpeech : MonoBehaviour
@@ -32,6 +33,8 @@ public class TextToSpeech : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        Debug.Log(string.Format("TextToSpeech::Start"));
+
         voice = new SpVoice();
     }
 
@@ -43,6 +46,8 @@ public class TextToSpeech : MonoBehaviour
     {
         Debug.Assert(voice != null);
         Debug.Assert(toBeSaid != null);
+
+        Debug.Log(string.Format("TextToSpeech::RunSpeech: toBeSaid: {0}", toBeSaid));
 
         // run the speech on a seperate thread.
         new Thread(() =>

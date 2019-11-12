@@ -3,6 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 
+/// <c>DebugLog</c>
+/// 
+/// Description: This grabs messages from the log and pipes it to a text UI element.
+/// 
+/// Pre-condition: A ui text element.
+/// 
+/// Post-condition: The text on that ui text element will be changed.
+/// 
+/// </summary>
+/// <authors>
+/// Mason Demerais
+/// </authors>
 public class DebugLog : MonoBehaviour
 {
     /// <summary>

@@ -16,6 +16,7 @@ using UnityEngine.Windows.Speech;
 /// 
 /// <authors>
 /// Mason Demerais
+/// Matt Radke
 /// </authors>
 public class SpeechToText : MonoBehaviour
 {

@@ -1135,6 +1135,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &606863541 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114752640224236270, guid: c3550842e5f2a1245ba3fac2bdb34c9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 507754640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc78f42e295d5c04ea5966fc2b206f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &691248394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3718142488040735482, guid: 1950b2150beec924d9cff768bb4e815c,
@@ -2690,6 +2702,16 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 564929621}
+    - target: {fileID: 2536332081543928970, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663104271048715013, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8534629523249983075, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}
       propertyPath: logBufferCount
@@ -2697,7 +2719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1954660576, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1954660576, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.data[0]
@@ -2706,10 +2728,14 @@ PrefabInstance:
     - target: {fileID: 1954660576, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.data[1]
       value: 
+      objectReference: {fileID: 606863541}
+    - target: {fileID: 614762645, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 614762647, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 614762647, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
       propertyPath: sources.Array.data[0]
