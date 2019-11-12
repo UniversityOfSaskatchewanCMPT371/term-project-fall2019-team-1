@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SpeechLib;
+using System.Threading;
 
 /// <summary>
 /// 
@@ -19,10 +21,39 @@ using UnityEngine;
 public class TextToSpeech : MonoBehaviour
 {
     // The audio output object of the system.
-    
     public AudioOutput audioOutput;
 
+    #region SpeechLib
+    // Voice, uses speechLib to produce speech from a text input.
+    private SpVoice voice;
 
+    /// <summary>
+    /// Inits the speech lib object
+    /// </summary>
+    private void Start()
+    {
+        voice = new SpVoice();
+    }
+
+    /// <summary>
+    /// Speaks the string given to it.
+    /// </summary>
+    /// <param name="toBeSaid">The words to be heard on the speaker directly.</param>
+    public void RunSpeech(string toBeSaid)
+    {
+        Debug.Assert(voice != null);
+        Debug.Assert(toBeSaid != null);
+
+        // run the speech on a seperate thread.
+        new Thread(() =>
+        {
+            voice.Speak(toBeSaid);
+        }).Start();
+    }
+
+    #endregion
+
+    #region API
     /// <summary>
     /// 
     /// <c>ReceiveText</c>
@@ -53,4 +84,5 @@ public class TextToSpeech : MonoBehaviour
     {
 
     }
+    #endregion
 }

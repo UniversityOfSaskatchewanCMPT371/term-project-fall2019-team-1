@@ -15,6 +15,9 @@ public class DebugLog : MonoBehaviour
     /// </summary>
     public int logBufferCount = 10;
 
+    /// <summary>
+    /// The text object to show the log
+    /// </summary>
     public Text bufferTextUI;
 
     /// <summary>
@@ -25,11 +28,12 @@ public class DebugLog : MonoBehaviour
         // init the buffer
         logBuffer = new List<string>();
 
-        // sub to the messages.
-        Application.logMessageReceived += LogMessageReceived;
-
+        // clear the text now.
         Debug.Assert(bufferTextUI != null);
         bufferTextUI.text = "";
+
+        // sub to the messages.
+        Application.logMessageReceived += LogMessageReceived;
     }
     
     /// <summary>
