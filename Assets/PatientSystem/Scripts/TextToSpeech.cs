@@ -39,6 +39,17 @@ public class TextToSpeech : MonoBehaviour
     }
 
     /// <summary>
+    /// Kills the voice when its destroyed.
+    /// </summary>
+    private void OnDestroy()
+    {
+        Debug.Log(string.Format("TextToSpeech::OnDestroy"));
+        Debug.Assert(voice != null);
+
+        voice.Pause();
+    }
+
+    /// <summary>
     /// Speaks the string given to it.
     /// </summary>
     /// <param name="toBeSaid">The words to be heard on the speaker directly.</param>
