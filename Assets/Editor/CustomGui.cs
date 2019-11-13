@@ -678,7 +678,7 @@ public class CustomGUI : EditorWindow
     /// 
     /// <c>ImportDialogGui</c>
     /// 
-    /// Description: a helper function opens a standard windows open file dialog
+    /// Description: a helper function that opens a standard open file dialog
     /// 
     /// Pre-condition: None
     /// 
@@ -690,10 +690,30 @@ public class CustomGUI : EditorWindow
     { 
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        return EditorUtility.OpenFilePanel("Import json file", path, "json");
+        return EditorUtility.OpenFilePanel("Import Json File", path, "json");
 
         
     }
+
+    /// <summary>
+    /// 
+    /// <c>ExportDialogGui</c>
+    /// 
+    /// Description: a helper function opens a standard save file dialog
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: None
+    /// 
+    /// </summary>
+    /// <returns>Path to save location</returns>
+    string ExportDialogGui()
+    { 
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        return EditorUtility.SaveFilePanel("Export Tree To File", path, currentTree + ".json", "json");
+    }
+
 
     class tempObject
     {
