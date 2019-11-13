@@ -249,77 +249,86 @@ public class CustomGUI : EditorWindow
 
         if(GUILayout.Button("import"))
         {
-            string path = ImportDialogGui();
-            int newTree = 0;
-            bool treeAdded = false;
             int i = 1;
-
-            while (!treeAdded)
+            try
             {
-                Debug.Log(i);
+                string path = ImportDialogGui();
+                int newTree = 0;
+                bool treeAdded = false;
+               
 
-                // Make sure that tree doesnt already exist.
-                if (!trees.Contains(i))
+                while (!treeAdded)
                 {
-                    // Make the folder.
-                    AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
+                    Debug.Log(i);
 
-                    // Add the new tree to found.
-                    trees.Add(i);
-                    treeAdded = true;
+                    // Make sure that tree doesnt already exist.
+                    if (!trees.Contains(i))
+                    {
+                        // Make the folder.
+                        AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
+
+                        // Add the new tree to found.
+                        trees.Add(i);
+                        treeAdded = true;
+                    }
+                    i++;
                 }
-                i++;
-            }
-            newTree = i;
+                newTree = i;
 
-            //grab the file
-            StreamReader inportFile = new StreamReader(path);
+                //grab the file
+                StreamReader inportFile = new StreamReader(path);
 
-            //read the file
-            List<Dialogue> dialogues = new List<Dialogue>();
-            List<tempObject> tempobj = new List<tempObject>();
-            while (!inportFile.EndOfStream)
-            {
-                tempobj.Add(JsonUtility.FromJson<tempObject>(inportFile.ReadLine()));
-            }
-
-            //for every tempObj
-            for (int j = 0; j < tempobj.Count; j++)
-            {
-
-
-                //convert it into a Dialogue
-                dialogues.Add(new Dialogue());
-                dialogues[j].prompt = tempobj[j].prompt;
-                dialogues[j].response = tempobj[j].response;
-                dialogues[j].start = tempobj[j].head;
-                dialogues[j].tree = tempobj[j].tree;
-
-            }
-
-            //now that all of the dialogues are made, put them into the proper folder.
-            for (int j = 0; j < dialogues.Count; j++)
-            {
-                AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree-1) + "/Dialogue" + (j + 1) + ".asset");
-
-            }
-
-            //change each Dialogues.next so that it matches the tempobj.next index   
-            Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree-1));
-            Debug.Log(newTree-1);
-
-            //for each dialogue
-            for (int j = 0; j < Dialogues.Length; j++)
-            {
-                ((Dialogue)Dialogues[j]).next = new List<Dialogue>();
-
-                //for each next[] in the tempobj
-                for (int k = 0; k < tempobj[j].next.Count; k++)
+                //read the file
+                List<Dialogue> dialogues = new List<Dialogue>();
+                List<tempObject> tempobj = new List<tempObject>();
+                while (!inportFile.EndOfStream)
                 {
-                    ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[tempobj[j].next[k]]));
+                    tempobj.Add(JsonUtility.FromJson<tempObject>(inportFile.ReadLine()));
+                }
+
+                //for every tempObj
+                for (int j = 0; j < tempobj.Count; j++)
+                {
+
+
+                    //convert it into a Dialogue
+                    dialogues.Add(new Dialogue());
+                    dialogues[j].prompt = tempobj[j].prompt;
+                    dialogues[j].response = tempobj[j].response;
+                    dialogues[j].start = tempobj[j].head;
+                    dialogues[j].tree = tempobj[j].tree;
+
+                }
+
+                //now that all of the dialogues are made, put them into the proper folder.
+                for (int j = 0; j < dialogues.Count; j++)
+                {
+                    AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree - 1) + "/Dialogue" + (j + 1) + ".asset");
+
+                }
+
+                //change each Dialogues.next so that it matches the tempobj.next index   
+                Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree - 1));
+                Debug.Log(newTree - 1);
+
+                //for each dialogue
+                for (int j = 0; j < Dialogues.Length; j++)
+                {
+                    ((Dialogue)Dialogues[j]).next = new List<Dialogue>();
+
+                    //for each next[] in the tempobj
+                    for (int k = 0; k < tempobj[j].next.Count; k++)
+                    {
+                        ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[tempobj[j].next[k]]));
+                    }
                 }
             }
-
+            catch
+            {
+                AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree" + "/Tree" + (i-1));
+                AssetDatabase.Refresh();
+                trees.Remove(i - 1);
+             }
         }
 
         if(GUILayout.Button("export"))
