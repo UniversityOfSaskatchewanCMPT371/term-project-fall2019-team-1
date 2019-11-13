@@ -21,7 +21,7 @@ using System.IO;
 /// </summary>
 /// 
 /// <authors>
-/// Clayton VanderStelt
+/// Clayton VanderStelt, Oluwaseyi Kareem, Sam Horovatin
 /// </authors>
 public class CustomGUI : EditorWindow
 {
@@ -68,6 +68,9 @@ public class CustomGUI : EditorWindow
 
     // The amount of layers in the Tree.
     public int layers;
+
+    // Keeps track of the max x-value of node to adjust scrollbars.
+    public float max_nodes_x;
 
 
     /// <summary>
@@ -118,6 +121,8 @@ public class CustomGUI : EditorWindow
 
         responsewindows = new List<Rect>();
         Debug.Assert(responsewindows != null, "failure to create dialwindows");
+
+       
     }
 
     
@@ -143,6 +148,11 @@ public class CustomGUI : EditorWindow
     // Called several times per frame, used to redraw the GUI
     public void OnGUI()
     {
+        max_nodes_x = 0;
+
+        Debug.Assert(max_nodes_x > 0);
+
+
         findTrees();
         Debug.Assert(trees.Count >= 0, "Error in OnGUI, failure to obtain number of trees");
         Debug.Assert(trees != null, "Error in OnGUI, trees is null");
@@ -211,6 +221,7 @@ public class CustomGUI : EditorWindow
             bool treeAdded = false;
             // Make a new folder for the tree.
             int i = 1;
+
             // While the Tree hasn't been made yet.
             while (!treeAdded)
             {
@@ -273,13 +284,17 @@ public class CustomGUI : EditorWindow
                 biggestX = atLayer[i];
         }
 
+
+
         GUI.backgroundColor = Color.clear;
-        GUILayout.Box("", GUILayout.Height(-15), GUILayout.Width(biggestX * 200 + 20));
+        GUILayout.Box("", GUILayout.Height(-15), GUILayout.Width(max_nodes_x + 175));
         GUILayout.Box("", GUILayout.Height(atLayer.Count *100 + 100), GUILayout.Width(0));
 
         GUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
+
+
     }
 
 
@@ -299,7 +314,7 @@ public class CustomGUI : EditorWindow
     /// <returns>NULL</returns>
     public void drawTree(int treeNum)
     {
-        //find the head node.
+        // Find the head node.
         Dialogue head = ScriptableObject.CreateInstance<Dialogue>();
 
         dialwindows.Clear();
@@ -308,7 +323,7 @@ public class CustomGUI : EditorWindow
 
         for (int i = 0; i < Dialogues.Length; i++)
         {
-            //if this node belongs to the current tree, and is the head of that tree.
+            // If this node belongs to the current tree, and is the head of that tree.
             if ((((Dialogue)Dialogues[i]).tree == treeNum) && (((Dialogue)Dialogues[i]).start == true))
             {
                 head = (Dialogue)Dialogues[i];
@@ -316,7 +331,7 @@ public class CustomGUI : EditorWindow
             }
             else
             {
-                //if it cant be found, set it ot the first one that appears.
+                // If it cant be found, set it ot the first one that appears.
                 head = (Dialogue)Dialogues[0];
             }
         }
@@ -324,6 +339,7 @@ public class CustomGUI : EditorWindow
         Found:
         atLayer.Add(0);
         drawPrompt(head, 0);
+      
     }
 
     /// <summary>
@@ -335,7 +351,7 @@ public class CustomGUI : EditorWindow
     /// 
     /// Pre-condition: The node being drawn is not NULL.
     /// 
-    /// post-condition: Node is displayed in the customGUI window.
+    /// Post-condition: Node is displayed in the customGUI window.
     ///
     /// </summary>
     /// <param name="dial">the dialogue being draw.</param>
@@ -363,31 +379,40 @@ public class CustomGUI : EditorWindow
             }
         }
 
-        //if the response list doesnt exist.
+        // If the response list doesnt exist.
         if (dial.response == null)
         {
-            //Make one
+            // Make one
             dial.response = new List<string>();
         }
 
-        //if the next list doesnt exist.
+        // If the next list doesnt exist.
         if (dial.next == null)
         {
-            //Make one
+            // Make one
             dial.next = new List<Dialogue>();
         }
-        //TODO: have node start below its parent.
+        // TODO: have node start below its parent.
+
+       
 
         // Create the position of the node.
         Rect nodeRect = new Rect(dial.response.Count *100 + 20 + biggestX, layer * 100 + 10, 175, 65);
+
+        // Adjusts the x-coordinate to adjust scrolling
+        if (max_nodes_x < nodeRect.x)
+        {
+            max_nodes_x = nodeRect.x;
+        }
         Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
         Rect buttonRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
         Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
 
         dialwindows.Add(nodeRect);
+
         NodeLayer.Add(layer);
 
-        //if this node is not going to be deleted.
+        // If this node is not going to be deleted.
 
 
             // Draw the node.
@@ -406,7 +431,7 @@ public class CustomGUI : EditorWindow
             }
         // If the current node is not the head.
 
-        //Create a delete button if this is a leaf node.
+        // Create a delete button if this is a leaf node.
         if (dial.response.Count == 0)
         {
             if (layer != 0)
@@ -421,13 +446,13 @@ public class CustomGUI : EditorWindow
             }
         }
 
-        //if this node has a list of responses.
+        // If this node has a list of responses.
         if (dial.response != null)
         {
             // For each of its responses, create a response node.
             for (int i = 0; i < dial.response.Count; i++)
             {
-                // if adding the response would make an new layer... 
+                // If adding the response would make an new layer.
                 if (atLayer.Count == layer + 1)
                 {
                     // Make a new layer
@@ -435,7 +460,7 @@ public class CustomGUI : EditorWindow
                     
                 }
 
-                Rect child = drawReponse(dial, layer + 1, i);
+                Rect child = drawReponse(dial, layer + 1, i, nodeRect);
                 Debug.Assert(child != null, "error in drawPrompt, the child was null");
                 DrawNodeCurve(nodeRect, child);
             }
@@ -470,7 +495,7 @@ public class CustomGUI : EditorWindow
     /// <param name="index">the index of the response being drawn</param>
     /// 
     /// <returns>The rect of the response node</returns>
-    public Rect drawReponse(Dialogue dial, int layer, int index)
+    public Rect drawReponse(Dialogue dial, int layer, int index, Rect parent)
     {
         if(layer > layers)
         {
@@ -479,6 +504,10 @@ public class CustomGUI : EditorWindow
 
         // Create the position of the node.
         Rect nodeRect = new Rect((atLayer[layer] * 200) + 20, layer * 100+10, 175, 70);
+        if (max_nodes_x < nodeRect.x)
+        {
+            max_nodes_x = nodeRect.x;
+        }
         Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
         Rect buttonRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
         Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
@@ -510,7 +539,7 @@ public class CustomGUI : EditorWindow
                     newDial.prompt = "";
                     AssetDatabase.CreateAsset(newDial, "Assets/Resources/DialogueTree/Tree" + dial.tree + "/Dialogue" + Dialogues.Length + ".asset");
 
-                    //if the current Dialogue doesnt have a next, make one
+                    // If the current Dialogue doesnt have a next, make one
                     if (dial.next == null)
                     {
                         dial.next = new List<Dialogue>();
@@ -547,7 +576,7 @@ public class CustomGUI : EditorWindow
         // Else, if it does have a next, make a new node for it.
         else
         {
-            // if adding the next node would make an new layer... 
+            // If adding the next node would make an new layer... 
             if (atLayer.Count == layer + 1)
             {
                 // Make a new layer
@@ -602,7 +631,7 @@ public class CustomGUI : EditorWindow
     /// 
     /// Pre-condition:start and end are not null.
     /// 
-    ///Post-condtion:Draws a line between two nodes.
+    /// Post-condtion:Draws a line between two nodes.
     ///
     /// </summary>
     /// <param name="start">The node that the line is starting from</param>
@@ -616,7 +645,8 @@ public class CustomGUI : EditorWindow
         Vector3 endTan = endPos + Vector3.left * 50;
 
         for (int i = 0; i < shadowLine; i++)
-        {// Draw a shadow
+        {
+            // Draw a shadow
             Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * shadowEdge);
         }
 
