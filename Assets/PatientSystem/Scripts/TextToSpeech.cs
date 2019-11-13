@@ -60,11 +60,8 @@ public class TextToSpeech : MonoBehaviour
 
         Debug.Log(string.Format("TextToSpeech::RunSpeech: toBeSaid: {0}", toBeSaid));
 
-        // run the speech on a seperate thread.
-        new Thread(() =>
-        {
-            voice.Speak(toBeSaid);
-        }).Start();
+        // speak the string asyncly
+        voice.Speak(toBeSaid, SpeechVoiceSpeakFlags.SVSFlagsAsync);
     }
 
     #endregion
