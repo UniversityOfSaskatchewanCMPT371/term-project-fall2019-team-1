@@ -652,5 +652,24 @@ public class CustomGUI : EditorWindow
         trees.Sort();
         return trees.Count;
     }
+
+    /// <summary>
+    /// 
+    /// <c>ImportDialogGui</c>
+    /// 
+    /// Description: a helper function opens a standard windows open file dialog
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: None
+    /// 
+    /// </summary>
+    /// <returns>Path to import file</returns>
+    string ImportDialogGui(){
+        
+        OpenFileDialog openFileDialog1 = new OpenFileDialog();  
+        return "";
+
+    }
 }
 #endif
