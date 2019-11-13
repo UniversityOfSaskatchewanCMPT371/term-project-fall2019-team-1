@@ -35,7 +35,7 @@ public class DebugLog : MonoBehaviour
     public Text bufferTextUI;
 
     /// <summary>
-    /// Subscribes to the logger when it receives a message
+    /// Subscribes to the logger when it receives a message, this needs to be on Awake (before Start) because it needs to hook the log messages before Start.
     /// </summary>
     private void Awake()
     {

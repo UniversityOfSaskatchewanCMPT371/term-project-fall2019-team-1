@@ -28,7 +28,7 @@ public class TextToSpeech : MonoBehaviour
     private SpVoice voice;
 
     /// <summary>
-    /// Inits the speech lib object
+    /// Inits the speech lib object, this needs to be on the awake (before Start) because the LE will call RunSpeech on Start.
     /// </summary>
     private void Awake()
     {
