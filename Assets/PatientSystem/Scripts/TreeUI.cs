@@ -16,12 +16,12 @@ using UnityEngine;
 /// <authors>
 /// Mason Demerais
 /// </authors>
-public class DialogueTree : MonoBehaviour
+public class TreeUI : MonoBehaviour
 {
     /// <summary>
     /// Current node we are at, starts at head.
     /// </summary>
-    public DialogueNode currentNode;
+    public Dialogue currentNode;
 
 
     /// <summary>
@@ -39,10 +39,7 @@ public class DialogueTree : MonoBehaviour
     /// <returns>The options we can take at the current node.</returns>
     public List<List<string>> GetCurrentOptions()
     {
-        Debug.Assert(currentNode != null);
-
-        // just return it.
-        return currentNode.GetStringOptions();
+        return null;
     }
 
     /// <summary>
@@ -61,13 +58,6 @@ public class DialogueTree : MonoBehaviour
     /// <returns> NULL </returns>
     public void TakeOption(int option)
     {
-        Debug.Assert(currentNode != null);
-        Debug.Assert(option >= 0);
-        Debug.Assert(currentNode.options != null);
-        Debug.Assert(option < currentNode.options.Count);
-
-        // just take the option
-        currentNode = currentNode.options[option].node;
     }
 
     /// <summary>
@@ -81,9 +71,6 @@ public class DialogueTree : MonoBehaviour
     /// <returns>The prompt at the current node.</returns>
     public string GetCurrentPrompt()
     {
-        Debug.Assert(currentNode != null);
-
-        // just return it
-        return currentNode.prompt;
+        return "";
     }
 }

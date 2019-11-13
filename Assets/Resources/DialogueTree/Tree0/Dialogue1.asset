@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c853636241794cf4c914613590214534, type: 3}
-  m_Name: DialogueNode_9trgbtxl.aql
+  m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
+  m_Name: Dialogue1
   m_EditorClassIdentifier: 
-  prompt: 
-  options: []
+  tree: 1
+  prompt: y
+  response:
+  - awd
+  next:
+  - {fileID: 11400000, guid: 2ccdc487d3976db4ab7f87737f3b9455, type: 2}
+  start: 0

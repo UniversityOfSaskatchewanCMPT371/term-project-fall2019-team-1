@@ -25,7 +25,7 @@ public class LanguageEngine : MonoBehaviour
 {
 
     // The tree UI, setup in the inspector, or mocked.
-    public DialogueTree tree;
+    public TreeUI tree;
 
     // The text to speech system.
     public TextToSpeech TTS;

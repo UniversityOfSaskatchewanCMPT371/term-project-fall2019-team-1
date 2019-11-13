@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c853636241794cf4c914613590214534, type: 3}
-  m_Name: a
+  m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
+  m_Name: Dialogue2
   m_EditorClassIdentifier: 
-  prompt: 
-  options: []
+  tree: 1
+  prompt: qsawd
+  response:
+  - 45345
+  next:
+  - {fileID: 11400000, guid: c0f9a384e7f32c3448cd738725922500, type: 2}
+  start: 0
