@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 [Serializable]
-[CreateAssetMenu(fileName = "DialogueNode", menuName = "ScriptableObjects/DialogueNode", order = 2)]
+[CreateAssetMenu(fileName = "DialogueNode", menuName = "ScriptableObjects/DialogueNode")]
 public class DialogueNode : ScriptableObject
 {
     // The thing that the NPC will say.

@@ -1,18 +1,31 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using UnityEditor;
 using System.Collections.Generic;
-using UnityEngine;
+using System.IO;
+using System.Collections;
+using System;
 
-public class DialogTreeEditor : MonoBehaviour
+#if UNITY_EDITOR
+
+public class DialogueTreeEditor : EditorWindow
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Awake()
     {
-        
+        Debug.Log("open");
     }
 
-    // Update is called once per frame
-    void Update()
+    [MenuItem("Window/DialogueTreeEditor")]
+    static void ShowEditor()
     {
-        
+        var editor = EditorWindow.GetWindow<DialogueTreeEditor>();
+        Debug.Assert(editor != null, "there is no editor");
+        editor.Show();
+    }
+
+    // Called several times per frame, used to redraw the GUI
+    public void OnGUI()
+    {
+        Debug.Log("gui");
     }
 }
+#endif
