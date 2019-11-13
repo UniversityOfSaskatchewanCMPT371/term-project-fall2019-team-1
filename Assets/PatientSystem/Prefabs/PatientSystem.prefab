@@ -384,6 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 6265206989134906742}
   TTS: {fileID: 7872390931817968197}
+  patientSystem: {fileID: 2523089473552147043}
 --- !u!1 &2536332081543928970
 GameObject:
   m_ObjectHideFlags: 0
