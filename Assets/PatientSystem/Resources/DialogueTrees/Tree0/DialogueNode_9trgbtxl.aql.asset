@@ -10,13 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c853636241794cf4c914613590214534, type: 3}
-  m_Name: DialogueNode0
+  m_Name: DialogueNode_9trgbtxl.aql
   m_EditorClassIdentifier: 
-  prompt: Hi there
-  options:
-  - options:
-    - hello
-    node: {fileID: 11400000, guid: ff784b9a13ed56841b877c0ec0d4c51e, type: 2}
-  - options:
-    - hi
-    node: {fileID: 11400000, guid: 6905a24b0dbfac240a9aa19455d2a322, type: 2}
+  prompt: 
+  options: []

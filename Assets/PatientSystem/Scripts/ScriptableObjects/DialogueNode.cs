@@ -50,4 +50,10 @@ public class DialogueOption
 
     // the next node this branch points to
     public DialogueNode node;
+
+    public DialogueOption(DialogueNode newNode)
+    {
+        options = new List<string>();
+        node = newNode;
+    }
 }

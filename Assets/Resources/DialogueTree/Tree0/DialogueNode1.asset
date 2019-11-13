@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: DialogueNode1
   m_EditorClassIdentifier: 
   prompt: hello
-  options: []
+  options:
+  - options:
+    - there
+    node: {fileID: 11400000, guid: 571fead3c1d48194b8d6b822226c9224, type: 2}
+  isHead: 0
