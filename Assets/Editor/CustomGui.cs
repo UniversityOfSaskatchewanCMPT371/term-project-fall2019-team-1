@@ -2,6 +2,8 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using System.Collections;
+using System;
 
 #if UNITY_EDITOR
 
@@ -41,7 +43,7 @@ public class CustomGUI : EditorWindow
     public List<Rect> responsewindows = new List<Rect>();
     
     // A list of all Dialogue objects.
-    public Object[] Dialogues;
+    public UnityEngine.Object[] Dialogues;
 
     // A list of the Dialogues of the current tree.
     public List<Dialogue> treeDialogues;
@@ -102,7 +104,7 @@ public class CustomGUI : EditorWindow
         Debug.Assert(atLayer != null, "failure to create atlayer");
 
         // Obtain all of the Dialogue Objects.
-        Dialogues = Resources.LoadAll("DialogueTree");
+        Dialogues = UnityEngine.Resources.LoadAll("DialogueTree");
         Debug.Assert(Dialogues != null, "failure loading dialgoues");
 
         // -1 indicates that there is no current tree selected.
@@ -246,7 +248,7 @@ public class CustomGUI : EditorWindow
 
         if(GUILayout.Button("import"))
         {
-            //TODO: do import
+            ImportDialogGui();
         }
 
         if(GUILayout.Button("export"))
@@ -665,9 +667,10 @@ public class CustomGUI : EditorWindow
     /// 
     /// </summary>
     /// <returns>Path to import file</returns>
-    string[] ImportDialogGui(){
-        
-        OpenFileDialog openFileDialog1 = new OpenFileDialog();  
+    string ImportDialogGui(){
+
+        /*
+        System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
         openFileDialog1.Title = "Select Tree Import"; 
         openFileDialog1.DefaultExt = "json";
         openFileDialog1.Filter = "json files (*.json)|*.json|All files (*.*)|*.*";  
@@ -677,7 +680,12 @@ public class CustomGUI : EditorWindow
 
         openFileDialog1.ShowDialog(); 
         return openFileDialog1.FileNames;
+        */
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+        return EditorUtility.OpenFilePanel("Import json file", path, "json");
+
+        
     }
 }
 #endif
