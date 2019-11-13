@@ -248,12 +248,31 @@ public class CustomGUI : EditorWindow
 
         if(GUILayout.Button("import"))
         {
-            ImportDialogGui();
+            string path = ImportDialogGui();
+
         }
 
         if(GUILayout.Button("export"))
         {
-            //TODO: do export
+            string json = "";
+            string path = ImportDialogGui();
+
+            //if there is atleast 1 dialogue
+            if (Dialogues.Length != 0)
+            {
+                //add it to the json
+                json = JsonUtility.ToJson(package(treeDialogues[0]));
+            }
+
+            //for every dialogue after the first
+            for (int i = 1; i < Dialogues.Length; i++)
+            {
+                //make a new line, then add it
+                json += "\n" + JsonUtility.ToJson(package(treeDialogues[i]));
+            }
+
+            //put the json in a file
+            File.WriteAllText(Application.dataPath + path, json);
         }
         EditorGUILayout.EndHorizontal();
 
@@ -667,25 +686,47 @@ public class CustomGUI : EditorWindow
     /// 
     /// </summary>
     /// <returns>Path to import file</returns>
-    string ImportDialogGui(){
-
-        /*
-        System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-        openFileDialog1.Title = "Select Tree Import"; 
-        openFileDialog1.DefaultExt = "json";
-        openFileDialog1.Filter = "json files (*.json)|*.json|All files (*.*)|*.*";  
-        openFileDialog1.FilterIndex = 2;  //magic number
-        openFileDialog1.CheckFileExists = true;  
-        openFileDialog1.CheckPathExists = true;  
-
-        openFileDialog1.ShowDialog(); 
-        return openFileDialog1.FileNames;
-        */
+    string ImportDialogGui()
+    { 
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         return EditorUtility.OpenFilePanel("Import json file", path, "json");
 
         
+    }
+
+    class tempObject
+    {
+        public string prompt;
+        public List<string> response;
+        public List<int> next;
+        public int tree;
+        public bool head;
+    }
+
+    tempObject package(Dialogue dialogue)
+    {
+        //copy the prompt and responses
+        tempObject temp = new tempObject
+        {
+            prompt = dialogue.prompt,
+            response = dialogue.response,
+            next = new List<int>(),
+            tree = dialogue.tree,
+            head = dialogue.start
+
+        };
+
+
+        //for every response in the dialogue
+        for (int i = 0; i < dialogue.next.Count; i++)
+        {
+            //find the index of dialogue.next, and set the temp.next to that index
+            if (dialogue.next[i] != null)
+                temp.next.Add(getNodeIndex(dialogue.next[i]));
+        }
+
+        return temp;
     }
 }
 #endif
