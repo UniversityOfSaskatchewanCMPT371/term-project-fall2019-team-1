@@ -150,6 +150,7 @@ public class CustomGUI : EditorWindow
         Debug.Assert(trees != null, "Error in OnGUI, trees is null");
 
 
+
         // If a tree was found.
         if (trees.Count > 0 && currentTree < 0)
         {
@@ -249,30 +250,101 @@ public class CustomGUI : EditorWindow
         if(GUILayout.Button("import"))
         {
             string path = ImportDialogGui();
+            int newTree = 0;
+            bool treeAdded = false;
+            int i = 1;
+
+            while (!treeAdded)
+            {
+                Debug.Log(i);
+
+                // Make sure that tree doesnt already exist.
+                if (!trees.Contains(i))
+                {
+                    // Make the folder.
+                    AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
+
+                    // Add the new tree to found.
+                    trees.Add(i);
+                    treeAdded = true;
+                }
+                i++;
+            }
+            newTree = i;
+
+            //grab the file
+            StreamReader inportFile = new StreamReader(path);
+
+            //read the file
+            List<Dialogue> dialogues = new List<Dialogue>();
+            List<tempObject> tempobj = new List<tempObject>();
+            while (!inportFile.EndOfStream)
+            {
+                tempobj.Add(JsonUtility.FromJson<tempObject>(inportFile.ReadLine()));
+            }
+
+            //for every tempObj
+            for (int j = 0; j < tempobj.Count; j++)
+            {
+
+
+                //convert it into a Dialogue
+                dialogues.Add(new Dialogue());
+                dialogues[j].prompt = tempobj[j].prompt;
+                dialogues[j].response = tempobj[j].response;
+                dialogues[j].start = tempobj[j].head;
+                dialogues[j].tree = tempobj[j].tree;
+
+            }
+
+            //now that all of the dialogues are made, put them into the proper folder.
+            for (int j = 0; j < dialogues.Count; j++)
+            {
+                AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree-1) + "/Dialogue" + (j + 1) + ".asset");
+
+            }
+
+            //change each Dialogues.next so that it matches the tempobj.next index   
+            Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree-1));
+            Debug.Log(newTree-1);
+
+            //for each dialogue
+            for (int j = 0; j < Dialogues.Length; j++)
+            {
+                ((Dialogue)Dialogues[j]).next = new List<Dialogue>();
+
+                //for each next[] in the tempobj
+                for (int k = 0; k < tempobj[j].next.Count; k++)
+                {
+                    ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[tempobj[j].next[k]]));
+                }
+            }
 
         }
 
         if(GUILayout.Button("export"))
         {
             string json = "";
-            string path = ImportDialogGui();
+            string path = ExportDialogGui();
+
+            Debug.Log(path);
 
             //if there is atleast 1 dialogue
             if (Dialogues.Length != 0)
             {
                 //add it to the json
-                json = JsonUtility.ToJson(package(treeDialogues[0]));
+                json = JsonUtility.ToJson(package((Dialogue)Dialogues[0]));
             }
 
             //for every dialogue after the first
             for (int i = 1; i < Dialogues.Length; i++)
             {
                 //make a new line, then add it
-                json += "\n" + JsonUtility.ToJson(package(treeDialogues[i]));
+                json += "\n" + JsonUtility.ToJson(package((Dialogue)Dialogues[i]));
             }
 
             //put the json in a file
-            File.WriteAllText(Application.dataPath + path, json);
+            File.WriteAllText(path, json);
         }
         EditorGUILayout.EndHorizontal();
 
@@ -606,11 +678,19 @@ public class CustomGUI : EditorWindow
     /// </summary>
     /// <param name="node">dialogue node that exists in the Dialogue[] array</param>
     /// <returns>the index of the node in the Dialogue[] array</returns>
-    public int getNodeIndex(Dialogue node)
+    int getNodeIndex(Dialogue node)
     {
-        return 0;
+        //for every node in the list of node windows
+        for (int i = 0; i < Dialogues.Length; i++)
+        {
+            if (node == (Dialogue)Dialogues[i])
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
-    //TODO: might not need.
 
 
     //TODO: find a better curve function.

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
   m_Name: Dialogue1
   m_EditorClassIdentifier: 
-  tree: 2
-  prompt: 
-  response: []
+  tree: 1
+  prompt: hello
+  response:
+  - hi
   next: []
-  start: 0
+  start: 1
