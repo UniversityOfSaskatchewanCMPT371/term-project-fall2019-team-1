@@ -5,7 +5,6 @@ using SpeechLib;
 using System.Threading;
 
 /// <summary>
-/// 
 /// <c>TextToSpeech</c>
 /// 
 /// Description: This receives a string to then be converted to an audio file.

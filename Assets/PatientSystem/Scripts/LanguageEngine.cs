@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions; 
+
 
 /// <summary>
-/// 
 /// <c>Language Engine</c>
 /// 
 /// Descriptions: This is takes in a String from SpeechToText, and uses it to traverse the TreeUI.
@@ -15,8 +16,11 @@ using UnityEngine;
 /// </summary>
 /// 
 /// <authors>
-/// Mason Demerais
+/// Mason Demerais, Matt Radke
 /// </authors>
+/// 
+
+
 public class LanguageEngine : MonoBehaviour
 {
 
@@ -24,8 +28,21 @@ public class LanguageEngine : MonoBehaviour
 
     public TreeUI treeUI;
 
+
+    // The system logger.
+
+    public Log log;
+
+
+    // The system debug logger.
+
+    public DebugLog debugLog;
+
+    private string testString = "hello"; 
+
+
+
     /// <summary>
-    /// 
     /// <c>Recieve Input</c>
     /// 
     /// Descriptions: Recieves input from the SpeechToText output.
@@ -70,7 +87,6 @@ public class LanguageEngine : MonoBehaviour
     }
 
     /// <summary>
-    /// 
     /// <c>Best Decision</c>
     /// 
     /// 
@@ -87,6 +103,89 @@ public class LanguageEngine : MonoBehaviour
     /// <returns>The index of the option to be taken.</returns>
     public int BestDecision(string input, string[][] options)
     {
-        throw new NoBestDecision();
+        // break down user input into seperate words.
+        string[] wordBrokenDown = Regex.Split(input, " ");
+        
+        // Have a previous high response percentage. If anything beats this precentage, we will change it to,
+        // new response.
+        double prevIndexPercentage = -1;
+        double currentWordPercent = -1; 
+
+
+        int prevIndex = -1;
+        int numbOfSameWords = 0; 
+
+        
+
+        // count through each possible option.
+        for(int curUserResp = 0; curUserResp < options.Length; curUserResp++)
+        {
+            numbOfSameWords = 0;
+            currentWordPercent = -1;
+
+           
+            for (int wordsInUserResp = 0; wordsInUserResp < options[curUserResp].Length; wordsInUserResp++)
+            {
+      
+                for (int userInputWords = 0; userInputWords < wordBrokenDown.Length; userInputWords++)
+                {
+                    //Debug.Log("input: " + wordBrokenDown[userInputWords] + " options: " + options[curUserResp][wordsInUserResp]);
+
+                    // if a word matches to another word, then we know it could possible be a match to a response.
+                    if (wordBrokenDown[userInputWords].Equals(options[curUserResp][wordsInUserResp]))
+                    {
+                        numbOfSameWords += 1;
+                       // Debug.Log("we making it within this cond? " + numbOfSameWords);
+
+                    }
+
+
+                }
+             
+            }
+
+
+            // Debug.Log("what is inside of numbword" + numbOfSameWords);
+
+            // figure out how many words where discovered to be in a certian response.
+            currentWordPercent = ((numbOfSameWords / wordBrokenDown.Length) * 100);
+
+            //Debug.Log("currentPercent: " + currentWordPercent); 
+
+       
+            if (prevIndex == -1)
+            {
+
+                prevIndex = curUserResp;
+
+                prevIndexPercentage = currentWordPercent;
+
+            }
+            else if (prevIndexPercentage < currentWordPercent)
+            {
+                // if the current word response is bigger then then the last we will change it.
+                prevIndex = curUserResp;
+
+            }
+
+        }
+
+
+        //throw new NoBestDecision();
+        Debug.Assert(prevIndex != -1, "prevIndex did not get changed within the calculation above"); 
+
+        return prevIndex;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("attempting to build string array of different words!");
+
+            RecieveInput(testString);
+        }
+
+       // print("test");     
     }
 }

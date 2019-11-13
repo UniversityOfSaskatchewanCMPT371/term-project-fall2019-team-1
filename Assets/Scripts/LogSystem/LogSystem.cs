@@ -76,7 +76,6 @@ public class LogSystem : MonoBehaviour
 
 
     /// <summary>
-    /// 
     /// <c>writeToFile</c>
     /// Description: stores text into a text file
     /// 
@@ -102,7 +101,6 @@ public class LogSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// 
     /// <c>PrintToTextField</c>
     /// Description: print log file to text ui within system scene. 
     /// 

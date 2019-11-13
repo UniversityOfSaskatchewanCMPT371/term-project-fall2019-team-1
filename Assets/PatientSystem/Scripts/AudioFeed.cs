@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// 
 /// Description:This object records from the microphone for a time and stores to a file.
 /// 
 /// pre-condition: audio input device.
@@ -29,7 +28,6 @@ public class AudioFeed : MonoBehaviour
     public SpeechToText STT;
 
     /// <summary>
-    /// 
     /// <c>StartRecording</c>
     /// 
     /// Description: Starts recording to the filename.
@@ -54,7 +52,6 @@ public class AudioFeed : MonoBehaviour
     }
 
     /// <summary>
-    /// 
     /// <c>StopRecording</c>
     /// 
     /// Description: Stops recording and closes the file.

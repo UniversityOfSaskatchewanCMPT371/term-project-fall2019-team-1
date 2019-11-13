@@ -5,7 +5,6 @@ using UnityEditor;
 using System.IO;
 
 /// <summary>
-/// 
 /// <c>LogSystemTest</c>
 /// 
 /// Description: Tests for log system
@@ -29,7 +28,6 @@ public class LogSystemTest : MonoBehaviour
    }
 
     /// <summary>
-    /// 
     /// <c>TestLog</c>
     /// 
     /// Desciption: coroutine waits to be called by test log. 

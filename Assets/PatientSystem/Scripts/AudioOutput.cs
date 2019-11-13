@@ -21,7 +21,6 @@ public class AudioOutput : MonoBehaviour
     public NPC npc;
 
     /// <summary>
-    /// 
     /// <c>PlaySound</c>
     /// 
     /// Description: Plays the sound.
