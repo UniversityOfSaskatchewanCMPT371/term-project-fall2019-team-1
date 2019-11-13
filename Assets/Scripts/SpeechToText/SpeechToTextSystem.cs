@@ -6,8 +6,6 @@ using UnityEngine.Windows.Speech;
 
 
 /// <summary>
-/// 
-/// 
 /// <c>SpeechToTextSystem</c>
 /// 
 /// Description: SpeechToTextSystem takes speech from the player and converts it into useable

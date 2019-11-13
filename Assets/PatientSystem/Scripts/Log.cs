@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
 /// <c>Log</c>
 /// Description: This logs various operations that happen within our system to console and an optional file.
 /// 
@@ -18,7 +17,6 @@ using UnityEngine;
 public class Log : MonoBehaviour
 {
     /// <summary>
-    /// 
     /// <c>WriteToLog</c>
     /// 
     /// Description: This writes the string to the log.

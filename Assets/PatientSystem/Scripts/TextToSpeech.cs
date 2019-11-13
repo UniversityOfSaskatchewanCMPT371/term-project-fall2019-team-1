@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
 /// <c>TextToSpeech</c>
 /// 
 /// Description: This receives a string to then be converted to an audio file.
@@ -24,7 +23,6 @@ public class TextToSpeech : MonoBehaviour
 
 
     /// <summary>
-    /// 
     /// <c>ReceiveText</c>
     /// Description: Converts the textToSay to an audio file and then plays that file to the audioOutputter.
     /// Pre-conditions: None
