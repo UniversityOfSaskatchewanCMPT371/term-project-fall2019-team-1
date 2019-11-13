@@ -21,9 +21,9 @@ namespace Tests
             obj.AddComponent<DialogueTree>();
             var test = obj.GetComponent<DialogueTree>();
 
-            test.Dialogues = tree1;
-            test.currentNode = (Dialogue)tree1[0];
-            test.voice = testVoice;
+            //test.Dialogues = tree1;
+            //test.currentNode = (Dialogue)tree1[0];
+            //test.voice = testVoice;
 
             // Use the Assert class to test conditions
         }

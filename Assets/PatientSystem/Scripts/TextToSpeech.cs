@@ -30,7 +30,7 @@ public class TextToSpeech : MonoBehaviour
     /// <summary>
     /// Inits the speech lib object
     /// </summary>
-    private void Start()
+    private void Awake()
     {
         Debug.Log(string.Format("TextToSpeech::Start"));
 

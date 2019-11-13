@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 /// 
 /// </summary>
 /// <authors>Clayton VanderStelt, Kareem Oluwaseyi, Matt Radke</authors>
-public class DialogueTree : MonoBehaviour
+public class DialogueTreee : MonoBehaviour
 {   
     // tree_Section is the UI tree.
     Rect Tree_Section;

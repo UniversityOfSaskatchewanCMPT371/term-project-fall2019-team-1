@@ -274,6 +274,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9623e1c09606a01498f200718f0f607d, type: 3}
+--- !u!114 &326822767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6265206989134906742, guid: 87ec392c4dbe1504b844c8e546cad406,
+    type: 3}
+  m_PrefabInstance: {fileID: 995098056862557435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88fb16c26556fa4c976ebc1a3648c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &341758867
 GameObject:
   m_ObjectHideFlags: 0
@@ -2800,5 +2812,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: LogBufferText
       objectReference: {fileID: 0}
+    - target: {fileID: 4179876845708777209, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: m_Name
+      value: DialogueTree
+      objectReference: {fileID: 0}
+    - target: {fileID: 1539503291101111622, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: tree
+      value: 
+      objectReference: {fileID: 326822767}
+    - target: {fileID: 1539503291101111622, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: TTS
+      value: 
+      objectReference: {fileID: 1868891964}
+    - target: {fileID: 6265206989134906742, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: currentNode
+      value: 
+      objectReference: {fileID: 11400000, guid: efa5ab61dc783b94a8ee3dffd6aec880,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}

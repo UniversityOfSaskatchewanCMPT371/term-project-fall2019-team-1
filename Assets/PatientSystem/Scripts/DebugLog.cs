@@ -37,7 +37,7 @@ public class DebugLog : MonoBehaviour
     /// <summary>
     /// Subscribes to the logger when it receives a message
     /// </summary>
-    private void Start()
+    private void Awake()
     {
         // init the buffer
         logBuffer = new List<string>();

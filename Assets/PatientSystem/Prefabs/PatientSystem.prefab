@@ -382,7 +382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874d7bdcd40d68d44acb8ddd2507e679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeUI: {fileID: 6265206989134906742}
+  tree: {fileID: 6265206989134906742}
+  TTS: {fileID: 7872390931817968197}
 --- !u!1 &2536332081543928970
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88fb16c26556fa4c976ebc1a3648c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentNode: {fileID: 0}
 --- !u!1 &4663104271048715013
 GameObject:
   m_ObjectHideFlags: 0
