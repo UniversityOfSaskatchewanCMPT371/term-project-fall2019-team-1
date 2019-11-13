@@ -2104,7 +2104,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentNode
       value: 
-      objectReference: {fileID: 11400000, guid: 09059f1ef0129084da2e825c3ead1aff,
+      objectReference: {fileID: 11400000, guid: 56bc1c37208befd4da06417b7b877a7d,
         type: 2}
     - target: {fileID: 4858877604402941688, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}

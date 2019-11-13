@@ -39,7 +39,18 @@ public class TreeUI : MonoBehaviour
     /// <returns>The options we can take at the current node.</returns>
     public List<List<string>> GetCurrentOptions()
     {
-        return null;
+        var result = new List<List<string>>();
+
+        currentNode.response.ForEach((res) =>
+        {
+            var newOpt = new List<string>();
+
+            newOpt.Add(res);
+
+            result.Add(newOpt);
+        });
+
+        return result;
     }
 
     /// <summary>
@@ -58,6 +69,7 @@ public class TreeUI : MonoBehaviour
     /// <returns> NULL </returns>
     public void TakeOption(int option)
     {
+        currentNode = currentNode.next[option];
     }
 
     /// <summary>
@@ -71,6 +83,6 @@ public class TreeUI : MonoBehaviour
     /// <returns>The prompt at the current node.</returns>
     public string GetCurrentPrompt()
     {
-        return "";
+        return currentNode.prompt;
     }
 }
