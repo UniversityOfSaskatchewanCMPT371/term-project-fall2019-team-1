@@ -665,10 +665,18 @@ public class CustomGUI : EditorWindow
     /// 
     /// </summary>
     /// <returns>Path to import file</returns>
-    string ImportDialogGui(){
+    string[] ImportDialogGui(){
         
         OpenFileDialog openFileDialog1 = new OpenFileDialog();  
-        return "";
+        openFileDialog1.Title = "Select Tree Import"; 
+        openFileDialog1.DefaultExt = "json";
+        openFileDialog1.Filter = "json files (*.json)|*.json|All files (*.*)|*.*";  
+        openFileDialog1.FilterIndex = 2;  //magic number
+        openFileDialog1.CheckFileExists = true;  
+        openFileDialog1.CheckPathExists = true;  
+
+        openFileDialog1.ShowDialog(); 
+        return openFileDialog1.FileNames;
 
     }
 }
