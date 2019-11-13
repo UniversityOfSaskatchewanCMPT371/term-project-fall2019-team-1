@@ -7,7 +7,6 @@ using System.IO;
 
 
 /// <summary>
-/// 
 /// Author: Clayton VanderStelt
 /// 
 /// <c>CustomGUI</c>
@@ -71,7 +70,6 @@ public class CustomGUI : EditorWindow
 
 
     /// <summary>
-    /// 
     /// <c>Awake</c>
     /// 
     /// Description: Initalizes data for this class at game start time.
@@ -123,7 +121,6 @@ public class CustomGUI : EditorWindow
     
 
     /// <summary>
-    /// 
     /// Description: Adds the button on the window tab.
     /// 
     /// Pre-condition: Node must not be NULL.
@@ -284,7 +281,6 @@ public class CustomGUI : EditorWindow
 
 
     /// <summary>
-    /// 
     /// <c>drawTree</c>
     /// 
     /// Description: Draws out the graphical tree in the unity window for Custom GUI window.
@@ -327,7 +323,6 @@ public class CustomGUI : EditorWindow
     }
 
     /// <summary>
-    /// 
     /// <c>DrawPrompt</c>
     /// 
     /// Description: Draws out a node in the CUSTOM GUI window. Draws "prompt" refers to the prompt in the node
@@ -454,7 +449,6 @@ public class CustomGUI : EditorWindow
     }
 
     /// <summary>
-    /// 
     /// <c>drawReponse</c>
     /// 
     /// Description: Draws a dialouge section within the node.
@@ -573,7 +567,6 @@ public class CustomGUI : EditorWindow
     }
 
     /// <summary>
-    /// 
     /// <c>getNodeIndex</c>
     /// 
     /// Description: a helper function to get the index of a given node.
@@ -595,7 +588,6 @@ public class CustomGUI : EditorWindow
     //TODO: find a better curve function.
 
     /// <summary>
-    /// 
     /// <c>DrawNodeCurve</c>
     /// 
     /// Description: A helper function that draws a line between nodes.
@@ -625,7 +617,6 @@ public class CustomGUI : EditorWindow
    
 
     /// <summary>
-    /// 
     /// <c>findTrees</c>
     /// 
     /// Description: Returns the amount of trees that are currently in the resources folder.

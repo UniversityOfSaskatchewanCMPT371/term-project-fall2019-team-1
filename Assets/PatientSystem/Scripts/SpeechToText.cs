@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
 /// <c>SpeechToText</c>
 /// Description: This handles an audio file as input and will return back a string.
 /// 
@@ -28,7 +27,6 @@ public class SpeechToText : MonoBehaviour
     public Log log;
 
     /// <summary>
-    /// 
     /// <c>ReceiveAudioFile</c>
     /// 
     /// Description: Receives an audio file path to then send the interpreted string to the LanguageEngine.
@@ -51,7 +49,6 @@ public class SpeechToText : MonoBehaviour
     }
 
     /// <summary>
-    /// 
     /// <c>AudioToString</c>
     /// 
     /// Description:Returns a string from a given audio file.
