@@ -2,6 +2,8 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using System.Collections;
+using System;
 
 #if UNITY_EDITOR
 
@@ -40,7 +42,7 @@ public class CustomGUI : EditorWindow
     public List<Rect> responsewindows = new List<Rect>();
     
     // A list of all Dialogue objects.
-    public Object[] Dialogues;
+    public UnityEngine.Object[] Dialogues;
 
     // A list of the Dialogues of the current tree.
     public List<Dialogue> treeDialogues;
@@ -100,7 +102,7 @@ public class CustomGUI : EditorWindow
         Debug.Assert(atLayer != null, "failure to create atlayer");
 
         // Obtain all of the Dialogue Objects.
-        Dialogues = Resources.LoadAll("DialogueTree");
+        Dialogues = UnityEngine.Resources.LoadAll("DialogueTree");
         Debug.Assert(Dialogues != null, "failure loading dialgoues");
 
         // -1 indicates that there is no current tree selected.
@@ -143,6 +145,7 @@ public class CustomGUI : EditorWindow
         findTrees();
         Debug.Assert(trees.Count >= 0, "Error in OnGUI, failure to obtain number of trees");
         Debug.Assert(trees != null, "Error in OnGUI, trees is null");
+
 
 
         // If a tree was found.
@@ -243,12 +246,111 @@ public class CustomGUI : EditorWindow
 
         if(GUILayout.Button("import"))
         {
-            //TODO: do import
+            int i = 1;
+            try
+            {
+                string path = ImportDialogGui();
+                int newTree = 0;
+                bool treeAdded = false;
+               
+
+                while (!treeAdded)
+                {
+                    Debug.Log(i);
+
+                    // Make sure that tree doesnt already exist.
+                    if (!trees.Contains(i))
+                    {
+                        // Make the folder.
+                        AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
+
+                        // Add the new tree to found.
+                        trees.Add(i);
+                        treeAdded = true;
+                    }
+                    i++;
+                }
+                newTree = i;
+
+                //grab the file
+                StreamReader inportFile = new StreamReader(path);
+
+                //read the file
+                List<Dialogue> dialogues = new List<Dialogue>();
+                List<tempObject> tempobj = new List<tempObject>();
+                while (!inportFile.EndOfStream)
+                {
+                    tempobj.Add(JsonUtility.FromJson<tempObject>(inportFile.ReadLine()));
+                }
+
+                //for every tempObj
+                for (int j = 0; j < tempobj.Count; j++)
+                {
+
+
+                    //convert it into a Dialogue
+                    dialogues.Add(new Dialogue());
+                    dialogues[j].prompt = tempobj[j].prompt;
+                    dialogues[j].response = tempobj[j].response;
+                    dialogues[j].start = tempobj[j].head;
+                    dialogues[j].tree = tempobj[j].tree;
+
+                }
+
+                //now that all of the dialogues are made, put them into the proper folder.
+                for (int j = 0; j < dialogues.Count; j++)
+                {
+                    AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree - 1) + "/Dialogue" + (j + 1) + ".asset");
+
+                }
+
+                //change each Dialogues.next so that it matches the tempobj.next index   
+                Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree - 1));
+                Debug.Log(newTree - 1);
+
+                //for each dialogue
+                for (int j = 0; j < Dialogues.Length; j++)
+                {
+                    ((Dialogue)Dialogues[j]).next = new List<Dialogue>();
+
+                    //for each next[] in the tempobj
+                    for (int k = 0; k < tempobj[j].next.Count; k++)
+                    {
+                        ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[tempobj[j].next[k]]));
+                    }
+                }
+            }
+            catch
+            {
+                AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree" + "/Tree" + (i-1));
+                AssetDatabase.Refresh();
+                trees.Remove(i - 1);
+             }
         }
 
         if(GUILayout.Button("export"))
         {
-            //TODO: do export
+            string json = "";
+            string path = ExportDialogGui();
+
+            Debug.Log(path);
+
+            //if there is atleast 1 dialogue
+            if (Dialogues.Length != 0)
+            {
+                //add it to the json
+                json = JsonUtility.ToJson(package((Dialogue)Dialogues[0]));
+            }
+
+            //for every dialogue after the first
+            for (int i = 1; i < Dialogues.Length; i++)
+            {
+                //make a new line, then add it
+                json += "\n" + JsonUtility.ToJson(package((Dialogue)Dialogues[i]));
+            }
+
+            //put the json in a file
+            File.WriteAllText(path, json);
         }
         EditorGUILayout.EndHorizontal();
 
@@ -578,11 +680,19 @@ public class CustomGUI : EditorWindow
     /// </summary>
     /// <param name="node">dialogue node that exists in the Dialogue[] array</param>
     /// <returns>the index of the node in the Dialogue[] array</returns>
-    public int getNodeIndex(Dialogue node)
+    int getNodeIndex(Dialogue node)
     {
-        return 0;
+        //for every node in the list of node windows
+        for (int i = 0; i < Dialogues.Length; i++)
+        {
+            if (node == (Dialogue)Dialogues[i])
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
-    //TODO: might not need.
 
 
     //TODO: find a better curve function.
@@ -642,6 +752,81 @@ public class CustomGUI : EditorWindow
         }
         trees.Sort();
         return trees.Count;
+    }
+
+    /// <summary>
+    /// 
+    /// <c>ImportDialogGui</c>
+    /// 
+    /// Description: a helper function that opens a standard open file dialog
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: None
+    /// 
+    /// </summary>
+    /// <returns>Path to import file</returns>
+    string ImportDialogGui()
+    { 
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        return EditorUtility.OpenFilePanel("Import Json File", path, "json");
+
+        
+    }
+
+    /// <summary>
+    /// 
+    /// <c>ExportDialogGui</c>
+    /// 
+    /// Description: a helper function opens a standard save file dialog
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: None
+    /// 
+    /// </summary>
+    /// <returns>Path to save location</returns>
+    string ExportDialogGui()
+    { 
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        return EditorUtility.SaveFilePanel("Export Tree To File", path, currentTree + ".json", "json");
+    }
+
+
+    class tempObject
+    {
+        public string prompt;
+        public List<string> response;
+        public List<int> next;
+        public int tree;
+        public bool head;
+    }
+
+    tempObject package(Dialogue dialogue)
+    {
+        //copy the prompt and responses
+        tempObject temp = new tempObject
+        {
+            prompt = dialogue.prompt,
+            response = dialogue.response,
+            next = new List<int>(),
+            tree = dialogue.tree,
+            head = dialogue.start
+
+        };
+
+
+        //for every response in the dialogue
+        for (int i = 0; i < dialogue.next.Count; i++)
+        {
+            //find the index of dialogue.next, and set the temp.next to that index
+            if (dialogue.next[i] != null)
+                temp.next.Add(getNodeIndex(dialogue.next[i]));
+        }
+
+        return temp;
     }
 }
 #endif
