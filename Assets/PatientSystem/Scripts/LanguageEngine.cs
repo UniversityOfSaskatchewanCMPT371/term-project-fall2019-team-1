@@ -25,18 +25,7 @@ public class LanguageEngine : MonoBehaviour
 {
 
     // The tree UI, setup in the inspector, or mocked.
-
     public TreeUI treeUI;
-
-
-    // The system logger.
-
-    public Log log;
-
-
-    // The system debug logger.
-
-    public DebugLog debugLog;
 
     private string testString = "hello"; 
 
