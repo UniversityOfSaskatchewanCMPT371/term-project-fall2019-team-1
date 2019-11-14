@@ -502,31 +502,32 @@ public class CustomGUI : EditorWindow
             max_nodes_x = nodeRect.x;
         }
         Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
-        Rect buttonRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
+        Rect animRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
+        Rect buttonRect = new Rect(nodeRect.x, textRect.y + 45, nodeRect.width, 20);
         Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
 
         dialwindows.Add(nodeRect);
 
         NodeLayer.Add(layer);
 
-        // If this node is not going to be deleted.
+        // Draw the node.
+        EditorGUI.DrawRect(nodeRect, Color.grey);
+
+        // Display the dialogues parameters.
+        EditorGUI.LabelField(nodeRect, "NPC Prompt:");
+        dial.prompt = EditorGUI.TextField(textRect, dial.prompt);
+
+        // Make a field for inputting an animation.
+        animRect = EditorGUI.ObjectField(animRect,"Animation", dial.anim, typeof(AnimationClip), true);
 
 
-            // Draw the node.
-            EditorGUI.DrawRect(nodeRect, Color.grey);
-
-            // Display the dialogues parameters.
-            EditorGUI.LabelField(nodeRect, "NPC Prompt:");
-            dial.prompt = EditorGUI.TextField(textRect, dial.prompt);
-
-            // Make a button for creating another node.
-            if (GUI.Button(buttonRect, "new child"))
-            {
-                GUI.FocusControl(null);
-                dial.response.Add("");
-                dial.next.Add(null);
-            }
-        // If the current node is not the head.
+        // Make a button for creating another node.
+        if (GUI.Button(buttonRect, "new child"))
+        {
+            GUI.FocusControl(null);
+            dial.response.Add("");
+            dial.next.Add(null);
+        }
 
         // Create a delete button if this is a leaf node.
         if (dial.response.Count == 0)

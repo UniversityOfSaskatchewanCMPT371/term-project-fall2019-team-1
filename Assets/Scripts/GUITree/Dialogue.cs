@@ -20,5 +20,7 @@ public class Dialogue : ScriptableObject
     //whether or not this node is the root of a tree.
     public bool start;
 
+    public AnimationClip anim;
+
 
 }
