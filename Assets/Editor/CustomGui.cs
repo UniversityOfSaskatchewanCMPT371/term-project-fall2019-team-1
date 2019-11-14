@@ -149,7 +149,7 @@ public class CustomGUI : EditorWindow
     {
         max_nodes_x = 0;
 
-        Debug.Assert(max_nodes_x > 0);
+        Debug.Assert(max_nodes_x == 0, "failure in OnGui, failed to set max nodes to 0");
 
 
         findTrees();
@@ -518,7 +518,7 @@ public class CustomGUI : EditorWindow
         dial.prompt = EditorGUI.TextField(textRect, dial.prompt);
 
         // Make a field for inputting an animation.
-        animRect = EditorGUI.ObjectField(animRect,"Animation", dial.anim, typeof(AnimationClip), true);
+        dial.anim = (AnimationClip)EditorGUI.ObjectField(animRect, dial.anim, typeof(AnimationClip), true);
 
 
         // Make a button for creating another node.
