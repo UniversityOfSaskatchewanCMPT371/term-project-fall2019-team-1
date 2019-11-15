@@ -163,6 +163,7 @@ public class LanguageEngine : MonoBehaviour
         // new response.
         double prevIndexPercentage = -1;
         double currentWordPercent = -1;
+        double Holder = -1;
 
 
         int prevIndex = -1;
@@ -175,20 +176,21 @@ public class LanguageEngine : MonoBehaviour
         {
             numbOfSameWords = 0;
             currentWordPercent = -1;
-
+            Holder = -1;
 
             for (int wordsInUserResp = 0; wordsInUserResp < options[curUserResp].Length; wordsInUserResp++)
             {
 
                 for (int userInputWords = 0; userInputWords < wordBrokenDown.Length; userInputWords++)
                 {
-                    Debug.Log("input: " + wordBrokenDown[userInputWords] + " options: " + options[curUserResp][wordsInUserResp]);
+                    //Debug.Log("input: " + wordBrokenDown[userInputWords] + " options: " + options[curUserResp][wordsInUserResp]);
 
                     // if a word matches to another word, then we know it could possible be a match to a response.
                     if (wordBrokenDown[userInputWords].Equals(options[curUserResp][wordsInUserResp]))
                     {
                         numbOfSameWords += 1;
-                        Debug.Log("we making it within this cond? " + numbOfSameWords);
+
+                        //Debug.Log("we making it within this cond? " + numbOfSameWords);
 
                     }
 
@@ -198,26 +200,33 @@ public class LanguageEngine : MonoBehaviour
             }
 
 
-            Debug.Log("what is inside of numbword " + numbOfSameWords);
+            //Debug.Log("what is inside of numbword " + numbOfSameWords);
 
             // figure out how many words where discovered to be in a certian response.
-            currentWordPercent = ((numbOfSameWords / wordBrokenDown.Length) * 100);
+            Holder = numbOfSameWords / (double)wordBrokenDown.Length;
 
-            Debug.Log("currentPercent: " + currentWordPercent);
+            currentWordPercent = Holder * 100; 
+
+            Debug.Log("currentPercent: " + currentWordPercent + " with the following input: " + input + "this is numbOfWords: " + numbOfSameWords + "word broken down: " + wordBrokenDown.Length + "this is holder: " + Holder);
 
 
-            if (prevIndex == -1)
+            if (prevIndex == -1 && currentWordPercent != 0)
             {
 
                 prevIndex = curUserResp;
 
                 prevIndexPercentage = currentWordPercent;
 
+                Debug.Log("prevPercent: " + prevIndexPercentage + " with the following input: " + input);
+
             }
-            else if (prevIndexPercentage < currentWordPercent)
+            else if (prevIndexPercentage < currentWordPercent && currentWordPercent > 0)
             {
                 // if the current word response is bigger then then the last we will change it.
                 prevIndex = curUserResp;
+
+                prevIndexPercentage = currentWordPercent;
+                Debug.Log("prevPercent: HAS BEEN UPDATED " + prevIndexPercentage + " with the following input: " + input);
 
             }
 
