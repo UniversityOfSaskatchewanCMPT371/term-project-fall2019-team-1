@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// 
@@ -19,6 +20,12 @@ using UnityEngine;
 public class TreeUI : MonoBehaviour
 {
     /// <summary>
+    /// Current node we are at, starts at head.
+    /// </summary>
+    public Dialogue currentNode;
+
+
+    /// <summary>
     /// 
     /// <c>GetCurrentOptions</c>
     /// 
@@ -31,10 +38,14 @@ public class TreeUI : MonoBehaviour
     /// </summary>
     /// 
     /// <returns>The options we can take at the current node.</returns>
-    public string[][] GetCurrentOptions()
+    public List<string> GetCurrentOptions()
     {
-        return null;
+
+  
+
+        return currentNode.response;
     }
+
 
     /// <summary>
     /// 
@@ -52,7 +63,7 @@ public class TreeUI : MonoBehaviour
     /// <returns> NULL </returns>
     public void TakeOption(int option)
     {
-
+        currentNode = currentNode.next[option];
     }
 
     /// <summary>
@@ -66,6 +77,6 @@ public class TreeUI : MonoBehaviour
     /// <returns>The prompt at the current node.</returns>
     public string GetCurrentPrompt()
     {
-        return "hi";
+        return currentNode.prompt;
     }
 }

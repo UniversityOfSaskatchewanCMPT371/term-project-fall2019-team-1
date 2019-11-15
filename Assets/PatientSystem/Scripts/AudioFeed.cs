@@ -22,11 +22,6 @@ public class AudioFeed : MonoBehaviour
  
     private string fileName = "";
 
-  
-    // The Log object.
-
-    public Log log;
-
 
     // The STT system.
  
@@ -51,7 +46,7 @@ public class AudioFeed : MonoBehaviour
     {
         Debug.Assert(this.fileName == "");
 
-        log.WriteToLog(string.Format("AudioFeed::StartRecording: fileName: {0}", fileName));
+        Debug.Log(string.Format("AudioFeed::StartRecording: fileName: {0}", fileName));
 
         this.fileName = fileName;
     }
@@ -71,7 +66,7 @@ public class AudioFeed : MonoBehaviour
     {
         Debug.Assert(fileName != "");
 
-        log.WriteToLog(string.Format("AudioFeed::StopRecording: fileName: {0}", fileName));
+        Debug.Log(string.Format("AudioFeed::StopRecording: fileName: {0}", fileName));
 
         STT.ReceiveAudioFile(fileName);
 
