@@ -15,4 +15,13 @@ using UnityEngine;
 /// </authors>
 public class NPC : MonoBehaviour
 {
+    /// <summary>
+    /// The audio source for which the sound will come out of.
+    /// </summary>
+    public AudioSource audioSource;
+
+    /// <summary>
+    /// The animation state handler to play animations on.
+    /// </summary>
+    public Animator animator;
 }

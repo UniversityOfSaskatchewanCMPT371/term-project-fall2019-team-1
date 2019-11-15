@@ -25,21 +25,13 @@ public class LanguageEngine : MonoBehaviour
 {
 
     // The tree UI, setup in the inspector, or mocked.
+    public TreeUI tree;
 
-    public TreeUI treeUI;
+    // The text to speech system.
+    public TextToSpeech TTS;
 
-
-    // The system logger.
-
-    public Log log;
-
-
-    // The system debug logger.
-
-    public DebugLog debugLog;
-
-    private string testString = "hello"; 
-
+    // the patient system.
+    public PatientSystem patientSystem;
 
 
     /// <summary>
@@ -58,13 +50,13 @@ public class LanguageEngine : MonoBehaviour
     public void RecieveInput(string input)
     {
         // log our input
-        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: input: '{0}'", input));
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: input: '{0}'", input));
 
         // get options we have at current node.
-        string[][] options = treeUI.GetCurrentOptions();
+        var options = tree.GetCurrentOptions();
 
         // log our options
-        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: options: {0}", options));
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: {0}", options));
 
         // now get the decision to make
         int decisionIndex;
@@ -74,16 +66,19 @@ public class LanguageEngine : MonoBehaviour
         }
         catch (NoBestDecision e)
         {
-            log.WriteToLog(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
             return;
         }
-        Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Length, "decisionIndex is out of bounds of options");
+        Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
 
         // log our options
-        log.WriteToLog(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
 
         // with the decision, traverse the tree.
-        treeUI.TakeOption(decisionIndex);
+        tree.TakeOption(decisionIndex);
+
+        // now say the next prompt
+        TTS.RunSpeech(tree.GetCurrentPrompt());
     }
 
     /// <summary>
@@ -101,7 +96,7 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="input">A string to compare to the options.</param>
     /// <param name="options">The options, an array of array of strings.</param>
     /// <returns>The index of the option to be taken.</returns>
-    public int BestDecision(string input, string[][] options)
+    public int BestDecision(string input, List<List<string>> options)
     {
         // break down user input into seperate words.
         string[] wordBrokenDown = Regex.Split(input, " ");
@@ -118,13 +113,13 @@ public class LanguageEngine : MonoBehaviour
         
 
         // count through each possible option.
-        for(int curUserResp = 0; curUserResp < options.Length; curUserResp++)
+        for(int curUserResp = 0; curUserResp < options.Count; curUserResp++)
         {
             numbOfSameWords = 0;
             currentWordPercent = -1;
 
            
-            for (int wordsInUserResp = 0; wordsInUserResp < options[curUserResp].Length; wordsInUserResp++)
+            for (int wordsInUserResp = 0; wordsInUserResp < options[curUserResp].Count; wordsInUserResp++)
             {
       
                 for (int userInputWords = 0; userInputWords < wordBrokenDown.Length; userInputWords++)
@@ -177,15 +172,14 @@ public class LanguageEngine : MonoBehaviour
         return prevIndex;
     }
 
-    void Update()
+    /// <summary>
+    /// On Startup, say the prompt.
+    /// </summary>
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("attempting to build string array of different words!");
+        Debug.Assert(tree != null);
+        Debug.Assert(tree.currentNode != null);
 
-            RecieveInput(testString);
-        }
-
-       // print("test");     
+        TTS.RunSpeech(tree.GetCurrentPrompt());
     }
 }

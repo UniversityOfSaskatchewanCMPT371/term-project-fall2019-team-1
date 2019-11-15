@@ -96,8 +96,8 @@ public class SpeechToTextSystem : MonoBehaviour
             this.text.text = phraseSpoken;
 
             Debug.Log("what is inside the Phrase Spoken:" + phraseSpoken); 
-           if (dialogueTree != null)
-            dialogueTree.inTree(phraseSpoken);
+           //if (dialogueTree != null)
+            //dialogueTree.inTree(phraseSpoken);
         };
 
         text.gameObject.SetActive(false);
