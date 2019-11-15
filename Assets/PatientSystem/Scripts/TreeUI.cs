@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// 
@@ -37,21 +38,14 @@ public class TreeUI : MonoBehaviour
     /// </summary>
     /// 
     /// <returns>The options we can take at the current node.</returns>
-    public List<List<string>> GetCurrentOptions()
+    public List<string> GetCurrentOptions()
     {
-        var result = new List<List<string>>();
 
-        currentNode.response.ForEach((res) =>
-        {
-            var newOpt = new List<string>();
+  
 
-            newOpt.Add(res);
-
-            result.Add(newOpt);
-        });
-
-        return result;
+        return currentNode.response;
     }
+
 
     /// <summary>
     /// 
