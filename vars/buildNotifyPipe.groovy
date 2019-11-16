@@ -49,6 +49,7 @@ def call(Map pipeParams) {
                                 slackNotifier UnityBuildResults.result.toString(), DefaultSlackChannel
                             }
                             cleanWs()
+                            return UnityBuildResults
                         }
                     }
                 }
