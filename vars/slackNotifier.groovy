@@ -18,6 +18,6 @@ def call(String buildResult, String slackChannel) {
     slackSend channel: slackChannel, color: "warning", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was unstable. Build Link: ${env.BUILD_URL}"
   }
   else {
-    slackSend channel: slackChannel, color: "danger", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} its resulat was unclear. Build Link: ${env.BUILD_URL}"	
+    slackSend channel: slackChannel, color: "danger", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} its result was unclear. Build Link: ${env.BUILD_URL}"	
   }
 }

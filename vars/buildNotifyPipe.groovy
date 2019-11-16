@@ -25,7 +25,7 @@ def call(Map pipeParams) {
                 agent any
                 environment {
                     UnityBuildResults = ''
-                    DefaultSlackChannel = '#jenkins'
+                    DefaultSlackChannel = 'jenkins'
                 }
                 stages {
                     stage('Build') {
