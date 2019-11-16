@@ -42,14 +42,7 @@ def call(Map pipeParams) {
                 post {
                     always {
                         script {
-                            //pushes results to slack
-                            try{
-                                slackNotifier UnityBuildResults.result.toString(), pipeParams.slackChannel
-                            } catch (Exception e) {
-                                slackNotifier UnityBuildResults.result.toString(), DefaultSlackChannel
-                            }
-                            cleanWs()
-                            return UnityBuildResults
+                            return UnityBuildResults.result.toString()
                         }
                     }
                 }
