@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   tree: 5
-  prompt: 
-  response: []
-  next: []
+  prompt: hi
+  response:
+  - hi
+  - hello
+  next:
+  - {fileID: 11400000, guid: 2612c21ca5fcf974aaa34a4df9334566, type: 2}
+  - {fileID: 11400000, guid: 4d6497615e487b2468ab6e99eacd16b3, type: 2}
   start: 1

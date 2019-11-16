@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Windows.Speech;
 
 /// <summary>
-/// 
 /// <c>SpeechToText</c>
 /// Description: This handles an audio file as input and will return back a string.
 /// 
@@ -14,21 +15,68 @@ using UnityEngine;
 /// 
 /// <authors>
 /// Mason Demerais
+/// Matt Radke
 /// </authors>
 public class SpeechToText : MonoBehaviour
 {
     
     // The Language Engine of the system.
-   
     public LanguageEngine LE;
 
+    #region WindowsSpeechRec
+    // Converts speech to text.
+    private DictationRecognizer dictationRecognizer;
+    
+    /// <summary>
+    /// Called when the game is started. <para/>
+    /// We setup the voice recog
+    /// </summary>
+    private void Start()
+    {
+        Debug.Log(string.Format("SpeechToText::Start"));
 
-    // The logger.
-  
-    public Log log;
+        // create the DictationRecognizer, it will start recog text from the mic.
+        dictationRecognizer = new DictationRecognizer();
+
+        // When speech has been recognized.
+        dictationRecognizer.DictationResult += OnDictationResult;
+
+        // start it now.
+        dictationRecognizer.Start();
+    }
 
     /// <summary>
-    /// 
+    /// When windows recognizes text, this will be called.
+    /// </summary>
+    /// <param name="text">the text that was said</param>
+    /// <param name="confidence">confidence of the recongized text</param>
+    private void OnDictationResult(string text, ConfidenceLevel confidence)
+    {
+        Debug.Log(string.Format("SpeechToText::OnDictationResult: text: {0}, confidence: {1}", text, confidence));
+
+        // send the string to the lang engine
+        Debug.Assert(LE != null);
+        LE.RecieveInput(text);
+    }
+
+    /// <summary>
+    /// Called when destroied. Clean up the speech reg.
+    /// </summary>
+    private void OnDestroy()
+    {
+        Debug.Assert(dictationRecognizer != null);
+
+        Debug.Log(string.Format("SpeechToText::OnDestroy"));
+
+        // Stop and destroy
+        dictationRecognizer.Stop();
+
+        dictationRecognizer.Dispose();
+    }
+    #endregion
+
+    #region API
+    /// <summary>
     /// <c>ReceiveAudioFile</c>
     /// 
     /// Description: Receives an audio file path to then send the interpreted string to the LanguageEngine.
@@ -41,17 +89,16 @@ public class SpeechToText : MonoBehaviour
     ///  <returns> NULL </returns>
     public void ReceiveAudioFile(string fileName)
     {
-        log.WriteToLog(string.Format("SpeechToText::ReceiveAudioFile: fileName: {0}", fileName));
+        Debug.Log(string.Format("SpeechToText::ReceiveAudioFile: fileName: {0}", fileName));
 
         string whatWasSaid = AudioToString(fileName);
 
-        log.WriteToLog(string.Format("SpeechToText::ReceiveAudioFile: whatWasSaid: {0}", whatWasSaid));
+        Debug.Log(string.Format("SpeechToText::ReceiveAudioFile: whatWasSaid: {0}", whatWasSaid));
 
         LE.RecieveInput(whatWasSaid);
     }
 
     /// <summary>
-    /// 
     /// <c>AudioToString</c>
     /// 
     /// Description:Returns a string from a given audio file.
@@ -66,4 +113,5 @@ public class SpeechToText : MonoBehaviour
     {
         return "hello";
     }
+    #endregion
 }

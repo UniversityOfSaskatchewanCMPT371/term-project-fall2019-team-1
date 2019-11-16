@@ -6,8 +6,6 @@ using UnityEngine.Windows.Speech;
 
 
 /// <summary>
-/// 
-/// 
 /// <c>SpeechToTextSystem</c>
 /// 
 /// Description: SpeechToTextSystem takes speech from the player and converts it into useable
@@ -96,8 +94,10 @@ public class SpeechToTextSystem : MonoBehaviour
             // Write the text to the log.
             GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
             this.text.text = phraseSpoken;
-           if (dialogueTree != null)
-            dialogueTree.inTree(phraseSpoken);
+
+            Debug.Log("what is inside the Phrase Spoken:" + phraseSpoken); 
+           //if (dialogueTree != null)
+            //dialogueTree.inTree(phraseSpoken);
         };
 
         text.gameObject.SetActive(false);

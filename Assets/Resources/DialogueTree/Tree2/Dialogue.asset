@@ -17,3 +17,4 @@ MonoBehaviour:
   response: []
   next: []
   start: 1
+  anim: {fileID: 0}
