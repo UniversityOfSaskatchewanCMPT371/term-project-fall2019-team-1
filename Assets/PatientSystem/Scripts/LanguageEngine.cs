@@ -310,7 +310,7 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="pat"> the pattern that we want to see what the common prefixs and suffixs are.</param>
     /// <param name="pattLen">the length of the pattern given.</param>
     /// <returns>returns a new array containing the LPS array.</returns>
-    private int [] LPS(string pat, int pattLen)
+    public int [] LPS(string pat, int pattLen)
     {
         int[] lps = new int[pattLen];
 

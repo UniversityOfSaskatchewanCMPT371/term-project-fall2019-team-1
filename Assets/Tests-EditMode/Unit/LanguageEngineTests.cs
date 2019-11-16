@@ -67,7 +67,26 @@ namespace Tests
             // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 1);
 
-            // Use the Assert class to test conditions
+            
+        }
+
+        [Test]
+        public void LanguageEngineBestDecisionPassesGivenLastMatchwordcomp()
+
+        {
+
+            LangE = new GameObject();
+            LangE.AddComponent<LanguageEngine>();
+
+            Leng = LangE.GetComponent<LanguageEngine>();
+            List<string> treemock = new List<string> { "Hello", "You there", "Let's go there", "Are you happy" };
+            Leng.wordComparison = true;
+            Leng.KMPComparison = false;
+            int expectedbest = Leng.BestDecision("happy", treemock);
+            // Debug.Log(expectedbest);
+            Assert.AreEqual(expectedbest, 3);
+
+            
         }
 
         [Test]
@@ -87,10 +106,8 @@ namespace Tests
             Leng.KMPComparison = false;
 
             int expectedbest = Leng.BestDecision("Friday", treemock);
-            Debug.Log(expectedbest);
-            Assert.AreEqual(expectedbest, -1);
-
-            // Use the Assert class to test conditions
+            // Debug.Log(expectedbest);
+            Assert.AreEqual(expectedbest, -1);           
         }
 
         [Test]
@@ -111,7 +128,7 @@ namespace Tests
             Leng.wordComparison = false;
 
             int expectedbest = Leng.BestDecision("Hello", treemock);
-            Debug.Log(expectedbest);
+            // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 0);
 
           
@@ -130,7 +147,7 @@ namespace Tests
             List<string> treemock = new List<string> { "Hello", "You there", "Let's go there" };
             Leng.KMPComparison = true;
             int expectedbest = Leng.BestDecision("You there", treemock);
-            Debug.Log(expectedbest);
+            // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 1);
 
         }
@@ -151,9 +168,31 @@ namespace Tests
             Leng.KMPComparison = true;
             Leng.wordComparison = false;
             int expectedbest = Leng.BestDecision("Let's go there", treemock);
-            Debug.Log(expectedbest);
+            // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 2);
 
+        }
+
+
+        [Test]
+        // This tests the language engine Best Decision should return -1 given that there 
+        // is no match using KMP Comparison.
+        public void LanguageEngineBestDecisionPassesGivenNoMatchKMPcomp()
+        {
+
+            LangE = new GameObject();
+            LangE.AddComponent<LanguageEngine>();
+
+            Leng = LangE.GetComponent<LanguageEngine>();
+            List<string> treemock = new List<string> { "Hello", "You then", "Let's go then" };
+
+
+            Leng.wordComparison = false;
+            Leng.KMPComparison = true;
+
+            int expectedbest = Leng.BestDecision("Friday", treemock);
+            // Debug.Log(expectedbest);
+            Assert.AreEqual(expectedbest, -1);
         }
 
         [Test]
@@ -170,7 +209,7 @@ namespace Tests
             Leng.KMPComparison = false;
             Leng.wordComparison = true;
             int expectedbest = Leng.BestDecision("Let's go", treemock);
-            Debug.Log(expectedbest);
+            // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 2);
 
         }
@@ -188,8 +227,32 @@ namespace Tests
             Leng.KMPComparison = true;
             Leng.wordComparison = false;
             int expectedbest = Leng.BestDecision("Let's go", treemock);
-            Debug.Log(expectedbest);
+            // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 2);
+
+        }
+
+
+        [Test]
+        // This test simple ensure the correctness of the LPS method used in the preprocessing stage 
+        // in the KPM algorithm
+        public void LanguageEngineLPS()
+        {
+
+            LangE = new GameObject();
+            LangE.AddComponent<LanguageEngine>();
+
+            Leng = LangE.GetComponent<LanguageEngine>();
+
+            string sample1 = "abababca";
+            string sample2 = "Cynthia";
+            int[] expectedlps1 = new int[] { 0, 0, 1, 2, 3, 4, 0, 1 };
+            int[] expectedlps2 = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+            Debug.Log(Leng.LPS(sample1, sample1.Length)[0]);
+            Debug.Log(Leng.LPS(sample2, sample2.Length)[0]);
+
+            Assert.AreEqual(Leng.LPS(sample1, sample1.Length), expectedlps1);
+            Assert.AreEqual(Leng.LPS(sample2, sample2.Length), expectedlps2);
 
         }
     }
