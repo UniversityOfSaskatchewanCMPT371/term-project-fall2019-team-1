@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class ImportExport : MonoBehaviour
 {
-    private Object[] Dialogues;
+    public Object[] Dialogues;
 
     void Awake()
     {
