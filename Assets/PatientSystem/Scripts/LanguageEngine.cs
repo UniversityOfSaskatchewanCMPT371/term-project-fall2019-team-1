@@ -58,6 +58,7 @@ public class LanguageEngine : MonoBehaviour
         // get options we have at current node.
         List<string> options = tree.GetCurrentOptions();
 
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: '{0}'", string.Join(", ", options)));
 
         // now get the decision to make
         int decisionIndex;
