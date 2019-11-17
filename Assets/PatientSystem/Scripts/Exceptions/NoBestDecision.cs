@@ -14,4 +14,18 @@
 /// <author>Mason Demerais</author>
 public class NoBestDecision : Exception
 {
+    public NoBestDecision()
+        : base()
+    {
+    }
+
+    public NoBestDecision(string message)
+        : base(message)
+    {
+    }
+
+    public NoBestDecision(string message, Exception inner)
+        : base(message, inner)
+    {
+    }
 }

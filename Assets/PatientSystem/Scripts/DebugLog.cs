@@ -49,9 +49,13 @@ public class DebugLog : MonoBehaviour
         // sub to the messages.
         Application.logMessageReceived += LogMessageReceived;
     }
-    
+
     /// <summary>
     /// When the logger received a message, this is called.
+    /// 
+    /// Pre-condition: 
+    /// 
+    /// Post-condition: The text on that ui text element will be changed.
     /// </summary>
     /// <param name="condition">The log message.</param>
     /// <param name="stackTrace">Stack trace of the debug log.</param>

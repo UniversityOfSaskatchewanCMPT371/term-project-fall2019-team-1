@@ -31,8 +31,9 @@ public class LanguageEngine : MonoBehaviour
     public TextToSpeech TTS;
 
     // The patient system.
-    public PatientSystem patientSystem;
+    public SpeechToText STT;
 
+    // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
     public bool KMPComparison; 
@@ -58,18 +59,28 @@ public class LanguageEngine : MonoBehaviour
         // get options we have at current node.
         List<string> options = tree.GetCurrentOptions();
 
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: '{0}'", string.Join(", ", options)));
 
         // now get the decision to make
         int decisionIndex;
         try
         {
             decisionIndex = BestDecision(input, options);
-
-            Debug.Assert(decisionIndex != -1, "Language Engine not setup correctly within unity!"); 
         }
         catch (NoBestDecision e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+            return;
+        }
+        catch (NoOptionsAvailable e)
+        {
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: NoOptionsAvailable: {0}", e));
+
+            // say a placeholder saying its done
+            TTS.RunSpeech("We are finished, thank you.");
+
+            // stop reading speech
+            STT.StopReadingSpeech();
             return;
         }
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
@@ -101,6 +112,10 @@ public class LanguageEngine : MonoBehaviour
     /// <returns>The index of the option to be taken. returns -1 if no string search algorithm checked.</returns>
     public int BestDecision(string input, List<string> treeData)
     {
+        if (treeData.Count <= 0)
+        {
+            throw new NoOptionsAvailable();
+        }
        
         if (this.wordComparison)
         {
@@ -138,7 +153,7 @@ public class LanguageEngine : MonoBehaviour
         }
         else
         {
-            return -1; 
+            throw new NoBestDecision("Language Engine not setup correctly within unity!");
         }
     }
 
@@ -224,8 +239,10 @@ public class LanguageEngine : MonoBehaviour
         }
 
 
-        //throw new NoBestDecision();
-        Debug.Assert(prevIndex != -1, "prevIndex did not get changed within the calculation above");
+        if (prevIndex == -1)
+        {
+            throw new NoBestDecision("prevIndex did not get changed within the calculation above");
+        }
 
         return prevIndex;
 
@@ -353,6 +370,10 @@ public class LanguageEngine : MonoBehaviour
 
     /// <summary>
     /// On Startup, say the prompt.
+    /// 
+    /// Pre-Conditions: Tree and current node exist.
+    /// 
+    /// Post-Conditions: The prompt will be said out loud.
     /// </summary>
     private void Start()
     {

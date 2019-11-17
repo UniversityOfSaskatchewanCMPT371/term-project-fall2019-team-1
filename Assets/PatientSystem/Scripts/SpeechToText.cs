@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,10 +27,14 @@ public class SpeechToText : MonoBehaviour
     #region WindowsSpeechRec
     // Converts speech to text.
     private DictationRecognizer dictationRecognizer;
-    
+
     /// <summary>
     /// Called when the game is started. <para/>
     /// We setup the voice recog
+    /// 
+    /// preconditions: Language Engine exists.
+    /// 
+    /// postconditions: dictationRecognizer is setup.
     /// </summary>
     private void Start()
     {
@@ -40,6 +45,15 @@ public class SpeechToText : MonoBehaviour
 
         // When speech has been recognized.
         dictationRecognizer.DictationResult += OnDictationResult;
+
+        // make sure to rerun the dictation if it finishes
+        dictationRecognizer.DictationComplete += (DictationCompletionCause cause) =>
+        {
+            Debug.Log("DictationCompletionCause: " + cause);
+
+            if (cause != DictationCompletionCause.Canceled && cause != DictationCompletionCause.Complete)
+                dictationRecognizer.Start();
+        };
 
         // start it now.
         dictationRecognizer.Start();
@@ -60,7 +74,24 @@ public class SpeechToText : MonoBehaviour
     }
 
     /// <summary>
+    /// Stops the dictionation, if it is running.
+    /// 
+    /// Pre-condition: SpeechSystemStatus is runnning.
+    /// 
+    /// Post-condition: Dication is no longer running.
+    /// </summary>
+    public void StopReadingSpeech()
+    {
+        if (dictationRecognizer.Status == SpeechSystemStatus.Running)
+            dictationRecognizer.Stop();
+    }
+
+    /// <summary>
     /// Called when destroied. Clean up the speech reg.
+    /// 
+    /// preconditions: dictationRecognizer exists.
+    /// 
+    /// postconditions: Dictionation is destroied.
     /// </summary>
     private void OnDestroy()
     {
@@ -68,9 +99,7 @@ public class SpeechToText : MonoBehaviour
 
         Debug.Log(string.Format("SpeechToText::OnDestroy"));
 
-        // Stop and destroy
-        dictationRecognizer.Stop();
-
+        StopReadingSpeech();
         dictationRecognizer.Dispose();
     }
     #endregion
