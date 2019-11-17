@@ -41,6 +41,15 @@ public class SpeechToText : MonoBehaviour
         // When speech has been recognized.
         dictationRecognizer.DictationResult += OnDictationResult;
 
+        // make sure to rerun the dictation if it finishes
+        dictationRecognizer.DictationComplete += (DictationCompletionCause cause) =>
+        {
+            Debug.Log("DictationCompletionCause: " + cause);
+
+            if (cause != DictationCompletionCause.Canceled)
+                dictationRecognizer.Start();
+        };
+
         // start it now.
         dictationRecognizer.Start();
     }
@@ -68,9 +77,7 @@ public class SpeechToText : MonoBehaviour
 
         Debug.Log(string.Format("SpeechToText::OnDestroy"));
 
-        // Stop and destroy
         dictationRecognizer.Stop();
-
         dictationRecognizer.Dispose();
     }
     #endregion
