@@ -65,12 +65,15 @@ public class LanguageEngine : MonoBehaviour
         try
         {
             decisionIndex = BestDecision(input, options);
-
-            Debug.Assert(decisionIndex != -1, "Language Engine not setup correctly within unity!"); 
         }
         catch (NoBestDecision e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+            return;
+        }
+        catch (NoOptionsAvailable e)
+        {
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: NoOptionsAvailable: {0}", e));
             return;
         }
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
@@ -102,6 +105,10 @@ public class LanguageEngine : MonoBehaviour
     /// <returns>The index of the option to be taken. returns -1 if no string search algorithm checked.</returns>
     public int BestDecision(string input, List<string> treeData)
     {
+        if (treeData.Count <= 0)
+        {
+            throw new NoOptionsAvailable();
+        }
        
         if (this.wordComparison)
         {
@@ -139,7 +146,7 @@ public class LanguageEngine : MonoBehaviour
         }
         else
         {
-            return -1; 
+            throw new NoBestDecision("Language Engine not setup correctly within unity!");
         }
     }
 
@@ -225,8 +232,10 @@ public class LanguageEngine : MonoBehaviour
         }
 
 
-        //throw new NoBestDecision();
-        Debug.Assert(prevIndex != -1, "prevIndex did not get changed within the calculation above");
+        if (prevIndex == -1)
+        {
+            throw new NoBestDecision("prevIndex did not get changed within the calculation above");
+        }
 
         return prevIndex;
 

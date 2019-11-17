@@ -12,19 +12,19 @@
 /// </summary>
 /// 
 /// <author>Mason Demerais</author>
-public class NoBestDecision : Exception
+public class NoOptionsAvailable : Exception
 {
-    public NoBestDecision()
+    public NoOptionsAvailable()
         : base()
     {
     }
 
-    public NoBestDecision(string message)
+    public NoOptionsAvailable(string message)
         : base(message)
     {
     }
 
-    public NoBestDecision(string message, Exception inner)
+    public NoOptionsAvailable(string message, Exception inner)
         : base(message, inner)
     {
     }
