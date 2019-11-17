@@ -28,7 +28,7 @@ namespace Tests
         {
             //TODO Test the getnodeIndex Function within Import Export
 
-            AssertAreEqual(true, null);
+            Assert.AreEqual(true, null);
             // Failing test due to lack of implementation
 
 

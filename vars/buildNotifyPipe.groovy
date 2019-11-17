@@ -17,10 +17,10 @@ def call(Map pipeParams) {
         }
     }
 
-    if (pipeParams.branch.length() >= scmVars.GIT_BRANCH.length()){
+    if (pipeParams.jobType == 'OnDemand' || pipeParams.branch.length() >= scmVars.GIT_BRANCH.length()){
         //Only runs if input branch is identical to trigger branch
         //Checks last n-lenght of current branch characters to avoid prepending "*/" or "origin/"
-        if(pipeParams.branch.substring(pipeParams.branch.length() - scmVars.GIT_BRANCH.length()) == scmVars.GIT_BRANCH) { 
+        if(pipeParams.jobType == 'OnDemand' || pipeParams.branch.substring(pipeParams.branch.length() - scmVars.GIT_BRANCH.length()) == scmVars.GIT_BRANCH) { 
             pipeline {
                 agent any
                 environment {
