@@ -33,6 +33,7 @@ public class LanguageEngine : MonoBehaviour
     // The patient system.
     public SpeechToText STT;
 
+    // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
     public bool KMPComparison; 
@@ -369,6 +370,10 @@ public class LanguageEngine : MonoBehaviour
 
     /// <summary>
     /// On Startup, say the prompt.
+    /// 
+    /// Pre-Conditions: Tree and current node exist.
+    /// 
+    /// Post-Conditions: The prompt will be said out loud.
     /// </summary>
     private void Start()
     {

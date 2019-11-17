@@ -2,12 +2,12 @@
 
 /// <summary>
 /// <c>NoBestDecision</c>
-/// Description: Exception system, meant to throw a exeception when a decision cannot be found in langauge engine.
+/// Description: Exception system, meant to throw a exeception when there are no options for the language engine.
 /// 
 /// pre-condition: Langauge engine 
 /// 
 /// 
-/// post-condition: exception thrown if langauge engine cannot find correct response.
+/// post-condition: exception thrown if langauge engine has no options.
 /// 
 /// </summary>
 /// 

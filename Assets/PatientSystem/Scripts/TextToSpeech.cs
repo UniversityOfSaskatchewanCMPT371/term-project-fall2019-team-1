@@ -29,6 +29,10 @@ public class TextToSpeech : MonoBehaviour
 
     /// <summary>
     /// Inits the speech lib object, this needs to be on the awake (before Start) because the LE will call RunSpeech on Start.
+    /// 
+    /// preconditions: 
+    /// 
+    /// postconditions: voice object will be created.
     /// </summary>
     private void Awake()
     {
@@ -39,6 +43,10 @@ public class TextToSpeech : MonoBehaviour
 
     /// <summary>
     /// Kills the voice when its destroyed.
+    /// 
+    /// preconditions: voice object exists.
+    /// 
+    /// postconditions: any voice being played will be stopped.
     /// </summary>
     private void OnDestroy()
     {
@@ -50,6 +58,10 @@ public class TextToSpeech : MonoBehaviour
 
     /// <summary>
     /// Speaks the string given to it.
+    /// 
+    /// preconditions: voice object and toBeSaid exists.
+    /// 
+    /// postconditions: toBeSaid will be heard.
     /// </summary>
     /// <param name="toBeSaid">The words to be heard on the speaker directly.</param>
     public void RunSpeech(string toBeSaid)

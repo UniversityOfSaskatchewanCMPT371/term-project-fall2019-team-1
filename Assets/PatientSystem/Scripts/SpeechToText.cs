@@ -27,10 +27,14 @@ public class SpeechToText : MonoBehaviour
     #region WindowsSpeechRec
     // Converts speech to text.
     private DictationRecognizer dictationRecognizer;
-    
+
     /// <summary>
     /// Called when the game is started. <para/>
     /// We setup the voice recog
+    /// 
+    /// preconditions: Language Engine exists.
+    /// 
+    /// postconditions: dictationRecognizer is setup.
     /// </summary>
     private void Start()
     {
@@ -69,6 +73,13 @@ public class SpeechToText : MonoBehaviour
         LE.RecieveInput(text);
     }
 
+    /// <summary>
+    /// Stops the dictionation, if it is running.
+    /// 
+    /// Pre-condition: SpeechSystemStatus is runnning.
+    /// 
+    /// Post-condition: Dication is no longer running.
+    /// </summary>
     public void StopReadingSpeech()
     {
         if (dictationRecognizer.Status == SpeechSystemStatus.Running)
@@ -77,6 +88,10 @@ public class SpeechToText : MonoBehaviour
 
     /// <summary>
     /// Called when destroied. Clean up the speech reg.
+    /// 
+    /// preconditions: dictationRecognizer exists.
+    /// 
+    /// postconditions: Dictionation is destroied.
     /// </summary>
     private void OnDestroy()
     {
