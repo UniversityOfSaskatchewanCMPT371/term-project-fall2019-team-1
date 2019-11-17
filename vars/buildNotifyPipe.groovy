@@ -44,9 +44,17 @@ def call(Map pipeParams) {
                         script {
                             //pushes results to slack
                             try{
-                                slackNotifier UnityBuildResults.result.toString(), pipeParams.slackChannel
+                                if(pipeParams.containsKey("slackChannel") {
+                                    slackNotifier UnityBuildResults.result.toString(), pipeParams.slackChannel
+                                } else {
+                                    slackNotifier UnityBuildResults.result.toString(), DefaultSlackChannel
+                                }
                             } catch (Exception e) {
-                                slackNotifier UnityBuildResults.result.toString(), DefaultSlackChannel
+                                if(pipeParams.containsKey("slackChannel"){
+                                    slackNotifier "FAILURE", pipeParams.slackChannel
+                                } else {
+                                    slackNotifier "FAILURE", DefaultSlackChannel
+                                }
                             }
                             cleanWs()
                         }
