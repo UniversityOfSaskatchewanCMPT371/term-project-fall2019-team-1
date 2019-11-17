@@ -31,7 +31,7 @@ public class LanguageEngine : MonoBehaviour
     public TextToSpeech TTS;
 
     // The patient system.
-    public PatientSystem patientSystem;
+    public SpeechToText STT;
 
     public bool wordComparison;
 
@@ -74,6 +74,12 @@ public class LanguageEngine : MonoBehaviour
         catch (NoOptionsAvailable e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoOptionsAvailable: {0}", e));
+
+            // say a placeholder saying its done
+            TTS.RunSpeech("We are finished, thank you.");
+
+            // stop reading speech
+            STT.StopReadingSpeech();
             return;
         }
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");

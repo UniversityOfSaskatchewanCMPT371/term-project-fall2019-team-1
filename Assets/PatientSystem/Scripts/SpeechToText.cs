@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,7 +47,7 @@ public class SpeechToText : MonoBehaviour
         {
             Debug.Log("DictationCompletionCause: " + cause);
 
-            if (cause != DictationCompletionCause.Canceled)
+            if (cause != DictationCompletionCause.Canceled && cause != DictationCompletionCause.Complete)
                 dictationRecognizer.Start();
         };
 
@@ -68,6 +69,12 @@ public class SpeechToText : MonoBehaviour
         LE.RecieveInput(text);
     }
 
+    public void StopReadingSpeech()
+    {
+        if (dictationRecognizer.Status == SpeechSystemStatus.Running)
+            dictationRecognizer.Stop();
+    }
+
     /// <summary>
     /// Called when destroied. Clean up the speech reg.
     /// </summary>
@@ -77,7 +84,7 @@ public class SpeechToText : MonoBehaviour
 
         Debug.Log(string.Format("SpeechToText::OnDestroy"));
 
-        dictationRecognizer.Stop();
+        StopReadingSpeech();
         dictationRecognizer.Dispose();
     }
     #endregion
