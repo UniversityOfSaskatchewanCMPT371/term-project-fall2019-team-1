@@ -30,9 +30,10 @@ public class LanguageEngine : MonoBehaviour
     // The text to speech system.
     public TextToSpeech TTS;
 
-    // the patient system.
-    public PatientSystem patientSystem;
+    // The patient system.
+    public SpeechToText STT;
 
+    // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
     public bool KMPComparison; 
@@ -58,29 +59,39 @@ public class LanguageEngine : MonoBehaviour
         // get options we have at current node.
         List<string> options = tree.GetCurrentOptions();
 
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: '{0}'", string.Join(", ", options)));
 
         // now get the decision to make
         int decisionIndex;
         try
         {
             decisionIndex = BestDecision(input, options);
-
-            Debug.Assert(decisionIndex != -1, "Language Engine not setup correctly within unity!"); 
         }
         catch (NoBestDecision e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
             return;
         }
+        catch (NoOptionsAvailable e)
+        {
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: NoOptionsAvailable: {0}", e));
+
+            // say a placeholder saying its done
+            TTS.RunSpeech("We are finished, thank you.");
+
+            // stop reading speech
+            STT.StopReadingSpeech();
+            return;
+        }
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
 
-        // log our options
+        // Log our options
         Debug.Log(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
 
-        // with the decision, traverse the tree.
+        // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
 
-        // now say the next prompt
+        // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
     }
 
@@ -101,6 +112,10 @@ public class LanguageEngine : MonoBehaviour
     /// <returns>The index of the option to be taken. returns -1 if no string search algorithm checked.</returns>
     public int BestDecision(string input, List<string> treeData)
     {
+        if (treeData.Count <= 0)
+        {
+            throw new NoOptionsAvailable();
+        }
        
         if (this.wordComparison)
         {
@@ -138,7 +153,7 @@ public class LanguageEngine : MonoBehaviour
         }
         else
         {
-            return -1; 
+            throw new NoBestDecision("Language Engine not setup correctly within unity!");
         }
     }
 
@@ -154,7 +169,7 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="input">string containing the what the user stated.</param>
     /// <param name="options">the different words in the NPC prompt.</param>
     /// <returns>a index to the path the NPC will take in conversation.</returns>
-    private int wordComp(string input, string [][] options)
+    public int wordComp(string input, string [][] options)
     {
         // break down user input into seperate words.
         string[] wordBrokenDown = Regex.Split(input, " ");
@@ -189,8 +204,7 @@ public class LanguageEngine : MonoBehaviour
                     if (wordBrokenDown[userInputWords].Equals(options[curUserResp][wordsInUserResp]))
                     {
                         numbOfSameWords += 1;
-
-                        //Debug.Log("we making it within this cond? " + numbOfSameWords);
+                        // Debug.Log("we making it within this cond? " + numbOfSameWords);
 
                     }
 
@@ -200,14 +214,14 @@ public class LanguageEngine : MonoBehaviour
             }
 
 
-            //Debug.Log("what is inside of numbword " + numbOfSameWords);
+           // Debug.Log("what is inside of numbword " + numbOfSameWords);
 
             // figure out how many words where discovered to be in a certian response.
             Holder = numbOfSameWords / (double)wordBrokenDown.Length;
 
             currentWordPercent = Holder * 100; 
 
-            Debug.Log("currentPercent: " + currentWordPercent + " with the following input: " + input + "this is numbOfWords: " + numbOfSameWords + "word broken down: " + wordBrokenDown.Length + "this is holder: " + Holder);
+           // Debug.Log("currentPercent: " + currentWordPercent);
 
 
             if (prevIndex == -1 && currentWordPercent != 0)
@@ -233,8 +247,10 @@ public class LanguageEngine : MonoBehaviour
         }
 
 
-        //throw new NoBestDecision();
-        Debug.Assert(prevIndex != -1, "prevIndex did not get changed within the calculation above");
+        if (prevIndex == -1)
+        {
+            throw new NoBestDecision("prevIndex did not get changed within the calculation above");
+        }
 
         return prevIndex;
 
@@ -255,7 +271,7 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="pattern"> The string pattern we are searching for in a certain piece of text.</param>
     /// <param name="TextSearching">the text that we are searching through!</param>
     /// <returns>returns the index of a node that we want to head down in.</returns>
-    private int KMPcomp(string pattern, List<string>TextSearching)
+    public int KMPcomp(string pattern, List<string>TextSearching)
     {
         int M = pattern.Length;
         int [] lps = LPS(pattern, M);
@@ -308,8 +324,8 @@ public class LanguageEngine : MonoBehaviour
         return 1;
     }
     /// <summary>
-    /// Description: LPS stands for Longest Prefix and Suffix in a common pattern. Basically this helper function
-    /// finds the common Prefix and suffix in a pattern and stores it into a array.
+    /// Description: LPS stands for Longest proper suffix, this is a preprocessing function
+    /// on the input string in order to avoid unnecessary comparisons
     /// 
     /// pre-condition: the string pattern cannot be null, pattern length > 0
     /// 
@@ -319,7 +335,7 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="pat"> the pattern that we want to see what the common prefixs and suffixs are.</param>
     /// <param name="pattLen">the length of the pattern given.</param>
     /// <returns>returns a new array containing the LPS array.</returns>
-    private int [] LPS(string pat, int pattLen)
+    public int [] LPS(string pat, int pattLen)
     {
         int[] lps = new int[pattLen];
 
@@ -362,6 +378,10 @@ public class LanguageEngine : MonoBehaviour
 
     /// <summary>
     /// On Startup, say the prompt.
+    /// 
+    /// Pre-Conditions: Tree and current node exist.
+    /// 
+    /// Post-Conditions: The prompt will be said out loud.
     /// </summary>
     private void Start()
     {
