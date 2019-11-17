@@ -38,7 +38,7 @@ namespace Tests
             // Sets the word comparison to true to initiate wordComparison method
             Leng.wordComparison = true;
 
-            // ensures KMP does not interfere
+            // Ensures KMP does not interfere
             Leng.KMPComparison = false;
 
 
