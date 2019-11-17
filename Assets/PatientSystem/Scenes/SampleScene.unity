@@ -2128,11 +2128,6 @@ PrefabInstance:
       propertyPath: sources.Array.data[1]
       value: 
       objectReference: {fileID: 507754641}
-    - target: {fileID: 1539503291101111622, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: wordComparison
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87ec392c4dbe1504b844c8e546cad406, type: 3}
 --- !u!1001 &1434905452

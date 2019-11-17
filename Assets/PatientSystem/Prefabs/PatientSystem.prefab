@@ -385,7 +385,7 @@ MonoBehaviour:
   tree: {fileID: 6265206989134906742}
   TTS: {fileID: 7872390931817968197}
   STT: {fileID: 8839418603167607655}
-  wordComparison: 0
+  wordComparison: 1
   KMPComparison: 0
 --- !u!1 &2536332081543928970
 GameObject:
