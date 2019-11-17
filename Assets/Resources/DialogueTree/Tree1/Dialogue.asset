@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: 1
   prompt: 
-  response: []
-  next: []
+  response:
+  - 
+  next:
+  - {fileID: 0}
   start: 1
-  anim: {fileID: 0}
+  anim: {fileID: 7400000, guid: 60dabac2fc94db4429ca6b8047db5403, type: 3}
