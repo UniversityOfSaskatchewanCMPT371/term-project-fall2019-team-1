@@ -1,7 +1,8 @@
+
 # Incremental Deliverable 4
 
 ## Overview:
-All artifacts related to ID3 can be found in the following folder: https://drive.google.com/open?id=12rPZbJhgbDgCRqo12AL7n_Jc8wtP4JYV
+All artifacts related to ID4 can be found in the following folder: https://drive.google.com/open?id=12rPZbJhgbDgCRqo12AL7n_Jc8wtP4JYV
 
 For all group organization information, please see the Group Policy Document here:
 https://drive.google.com/open?id=11sec8O1YRpXrZ_SmS7pG_yDxbLzbfYKHDlcEEOF8y9s
@@ -37,7 +38,6 @@ For the next deliverable, our milestones are as follows:
 * Bring in at least 3 outside students to give general feedback of system
 * Implement repeating of NPC prompt when user response cannot be categorized into any of the possible branches
 * Add functionality for in-scene debug log to show all options extending from current node
-
 
 ## Steps to run a simple Demo
 1. Setup Oculus rift

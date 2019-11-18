@@ -1,8 +1,2 @@
-10:05:23 PM: what is the average airspeed velocity of an unladen swallow
-10:05:23 PM: African or European?
-10:08:14 PM: GoodBye
-10:08:14 PM: Thank you for grading the project.
-10:09:40 PM: GoodBye
-10:09:40 PM: Thank you for grading the project.
-10:10:24 PM: GoodBye
-10:10:24 PM: Thank you for grading the project.
+9:47:26 AM: Hello World
+9:47:26 AM: Message 2
