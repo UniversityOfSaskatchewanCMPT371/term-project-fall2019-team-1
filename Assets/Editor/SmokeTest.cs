@@ -95,15 +95,15 @@ public class SmokeTest
 
         // Processes Testing
         UsrInterface = ScriptableObject.CreateInstance<CustomGUI>();
-        Assert.AreNotEqual(UsrInterface.trees, null);
-        Assert.AreNotEqual(UsrInterface.treeDialogues, null);
-        Assert.AreNotEqual(UsrInterface.treesToDelete, null);
-        Assert.AreNotEqual(UsrInterface.Dialogues, null);
-        Assert.AreNotEqual(UsrInterface.NodeLayer, null);
+        Debug.Assert(UsrInterface.trees != null);
+        Debug.Assert(UsrInterface.treeDialogues != null);
+        Debug.Assert(UsrInterface.treesToDelete != null);
+        Debug.Assert(UsrInterface.Dialogues != null);
+        Debug.Assert(UsrInterface.NodeLayer != null);
 
         LEngine = new GameObject();
         LEngine.AddComponent<LanguageEngine>();
-        Assert.AreNotEqual(LEngine.GetComponent<LanguageEngine>(), null);
+        Debug.Assert(LEngine.GetComponent<LanguageEngine>() != null);
 
         Debug.Log("Smoketest Finished");
     }
