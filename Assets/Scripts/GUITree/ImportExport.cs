@@ -3,7 +3,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 
-
+#if UNITY_EDITOR
 public class ImportExport : MonoBehaviour
 {
     public Object[] Dialogues;
@@ -129,3 +129,4 @@ public class ImportExport : MonoBehaviour
         return temp;
     }
 }
+#endif
