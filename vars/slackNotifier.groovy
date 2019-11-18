@@ -12,7 +12,7 @@ def call(String buildResult, String slackChannel) {
     slackSend channel: slackChannel, color: "good", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was successful. Build Link: ${env.BUILD_URL}"
   }
   else if( buildResult == "FAILURE" ) { 
-    slackSend channel: slackChannel, color: "danger", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was failed. Build Link: ${env.BUILD_URL}"
+    slackSend channel: slackChannel, color: "danger", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} has failed. Build Link: ${env.BUILD_URL}"
   }
   else if( buildResult == "UNSTABLE" ) { 
     slackSend channel: slackChannel, color: "warning", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was unstable. Build Link: ${env.BUILD_URL}"
