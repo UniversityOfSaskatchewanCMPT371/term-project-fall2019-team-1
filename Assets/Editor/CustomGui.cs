@@ -197,7 +197,6 @@ public class CustomGUI : EditorWindow
                 if (GUILayout.Button("Tree " + trees[i]))
                 {
                     currentTree = trees[i];
-                    Debug.Log(currentTree);
                 }
 
                 // Make a button to delete that tree.
@@ -225,7 +224,7 @@ public class CustomGUI : EditorWindow
             // While the Tree hasn't been made yet.
             while (!treeAdded)
             {
-                Debug.Log(i);
+                
 
                 // Make sure that tree doesnt already exist.
                 if (!trees.Contains(i))
@@ -267,7 +266,7 @@ public class CustomGUI : EditorWindow
 
                 while (!treeAdded)
                 {
-                    Debug.Log(i);
+                    
 
                     // Make sure that tree doesnt already exist.
                     if (!trees.Contains(i))
@@ -298,36 +297,48 @@ public class CustomGUI : EditorWindow
                 for (int j = 0; j < tempobj.Count; j++)
                 {
 
-
                     //convert it into a Dialogue
-                    dialogues.Add(new Dialogue());
+                    dialogues.Add(ScriptableObject.CreateInstance<Dialogue>());
                     dialogues[j].prompt = tempobj[j].prompt;
                     dialogues[j].response = tempobj[j].response;
+                    dialogues[j].next = new List<Dialogue>();
                     dialogues[j].start = tempobj[j].head;
                     dialogues[j].tree = tempobj[j].tree;
+                    dialogues[j].name = tempobj[j].dialName;
 
                 }
+                
 
                 //now that all of the dialogues are made, put them into the proper folder.
                 for (int j = 0; j < dialogues.Count; j++)
                 {
-                    AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree - 1) + "/Dialogue" + (j + 1) + ".asset");
+                    AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree - 1) + "/" + dialogues[j].name + ".asset");
 
                 }
 
                 //change each Dialogues.next so that it matches the tempobj.next index   
                 Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree - 1));
-                Debug.Log(newTree - 1);
+                
 
                 //for each dialogue
                 for (int j = 0; j < Dialogues.Length; j++)
                 {
                     ((Dialogue)Dialogues[j]).next = new List<Dialogue>();
 
+                    Debug.Log("dialogue name" + ((Dialogue)Dialogues[j]).name);
+
                     //for each next[] in the tempobj
                     for (int k = 0; k < tempobj[j].next.Count; k++)
                     {
-                        ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[tempobj[j].next[k]]));
+                        //for each Dialogue.
+                        for (int h = 0; h < Dialogues.Length; h++)
+                        {
+                            //if that Dialogue is in the tempobjs list of next[], add it to the corresponding Dialogue
+                            if (((Dialogue)Dialogues[h]).name == tempobj[j].next[k])
+                            {
+                                ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[h]));
+                            }
+                        }
                     }
                 }
             }
@@ -343,8 +354,6 @@ public class CustomGUI : EditorWindow
         {
             string json = "";
             string path = ExportDialogGui();
-
-            Debug.Log(path);
 
             //if there is atleast 1 dialogue
             if (Dialogues.Length != 0)
@@ -830,9 +839,10 @@ public class CustomGUI : EditorWindow
     {
         public string prompt;
         public List<string> response;
-        public List<int> next;
+        public List<string> next;
         public int tree;
         public bool head;
+        public string dialName;
     }
 
     tempObject package(Dialogue dialogue)
@@ -842,19 +852,17 @@ public class CustomGUI : EditorWindow
         {
             prompt = dialogue.prompt,
             response = dialogue.response,
-            next = new List<int>(),
+            next = new List<string>(),
             tree = dialogue.tree,
-            head = dialogue.start
+            head = dialogue.start,
+            dialName = dialogue.name
+    };
 
-        };
 
-
-        //for every response in the dialogue
-        for (int i = 0; i < dialogue.next.Count; i++)
+        // For every next[] in the dialogue
+        for(int i = 0; i < dialogue.next.Count; i++)
         {
-            //find the index of dialogue.next, and set the temp.next to that index
-            if (dialogue.next[i] != null)
-                temp.next.Add(getNodeIndex(dialogue.next[i]));
+            temp.next.Add(dialogue.next[i].name);
         }
 
         return temp;
