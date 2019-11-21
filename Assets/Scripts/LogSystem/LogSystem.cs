@@ -24,8 +24,8 @@ public class LogSystem : MonoBehaviour
     // the Text box that data from text file is displayed in.
     public Text UIText;
 
-   // Key that is pressed to toggle the debug UI.
-   public KeyCode debugToggle;
+    // Key that is pressed to toggle the debug UI.
+    public KeyCode debugToggle;
 
     
     /// <summary>
@@ -118,5 +118,21 @@ public class LogSystem : MonoBehaviour
             UIText.GetComponent<Text>().text = sr.ReadToEnd();
             sr.Close();
         }
+    }
+
+    /// <summary>
+    /// <c>ShowAllOptions</c>
+    /// Description: Displays all the current phrases the user
+    /// can say from the current node in the dialogue tree.
+    /// 
+    /// Pre-condition: need text ui in scene
+    /// 
+    /// post-condition: text ui updated with possible phrases the user can say.
+    /// </summary>
+    ///
+    /// <returns>NULL</returns>
+    public void ShowAllOptions()
+    {
+
     }
 }
