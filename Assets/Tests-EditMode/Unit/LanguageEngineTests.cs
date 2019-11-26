@@ -248,8 +248,7 @@ namespace Tests
             string sample2 = "Cynthia";
             int[] expectedlps1 = new int[] { 0, 0, 1, 2, 3, 4, 0, 1 };
             int[] expectedlps2 = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-            Debug.Log(Leng.LPS(sample1, sample1.Length)[0]);
-            Debug.Log(Leng.LPS(sample2, sample2.Length)[0]);
+
 
             Assert.AreEqual(Leng.LPS(sample1, sample1.Length), expectedlps1);
             Assert.AreEqual(Leng.LPS(sample2, sample2.Length), expectedlps2);

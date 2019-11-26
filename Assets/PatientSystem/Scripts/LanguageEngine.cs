@@ -36,6 +36,7 @@ public class LanguageEngine : MonoBehaviour
     // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
+    
     public bool KMPComparison; 
 
     /// <summary>
@@ -281,6 +282,7 @@ public class LanguageEngine : MonoBehaviour
         int patternIndex = -1;
         int textIndex = -1;
         int ListCounter = 0;
+        int chance = 0;
 
         string contentText = null; 
 
@@ -288,7 +290,8 @@ public class LanguageEngine : MonoBehaviour
         {
             patternIndex = 0;
             textIndex = 0;
-            contentText = TextSearching[ListCounter]; 
+            contentText = TextSearching[ListCounter];
+            
 
             while (textIndex < contentText.Length)
             {
@@ -306,8 +309,6 @@ public class LanguageEngine : MonoBehaviour
                 }
                 else if (textIndex < contentText.Length && pattern[patternIndex] != contentText[textIndex])
                 {
-
-
                     if(patternIndex != 0)
                     {
                         patternIndex = lps[patternIndex - 1];
@@ -324,7 +325,7 @@ public class LanguageEngine : MonoBehaviour
             ListCounter++; 
         }
 
-        return 1;
+        return 1; 
     }
     /// <summary>
     /// Description: LPS stands for Longest proper suffix, this is a preprocessing function
@@ -343,7 +344,7 @@ public class LanguageEngine : MonoBehaviour
         int[] lps = new int[pattLen];
 
         int LenPreSuf = 0;
-        int counter = 0;
+        int counter = 1;
         lps[0] = 0; 
 
 
@@ -371,8 +372,6 @@ public class LanguageEngine : MonoBehaviour
                 }
 
             }
-
-
         }
 
         return lps; 
