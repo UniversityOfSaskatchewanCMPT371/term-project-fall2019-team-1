@@ -27,6 +27,8 @@ public class LogSystem : MonoBehaviour
     // Key that is pressed to toggle the debug UI.
     public KeyCode debugToggle;
 
+    // The scenes dialogue tree to use for displaying availible responses
+    public DialogueTree dialogueTree;
     
     /// <summary>
     /// <c>Start</c>
@@ -43,6 +45,9 @@ public class LogSystem : MonoBehaviour
         File.WriteAllText("logfile.txt", string.Empty);
 
         UIText.gameObject.SetActive(false);
+
+        // Get the Dialogue Tree in the scene
+        dialogueTree = FindObjectOfType<DialogueTree>().GetComponent<DialogueTree>();
     }
 
     void Update()
