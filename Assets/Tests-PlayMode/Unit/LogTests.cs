@@ -77,18 +77,6 @@ namespace Tests
         }
 
         /// <summary>
-        /// Checks that the uiText has the single option available to the
-        /// user in its text.
-        /// </summary>
-        /// <returns></returns>
-        [UnityTest]
-        public IEnumerator ShowAllOptionsShowsSingleOption()
-        {
-            
-            yield return null;
-        }
-
-        /// <summary>
         /// Asserts that the start function of the Log System finds the
         /// dialogue tree and sets the log systems dialogue tree to be that.
         /// </summary>

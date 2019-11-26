@@ -25,7 +25,10 @@ public class LogSystem : MonoBehaviour
     public Text UIText;
 
     // Key that is pressed to toggle the debug UI.
-    public KeyCode debugToggle;
+    public KeyCode debugToggle = KeyCode.Space;
+
+    // Key that is pressed to display the current options
+    public KeyCode displayOptionsToggle = KeyCode.O;
 
     // The scenes dialogue tree to use for displaying availible responses
     public DialogueTree dialogueTree;
@@ -47,14 +50,31 @@ public class LogSystem : MonoBehaviour
         UIText.gameObject.SetActive(false);
 
         // Get the Dialogue Tree in the scene
-        dialogueTree = FindObjectOfType<DialogueTree>().GetComponent<DialogueTree>();
+        DialogueTree dialogueObject = FindObjectOfType<DialogueTree>();
+        if (dialogueObject != null)
+        {
+            dialogueTree = dialogueObject;
+        }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(debugToggle) || Input.GetKeyUp(displayOptionsToggle))
         {
             ToggleUIText();
+        }
+        else
+        {
+            if (Input.GetKeyDown(debugToggle))
+            {
+                PrintToTextField();
+                ToggleUIText();
+            }
+            else if (Input.GetKeyDown(displayOptionsToggle))
+            {
+                ShowAllOptions();
+                ToggleUIText();
+            }
         }
     }
 
@@ -75,7 +95,6 @@ public class LogSystem : MonoBehaviour
         else
         {
             UIText.gameObject.SetActive(true);
-            PrintToTextField();
         }
     }
 
@@ -138,6 +157,14 @@ public class LogSystem : MonoBehaviour
     /// <returns>NULL</returns>
     public void ShowAllOptions()
     {
+        // Construct the text to display in the UI from the current nodes
+        // responses.
+        string options = "";
+        foreach (var option in this.dialogueTree.currentNode.response)
+        {
+            options += option + "\r\n";
+        }
+        UIText.GetComponent<Text>().text = options;
 
     }
 }
