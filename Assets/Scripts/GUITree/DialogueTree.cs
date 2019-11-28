@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 /// 
 /// </summary>
 /// <authors>Clayton VanderStelt, Kareem Oluwaseyi, Matt Radke</authors>
-public class DialogueTree : MonoBehaviour
+public class DialogueTree : MonoBehaviour, IDialogueTree
 {   
     // tree_Section is the UI tree.
     Rect Tree_Section;
@@ -28,8 +28,8 @@ public class DialogueTree : MonoBehaviour
     public Object[] Dialogues;
     
     // the current node in the dialouge array.
-    public Dialogue currentNode;
-    
+    public Dialogue currentNode { get; set; }
+
     // the entire tree itself.
     public int tree;
 

@@ -77,6 +77,36 @@ namespace Tests
         }
 
         /// <summary>
+        /// Checks to see that the uiText contains all options
+        /// that are in the dialogue trees current node.
+        /// </summary>
+        /// <returns></returns>
+        [UnityTest]
+        public IEnumerator ShowAllOptionsTextContainsOptions()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+
+            Dialogue dialogue = new Dialogue() {
+                tree = 1,
+                prompt = "Hello World",
+                response = new List<string>() { "Yes", "No" },
+                start = true,
+            };
+
+            logSystem.dialogueTree = new DialogueTreeMock() {
+                currentNode = dialogue
+            };
+
+            yield return null;
+            logSystem.ShowAllOptions();
+            string match = dialogue.response[0] + "\r\n" + dialogue.response[1] + "\r\n";
+            Assert.AreEqual(logSystem.UIText.text, match);
+            
+
+        }
+
+        /// <summary>
         /// Asserts that the start function of the Log System finds the
         /// dialogue tree and sets the log systems dialogue tree to be that.
         /// </summary>

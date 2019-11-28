@@ -31,7 +31,7 @@ public class LogSystem : MonoBehaviour
     public KeyCode displayOptionsToggle = KeyCode.O;
 
     // The scenes dialogue tree to use for displaying availible responses
-    public DialogueTree dialogueTree;
+    public IDialogueTree dialogueTree;
     
     /// <summary>
     /// <c>Start</c>
