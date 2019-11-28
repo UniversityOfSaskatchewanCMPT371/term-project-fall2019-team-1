@@ -82,8 +82,27 @@ public class TreeUI : MonoBehaviour
         return currentNode.prompt;
     }
 
+
+    /// <summary>
+    /// Description: Runs the animation of the current node if there is one.
+    /// 
+    /// pre-conditions: We must be on a valid node in the tree ui.
+    /// 
+    /// Post-condition: None
+    /// </summary>
+    /// 
+    /// <return> NULL </returns>
     public void RunAnim()
     {
-        animator.Play(currentNode.anim.name);
+
+        // A try catch to stop it from printing an error if there is no animation.
+        try
+        {
+            animator.Play(currentNode.anim.name);
+        }
+        catch 
+        {
+            Debug.Log("there is no animation");
+        }
     }
 }
