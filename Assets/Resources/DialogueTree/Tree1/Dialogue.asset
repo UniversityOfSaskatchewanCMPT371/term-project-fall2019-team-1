@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   tree: 1
-  prompt: 
+  prompt: hello
   response:
-  - 
+  - hi
   next:
   - {fileID: 0}
   start: 1
-  anim: {fileID: 7400000, guid: 60dabac2fc94db4429ca6b8047db5403, type: 3}
+  anim: {fileID: 7400000, guid: 475cd2175e2f79342a8ca0735190825e, type: 3}
