@@ -10,17 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: Dialogue
+  m_Name: Dialogue1
   m_EditorClassIdentifier: 
   tree: 1
   prompt: 
-  response:
-  - 
-  - 
-  - 
-  next:
-  - {fileID: 11400000, guid: 70a662621b7b33f40a0f4b4c09cac172, type: 2}
-  - {fileID: 11400000, guid: 0d698d5464a0f0c4bb4a54f5aeb81351, type: 2}
-  - {fileID: 0}
-  start: 1
-  anim: {fileID: 7400000, guid: 60dabac2fc94db4429ca6b8047db5403, type: 3}
+  response: []
+  next: []
+  start: 0
+  anim: {fileID: 0}

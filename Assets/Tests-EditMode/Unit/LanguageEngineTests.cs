@@ -105,9 +105,8 @@ namespace Tests
             Leng.wordComparison = true;
             Leng.KMPComparison = false;
 
-            int expectedbest = Leng.BestDecision("Friday", treemock);
-            // Debug.Log(expectedbest);
-            Assert.AreEqual(expectedbest, -1);           
+
+            Assert.That(() => Leng.BestDecision("Friday", treemock), Throws.Exception);
         }
 
         [Test]
@@ -229,6 +228,47 @@ namespace Tests
             int expectedbest = Leng.BestDecision("Let's go", treemock);
             // Debug.Log(expectedbest);
             Assert.AreEqual(expectedbest, 2);
+
+        }
+
+        [Test]
+        // This tests the language engine BestDecision method will return the correct index given 
+        // an edge case when using the KMP Comparison. 
+        public void LanguageEngineBestDecisionPassesGivenPartialEdgeCase1MatchKMPcomp()
+        {
+            LangE = new GameObject();
+            LangE.AddComponent<LanguageEngine>();
+
+            Leng = LangE.GetComponent<LanguageEngine>();
+            List<string> treemock = new List<string> { "Hello I am not feeling so well", "Hello I am feeling well today",
+                "Hello I am not felling well today" };
+            Leng.KMPComparison = true;
+            Leng.wordComparison = false;
+            int expectedbest = Leng.BestDecision("Hello I am not well", treemock);
+            // Debug.Log(expectedbest);
+            Assert.AreEqual(0, expectedbest);
+
+        }
+
+
+        [Test]
+        // This tests the language engine BestDecision method will return the correct index given 
+        // a partiallly matching edge case option when using the KMP Comparison. 
+        // 
+        public void LanguageEngineBestDecisionPassesGivenPartialEdgeCase2MatchKMPcomp()
+
+        {
+            LangE = new GameObject();
+            LangE.AddComponent<LanguageEngine>();
+
+            Leng = LangE.GetComponent<LanguageEngine>();
+            List<string> treemock = new List<string> { "Hello Doctor I might have an issue here , my hand is broken", "my hand is in pain",
+                "I think my hand is not broken" };
+            Leng.KMPComparison = true;
+            Leng.wordComparison = false;
+            int expectedbest = Leng.BestDecision("I might have broken my hand", treemock);
+            // Debug.Log(expectedbest);
+            Assert.AreEqual(expectedbest, 0);
 
         }
 
