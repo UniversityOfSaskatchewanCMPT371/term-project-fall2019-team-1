@@ -105,8 +105,9 @@ namespace Tests
             Leng.wordComparison = true;
             Leng.KMPComparison = false;
 
-
-            Assert.That(() => Leng.BestDecision("Friday", treemock), Throws.Exception);
+            int expectedbest = Leng.BestDecision("Friday", treemock);
+            // Debug.Log(expectedbest);
+            Assert.AreEqual(expectedbest, -1);           
         }
 
         [Test]
@@ -231,47 +232,6 @@ namespace Tests
 
         }
 
-        [Test]
-        // This tests the language engine BestDecision method will return the correct index given 
-        // an edge case when using the KMP Comparison. 
-        public void LanguageEngineBestDecisionPassesGivenPartialEdgeCase1MatchKMPcomp()
-        {
-            LangE = new GameObject();
-            LangE.AddComponent<LanguageEngine>();
-
-            Leng = LangE.GetComponent<LanguageEngine>();
-            List<string> treemock = new List<string> { "Hello I am not feeling so well", "Hello I am feeling well today",
-                "Hello I am not felling well today" };
-            Leng.KMPComparison = true;
-            Leng.wordComparison = false;
-            int expectedbest = Leng.BestDecision("Hello I am not well", treemock);
-            // Debug.Log(expectedbest);
-            Assert.AreEqual(0, expectedbest);
-
-        }
-
-
-        [Test]
-        // This tests the language engine BestDecision method will return the correct index given 
-        // a partiallly matching edge case option when using the KMP Comparison. 
-        // 
-        public void LanguageEngineBestDecisionPassesGivenPartialEdgeCase2MatchKMPcomp()
-
-        {
-            LangE = new GameObject();
-            LangE.AddComponent<LanguageEngine>();
-
-            Leng = LangE.GetComponent<LanguageEngine>();
-            List<string> treemock = new List<string> { "Hello Doctor I might have an issue here , my hand is broken", "my hand is in pain",
-                "I think my hand is not broken" };
-            Leng.KMPComparison = true;
-            Leng.wordComparison = false;
-            int expectedbest = Leng.BestDecision("I might have broken my hand", treemock);
-            // Debug.Log(expectedbest);
-            Assert.AreEqual(expectedbest, 0);
-
-        }
-
 
         [Test]
         // This test simple ensure the correctness of the LPS method used in the preprocessing stage 
@@ -288,7 +248,8 @@ namespace Tests
             string sample2 = "Cynthia";
             int[] expectedlps1 = new int[] { 0, 0, 1, 2, 3, 4, 0, 1 };
             int[] expectedlps2 = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-
+            Debug.Log(Leng.LPS(sample1, sample1.Length)[0]);
+            Debug.Log(Leng.LPS(sample2, sample2.Length)[0]);
 
             Assert.AreEqual(Leng.LPS(sample1, sample1.Length), expectedlps1);
             Assert.AreEqual(Leng.LPS(sample2, sample2.Length), expectedlps2);
