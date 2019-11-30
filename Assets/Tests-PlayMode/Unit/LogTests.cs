@@ -86,13 +86,11 @@ namespace Tests
         {
             var logSystem = setUpLogSystem();
             yield return null;
-
-            Dialogue dialogue = new Dialogue() {
-                tree = 1,
-                prompt = "Hello World",
-                response = new List<string>() { "Yes", "No" },
-                start = true,
-            };
+            var dialogue = ScriptableObject.CreateInstance<Dialogue>();
+            dialogue.tree = 1;
+            dialogue.prompt = "Hello World";
+            dialogue.response = new List<string>() { "Yes", "No" };
+            dialogue.start = true;
 
             logSystem.dialogueTree = new DialogueTreeMock() {
                 currentNode = dialogue
@@ -102,8 +100,6 @@ namespace Tests
             logSystem.ShowAllOptions();
             string match = dialogue.response[0] + "\r\n" + dialogue.response[1] + "\r\n";
             Assert.AreEqual(logSystem.UIText.text, match);
-            
-
         }
 
         /// <summary>
