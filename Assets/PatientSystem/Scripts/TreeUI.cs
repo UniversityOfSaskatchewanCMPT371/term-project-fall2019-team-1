@@ -24,11 +24,6 @@ public class TreeUI : MonoBehaviour
     /// </summary>
     public Dialogue currentNode;
 
-    /// <summary>
-    /// The Animator object that hendles animations.
-    /// </summary>
-    public Animator animator;
-
 
     /// <summary>
     /// 
@@ -45,6 +40,9 @@ public class TreeUI : MonoBehaviour
     /// <returns>The options we can take at the current node.</returns>
     public List<string> GetCurrentOptions()
     {
+
+  
+
         return currentNode.response;
     }
 
@@ -80,10 +78,5 @@ public class TreeUI : MonoBehaviour
     public string GetCurrentPrompt()
     {
         return currentNode.prompt;
-    }
-
-    public void RunAnim()
-    {
-        animator.Play(currentNode.anim.name);
     }
 }
