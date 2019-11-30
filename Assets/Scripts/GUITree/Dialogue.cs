@@ -8,6 +8,8 @@ public class Dialogue : ScriptableObject
     // The tree that this node belongs to.
     public int tree;
 
+    public string treeName;
+
     // The thing that the NPC will say.
     public string prompt;
 

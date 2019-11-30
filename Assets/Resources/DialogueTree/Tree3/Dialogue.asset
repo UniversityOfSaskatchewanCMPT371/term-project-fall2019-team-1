@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   tree: 3
+  treeName: shmeck
   prompt: 
-  response: []
+  response:
+  - 
+  - 
   next: []
   start: 1
   anim: {fileID: 0}
