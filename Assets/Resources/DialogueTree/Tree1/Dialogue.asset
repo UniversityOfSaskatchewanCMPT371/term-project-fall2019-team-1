@@ -19,4 +19,4 @@ MonoBehaviour:
   next:
   - {fileID: 0}
   start: 1
-  anim: {fileID: 7400000, guid: 475cd2175e2f79342a8ca0735190825e, type: 3}
+  anim: {fileID: 7400000, guid: 54c8d5b696f470540a97496f84550fff, type: 3}
