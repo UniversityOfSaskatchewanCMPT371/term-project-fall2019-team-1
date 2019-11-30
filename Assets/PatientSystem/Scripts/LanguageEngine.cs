@@ -88,9 +88,6 @@ public class LanguageEngine : MonoBehaviour
         // Log our options
         Debug.Log(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
 
-        //run the animation if there is on
-        tree.RunAnim();
-
         // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
 
