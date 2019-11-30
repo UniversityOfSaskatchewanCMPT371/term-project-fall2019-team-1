@@ -36,6 +36,7 @@ public class LanguageEngine : MonoBehaviour
     // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
+    
     public bool KMPComparison; 
 
     /// <summary>
@@ -243,19 +244,18 @@ public class LanguageEngine : MonoBehaviour
                 prevIndex = curUserResp;
 
                 prevIndexPercentage = currentWordPercent;
-                Debug.Log("prevPercent: HAS BEEN UPDATED " + prevIndexPercentage + " with the following input: " + input);
+                // Debug.Log("prevPercent: HAS BEEN UPDATED " + prevIndexPercentage + " with the following input: " + input);
 
             }
 
         }
 
-
         if (prevIndex == -1)
         {
             throw new NoBestDecision("prevIndex did not get changed within the calculation above");
         }
-
         return prevIndex;
+    
 
     }
 
@@ -270,61 +270,100 @@ public class LanguageEngine : MonoBehaviour
     /// 
     /// code copied and adapted from: https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/
     /// 
+    /// We added in a percentage based system that will help determine paths to tranverse!
+    ///
     /// </summary>
     /// <param name="pattern"> The string pattern we are searching for in a certain piece of text.</param>
     /// <param name="TextSearching">the text that we are searching through!</param>
     /// <returns>returns the index of a node that we want to head down in.</returns>
     public int KMPcomp(string pattern, List<string>TextSearching)
     {
-        int M = pattern.Length;
-        int [] lps = LPS(pattern, M);
+    
         int patternIndex = -1;
         int textIndex = -1;
         int ListCounter = 0;
 
-        string contentText = null; 
+        // Number of word matches.
+        int matches;
+        
+        // Percent chance of each text option
+        double percent_chance;
 
-        while(ListCounter < TextSearching.Count)
+
+        // Index of highest percentage match amongst the given strings
+        int max_percent_index = -1;
+
+
+        // Highest percentage match amongst the given strings
+        double max_percent_chance = 0;
+
+
+        string contentText;
+
+        // Splits input to compare each word
+        string[] words_inpattern = pattern.Split(null);
+
+
+        while (ListCounter < TextSearching.Count)
         {
-            patternIndex = 0;
-            textIndex = 0;
-            contentText = TextSearching[ListCounter]; 
+            contentText = TextSearching[ListCounter];
+            matches = 0;
+            percent_chance = 0;
 
-            while (textIndex < contentText.Length)
+            foreach (string word in words_inpattern)
             {
 
-                if(pattern[patternIndex] == contentText[textIndex])
+                int[] lps = LPS(word, word.Length);
+                patternIndex = 0;
+                textIndex = 0;
+                while (textIndex < contentText.Length)
                 {
-                    patternIndex++;
-                    textIndex++; 
+                    if (word[patternIndex] == contentText[textIndex])
+                    
+                    {
+                        
+                        patternIndex++;
+                        textIndex++;
+                    }
 
-                }
-
-                if (patternIndex == M)
-                {
-                    patternIndex = lps[patternIndex - 1];
-                }
-                else if (textIndex < contentText.Length && pattern[patternIndex] != contentText[textIndex])
-                {
-
-
-                    if(patternIndex != 0)
+                    if (patternIndex == word.Length)
                     {
                         patternIndex = lps[patternIndex - 1];
-                    } 
-                    else
-                    {
-                        textIndex ++; 
+                        matches++;
+                        // Whenever there is a match, the percent chance increases
                     }
+                    else if (textIndex < contentText.Length && word[patternIndex] != contentText[textIndex])
+                    {
+                        if (patternIndex != 0)
+                        {
+                            patternIndex = lps[patternIndex - 1];
+                        }
+                        else
+                        {
+                            textIndex++;
+
+                        }
+
+                    }
+                  
                 }
-
-
+               
+            }
+            // Debug.Log(matches);
+            percent_chance = (double)matches / words_inpattern.Length* 100;
+            // Debug.Log("There are " + matches + " matches with --> " + contentText + " with percent_chance of " + percent_chance);
+            if (percent_chance > max_percent_chance)
+            {
+                max_percent_chance = percent_chance;
+                max_percent_index = TextSearching.IndexOf(contentText);
+                // Debug.Log("This has the highest chance: " + contentText + " --> With a chance of " + max_percent_chance);
             }
 
+  
             ListCounter++; 
         }
 
-        return 1;
+        return max_percent_index; 
     }
     /// <summary>
     /// Description: LPS stands for Longest proper suffix, this is a preprocessing function
@@ -343,7 +382,7 @@ public class LanguageEngine : MonoBehaviour
         int[] lps = new int[pattLen];
 
         int LenPreSuf = 0;
-        int counter = 0;
+        int counter = 1;
         lps[0] = 0; 
 
 
@@ -371,8 +410,6 @@ public class LanguageEngine : MonoBehaviour
                 }
 
             }
-
-
         }
 
         return lps; 
