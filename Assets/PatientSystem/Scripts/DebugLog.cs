@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +36,7 @@ public class DebugLog : MonoBehaviour
     /// <summary>
     /// Subscribes to the logger when it receives a message, this needs to be on Awake (before Start) because it needs to hook the log messages before Start.
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         // init the buffer
         logBuffer = new List<string>();

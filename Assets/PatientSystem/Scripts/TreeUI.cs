@@ -94,7 +94,6 @@ public class TreeUI : MonoBehaviour
     /// <return> NULL </returns>
     public void RunAnim()
     {
-
         // A try catch to stop it from printing an error if there is no animation.
         try
         {
