@@ -22,7 +22,7 @@ namespace Tests
             LangE = new GameObject();
             LangE.AddComponent<LanguageEngine>();
             Assert.AreNotEqual(LangE.GetComponent<LanguageEngine>(), null);
-    }
+        }
         [Test]
         // This tests the language engine BestDecisionMethod will return the correct index given 
         // a matching first option when using word Comparison.

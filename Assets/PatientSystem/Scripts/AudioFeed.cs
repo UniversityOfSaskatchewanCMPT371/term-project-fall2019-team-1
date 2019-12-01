@@ -70,12 +70,23 @@ public class AudioFeed : MonoBehaviour
     /// <returns> NULL </returns>
     public void StopRecording()
     {
+        if (this.fileName == "")
+        {
+            throw new InvalidOperationException("Cannot stop recording if filename has not been set.");
+        }
+
         Debug.Assert(fileName != "");
 
         Debug.Log(string.Format("AudioFeed::StopRecording: fileName: {0}", fileName));
 
-        STT.ReceiveAudioFile(fileName);
-
+        try
+        {
+            STT.ReceiveAudioFile(fileName);
+        } catch (NullReferenceException)
+        {
+            Debug.Log("Error: File could not be found");
+        }
+        
         fileName = "";
     }
 }
