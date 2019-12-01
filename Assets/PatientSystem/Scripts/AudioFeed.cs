@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,10 +18,10 @@ using UnityEngine.Events;
 /// </authors>
 public class AudioFeed : MonoBehaviour
 {
- 
+
     // The file name to be created and recorded to.
- 
-    private string fileName = "";
+
+    public string fileName { get; private set; } = "";
 
 
     // The STT system.
@@ -44,6 +45,11 @@ public class AudioFeed : MonoBehaviour
     /// <returns> NULL </returns>
     public void StartRecording(string fileName)
     {
+        if (this.fileName != "")
+        {
+            throw new InvalidOperationException("Cannot change fileName after it has been set.");
+        }
+
         Debug.Assert(this.fileName == "");
 
         Debug.Log(string.Format("AudioFeed::StartRecording: fileName: {0}", fileName));
@@ -64,12 +70,23 @@ public class AudioFeed : MonoBehaviour
     /// <returns> NULL </returns>
     public void StopRecording()
     {
+        if (this.fileName == "")
+        {
+            throw new InvalidOperationException("Cannot stop recording if filename has not been set.");
+        }
+
         Debug.Assert(fileName != "");
 
         Debug.Log(string.Format("AudioFeed::StopRecording: fileName: {0}", fileName));
 
-        STT.ReceiveAudioFile(fileName);
-
+        try
+        {
+            STT.ReceiveAudioFile(fileName);
+        } catch (NullReferenceException)
+        {
+            Debug.Log("Error: File could not be found");
+        }
+        
         fileName = "";
     }
 }
