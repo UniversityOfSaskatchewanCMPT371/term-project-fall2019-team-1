@@ -30,11 +30,13 @@ public class LanguageEngine : MonoBehaviour
     // The text to speech system.
     public TextToSpeech TTS;
 
-    // the patient system.
-    public PatientSystem patientSystem;
+    // The patient system.
+    public SpeechToText STT;
 
+    // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
+    
     public bool KMPComparison; 
 
     /// <summary>
@@ -58,29 +60,42 @@ public class LanguageEngine : MonoBehaviour
         // get options we have at current node.
         List<string> options = tree.GetCurrentOptions();
 
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: '{0}'", string.Join(", ", options)));
 
         // now get the decision to make
         int decisionIndex;
         try
         {
             decisionIndex = BestDecision(input, options);
-
-            Debug.Assert(decisionIndex != -1, "Language Engine not setup correctly within unity!"); 
         }
         catch (NoBestDecision e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
             return;
         }
+        catch (NoOptionsAvailable e)
+        {
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: NoOptionsAvailable: {0}", e));
+
+            // say a placeholder saying its done
+            TTS.RunSpeech("We are finished, thank you.");
+
+            // stop reading speech
+            STT.StopReadingSpeech();
+            return;
+        }
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
 
-        // log our options
+        // Log our options
         Debug.Log(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
 
-        // with the decision, traverse the tree.
+        //run the animation if there is on
+        tree.RunAnim();
+
+        // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
 
-        // now say the next prompt
+        // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
     }
 
@@ -101,6 +116,10 @@ public class LanguageEngine : MonoBehaviour
     /// <returns>The index of the option to be taken. returns -1 if no string search algorithm checked.</returns>
     public int BestDecision(string input, List<string> treeData)
     {
+        if (treeData.Count <= 0)
+        {
+            throw new NoOptionsAvailable();
+        }
        
         if (this.wordComparison)
         {
@@ -138,7 +157,7 @@ public class LanguageEngine : MonoBehaviour
         }
         else
         {
-            return -1; 
+            throw new NoBestDecision("Language Engine not setup correctly within unity!");
         }
     }
 
@@ -154,7 +173,7 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="input">string containing the what the user stated.</param>
     /// <param name="options">the different words in the NPC prompt.</param>
     /// <returns>a index to the path the NPC will take in conversation.</returns>
-    private int wordComp(string input, string [][] options)
+    public int wordComp(string input, string [][] options)
     {
         // break down user input into seperate words.
         string[] wordBrokenDown = Regex.Split(input, " ");
@@ -163,6 +182,7 @@ public class LanguageEngine : MonoBehaviour
         // new response.
         double prevIndexPercentage = -1;
         double currentWordPercent = -1;
+        double Holder = -1;
 
 
         int prevIndex = -1;
@@ -175,20 +195,20 @@ public class LanguageEngine : MonoBehaviour
         {
             numbOfSameWords = 0;
             currentWordPercent = -1;
-
+            Holder = -1;
 
             for (int wordsInUserResp = 0; wordsInUserResp < options[curUserResp].Length; wordsInUserResp++)
             {
 
                 for (int userInputWords = 0; userInputWords < wordBrokenDown.Length; userInputWords++)
                 {
-                    Debug.Log("input: " + wordBrokenDown[userInputWords] + " options: " + options[curUserResp][wordsInUserResp]);
+                    //Debug.Log("input: " + wordBrokenDown[userInputWords] + " options: " + options[curUserResp][wordsInUserResp]);
 
                     // if a word matches to another word, then we know it could possible be a match to a response.
                     if (wordBrokenDown[userInputWords].Equals(options[curUserResp][wordsInUserResp]))
                     {
                         numbOfSameWords += 1;
-                        Debug.Log("we making it within this cond? " + numbOfSameWords);
+                        // Debug.Log("we making it within this cond? " + numbOfSameWords);
 
                     }
 
@@ -198,36 +218,44 @@ public class LanguageEngine : MonoBehaviour
             }
 
 
-            Debug.Log("what is inside of numbword " + numbOfSameWords);
+           // Debug.Log("what is inside of numbword " + numbOfSameWords);
 
             // figure out how many words where discovered to be in a certian response.
-            currentWordPercent = ((numbOfSameWords / wordBrokenDown.Length) * 100);
+            Holder = numbOfSameWords / (double)wordBrokenDown.Length;
 
-            Debug.Log("currentPercent: " + currentWordPercent);
+            currentWordPercent = Holder * 100; 
+
+           // Debug.Log("currentPercent: " + currentWordPercent);
 
 
-            if (prevIndex == -1)
+            if (prevIndex == -1 && currentWordPercent != 0)
             {
 
                 prevIndex = curUserResp;
 
                 prevIndexPercentage = currentWordPercent;
 
+                Debug.Log("prevPercent: " + prevIndexPercentage + " with the following input: " + input);
+
             }
-            else if (prevIndexPercentage < currentWordPercent)
+            else if (prevIndexPercentage < currentWordPercent && currentWordPercent > 0)
             {
                 // if the current word response is bigger then then the last we will change it.
                 prevIndex = curUserResp;
+
+                prevIndexPercentage = currentWordPercent;
+                // Debug.Log("prevPercent: HAS BEEN UPDATED " + prevIndexPercentage + " with the following input: " + input);
 
             }
 
         }
 
-
-        //throw new NoBestDecision();
-        Debug.Assert(prevIndex != -1, "prevIndex did not get changed within the calculation above");
-
+        if (prevIndex == -1)
+        {
+            throw new NoBestDecision("prevIndex did not get changed within the calculation above");
+        }
         return prevIndex;
+    
 
     }
 
@@ -242,65 +270,104 @@ public class LanguageEngine : MonoBehaviour
     /// 
     /// code copied and adapted from: https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/
     /// 
+    /// We added in a percentage based system that will help determine paths to tranverse!
+    ///
     /// </summary>
     /// <param name="pattern"> The string pattern we are searching for in a certain piece of text.</param>
     /// <param name="TextSearching">the text that we are searching through!</param>
     /// <returns>returns the index of a node that we want to head down in.</returns>
-    private int KMPcomp(string pattern, List<string>TextSearching)
+    public int KMPcomp(string pattern, List<string>TextSearching)
     {
-        int M = pattern.Length;
-        int [] lps = LPS(pattern, M);
+    
         int patternIndex = -1;
         int textIndex = -1;
         int ListCounter = 0;
 
-        string contentText = null; 
+        // Number of word matches.
+        int matches;
+        
+        // Percent chance of each text option
+        double percent_chance;
 
-        while(ListCounter < TextSearching.Count)
+
+        // Index of highest percentage match amongst the given strings
+        int max_percent_index = -1;
+
+
+        // Highest percentage match amongst the given strings
+        double max_percent_chance = 0;
+
+
+        string contentText;
+
+        // Splits input to compare each word
+        string[] words_inpattern = pattern.Split(null);
+
+
+        while (ListCounter < TextSearching.Count)
         {
-            patternIndex = 0;
-            textIndex = 0;
-            contentText = TextSearching[ListCounter]; 
+            contentText = TextSearching[ListCounter];
+            matches = 0;
+            percent_chance = 0;
 
-            while (textIndex < contentText.Length)
+            foreach (string word in words_inpattern)
             {
 
-                if(pattern[patternIndex] == contentText[textIndex])
+                int[] lps = LPS(word, word.Length);
+                patternIndex = 0;
+                textIndex = 0;
+                while (textIndex < contentText.Length)
                 {
-                    patternIndex++;
-                    textIndex++; 
+                    if (word[patternIndex] == contentText[textIndex])
+                    
+                    {
+                        
+                        patternIndex++;
+                        textIndex++;
+                    }
 
-                }
-
-                if (patternIndex == M)
-                {
-                    patternIndex = lps[patternIndex - 1];
-                }
-                else if (textIndex < contentText.Length && pattern[patternIndex] != contentText[textIndex])
-                {
-
-
-                    if(patternIndex != 0)
+                    if (patternIndex == word.Length)
                     {
                         patternIndex = lps[patternIndex - 1];
-                    } 
-                    else
-                    {
-                        textIndex ++; 
+                        matches++;
+                        // Whenever there is a match, the percent chance increases
                     }
+                    else if (textIndex < contentText.Length && word[patternIndex] != contentText[textIndex])
+                    {
+                        if (patternIndex != 0)
+                        {
+                            patternIndex = lps[patternIndex - 1];
+                        }
+                        else
+                        {
+                            textIndex++;
+
+                        }
+
+                    }
+                  
                 }
-
-
+               
+            }
+            // Debug.Log(matches);
+            percent_chance = (double)matches / words_inpattern.Length* 100;
+            // Debug.Log("There are " + matches + " matches with --> " + contentText + " with percent_chance of " + percent_chance);
+            if (percent_chance > max_percent_chance)
+            {
+                max_percent_chance = percent_chance;
+                max_percent_index = TextSearching.IndexOf(contentText);
+                // Debug.Log("This has the highest chance: " + contentText + " --> With a chance of " + max_percent_chance);
             }
 
+  
             ListCounter++; 
         }
 
-        return 1;
+        return max_percent_index; 
     }
     /// <summary>
-    /// Description: LPS stands for Longest Prefix and Suffix in a common pattern. Basically this helper function
-    /// finds the common Prefix and suffix in a pattern and stores it into a array.
+    /// Description: LPS stands for Longest proper suffix, this is a preprocessing function
+    /// on the input string in order to avoid unnecessary comparisons
     /// 
     /// pre-condition: the string pattern cannot be null, pattern length > 0
     /// 
@@ -310,12 +377,12 @@ public class LanguageEngine : MonoBehaviour
     /// <param name="pat"> the pattern that we want to see what the common prefixs and suffixs are.</param>
     /// <param name="pattLen">the length of the pattern given.</param>
     /// <returns>returns a new array containing the LPS array.</returns>
-    private int [] LPS(string pat, int pattLen)
+    public int [] LPS(string pat, int pattLen)
     {
         int[] lps = new int[pattLen];
 
         int LenPreSuf = 0;
-        int counter = 0;
+        int counter = 1;
         lps[0] = 0; 
 
 
@@ -343,8 +410,6 @@ public class LanguageEngine : MonoBehaviour
                 }
 
             }
-
-
         }
 
         return lps; 
@@ -353,6 +418,10 @@ public class LanguageEngine : MonoBehaviour
 
     /// <summary>
     /// On Startup, say the prompt.
+    /// 
+    /// Pre-Conditions: Tree and current node exist.
+    /// 
+    /// Post-Conditions: The prompt will be said out loud.
     /// </summary>
     private void Start()
     {

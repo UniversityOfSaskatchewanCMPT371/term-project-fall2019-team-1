@@ -10,13 +10,20 @@ using UnityEditor.SceneManagement;
 
 public class SmokeTest
 {
-    // private Thread sceneThread;
+    CustomGUI UsrInterface;
+    public GameObject LEngine;
 
     /// <summary>
     /// 
     /// <c>start</c>
     /// 
-    /// Description: The smoke test is called to ensure basic functionality of the system. The smoke test is a work in progress, and will be expanded to test - tree functionality
+    /// Description: The smoke test is called to ensure basic functionality of the system.
+    /// The Smoke Test currently does the following:
+    /// -Ensures there exists valid scenes in build
+    /// -For each scene, ensures that the scene can run without issues
+    /// -Ensure all assets are capable of loading properly
+    /// -Ensures Vital GUI components can be created and function properly
+    /// -Ensures Language Engine can be created properly
     /// 
     /// Pre-condition: None
     /// 
@@ -38,13 +45,17 @@ public class SmokeTest
     /// 
     /// <c>MainTest</c>
     /// 
-    /// Description: Runs the smoke test on the system, does this by testing a scene.
+    /// Description: Runs the smoke test on the system as defined above
+    /// -Ensures there exists valid scenes in build
+    /// -For each scene, ensures that the scene can run without issues
+    /// -Ensure all assets are capable of loading properly
+    /// -Ensures Vital GUI components can be created and function properly
+    /// -Ensures Language Engine can be created properly
     /// 
     /// pre-condition: The build must have valid scenes
     /// 
-    /// post-condition: Smoke test successfully verified using editor-mode, that a scene could load all assets without crashing.
-    /// All basic functionalities are working together without crashes, freezes, or errors.
-    /// Also verifies that the build contains valid scenes
+    /// post-condition: Smoke test successfully verified the system, or threw an error
+    /// if the system is broken
     /// 
     /// </summary>
     /// <returns>NULL</returns>
@@ -76,18 +87,22 @@ public class SmokeTest
         // Start Scenes in editor-mode. Load scene assets and ensure no crashes, exceptions, null references, or memory leaks happen
         Debug.Log("Loading Scenes in Editor Mode");
         Array.ForEach(scenes, Scene => {
-            
             EditorSceneManager.OpenScene(Scene);
             Debug.Log("Successfully loaded assets and tested " + Scene);
         });
 
-        // Thread and start scenes in editor-mode
-        // sceneThread = new Thread(() => load_scenes(scenes));
-        // Debug.Log("Starting sceneThread Thread");
-        // sceneThread.Start();
 
-        // Wait for threads to finish before declaring Smoketest Finish
-        // sceneThread.Join();
+        // Processes Testing
+        UsrInterface = ScriptableObject.CreateInstance<CustomGUI>();
+        Debug.Assert(UsrInterface.trees != null);
+        Debug.Assert(UsrInterface.treeDialogues != null);
+        Debug.Assert(UsrInterface.treesToDelete != null);
+        Debug.Assert(UsrInterface.Dialogues != null);
+        Debug.Assert(UsrInterface.NodeLayer != null);
+
+        LEngine = new GameObject();
+        LEngine.AddComponent<LanguageEngine>();
+        Debug.Assert(LEngine.GetComponent<LanguageEngine>() != null);
 
         Debug.Log("Smoketest Finished");
     }
