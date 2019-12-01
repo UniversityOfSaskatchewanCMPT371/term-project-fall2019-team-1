@@ -12,4 +12,6 @@ public interface IDialogueTree
         get;
         set;
     }
+
+    bool inTree(string speech);
 }

@@ -27,7 +27,7 @@ public class SpeechToTextSystem : MonoBehaviour
     public Text text;
 
     // reference to the dialougeTree.
-    public DialogueTree dialogueTree;
+    public IDialogueTree dialogueTree;
 
     // the phrase that was spoken, this value is the acutal value.
     private string phraseSpoken;
@@ -88,17 +88,7 @@ public class SpeechToTextSystem : MonoBehaviour
         dictationRecognizer = new DictationRecognizer();
 
         // When speech has been recognized.
-        dictationRecognizer.DictationResult += (text, confidence) =>
-        {
-            phraseSpoken = text;
-            // Write the text to the log.
-            GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
-            this.text.text = phraseSpoken;
-
-            Debug.Log("what is inside the Phrase Spoken:" + phraseSpoken); 
-            if (dialogueTree != null)
-                dialogueTree.inTree(phraseSpoken);
-        };
+        dictationRecognizer.DictationResult += OnDictationResult;
 
         text.gameObject.SetActive(false);
 
@@ -111,8 +101,20 @@ public class SpeechToTextSystem : MonoBehaviour
         dictationRecognizer.Start();
     }
 
-    // updates frame.
-    public void Update()
+    public void OnDictationResult(string text, ConfidenceLevel confidence)
+    {
+            phraseSpoken = text;
+            // Write the text to the log.
+            GameObject.FindGameObjectWithTag("Log").GetComponent<LogSystem>().WriteToFile(phraseSpoken);
+            this.text.text = phraseSpoken;
+
+            Debug.Log("what is inside the Phrase Spoken:" + phraseSpoken); 
+            if (dialogueTree != null)
+                dialogueTree.inTree(phraseSpoken);
+    }
+
+// updates frame.
+public void Update()
     {
 
         //Debug.Log("this is a test to see if pausing happens!"); 
