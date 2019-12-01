@@ -84,6 +84,7 @@ public class TreeUI : MonoBehaviour
 
     public void RunAnim()
     {
-        animator.Play(currentNode.anim.name);
+        if (animator != null)
+            animator.Play(currentNode.anim.name);
     }
 }
