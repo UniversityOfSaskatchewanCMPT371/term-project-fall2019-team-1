@@ -44,6 +44,9 @@ public class CustomGUI : EditorWindow
     // A list of all Dialogue objects.
     public UnityEngine.Object[] Dialogues;
 
+    // A list of all Dialogue objects.
+    public UnityEngine.Object[] AllDialogues;
+
     // A list of the Dialogues of the current tree.
     public List<Dialogue> treeDialogues;
 
@@ -147,6 +150,7 @@ public class CustomGUI : EditorWindow
     // Called several times per frame, used to redraw the GUI
     public void OnGUI()
     {
+
         max_nodes_x = 0;
 
         Debug.Assert(max_nodes_x == 0, "failure in OnGui, failed to set max nodes to 0");
@@ -170,15 +174,17 @@ public class CustomGUI : EditorWindow
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + currentTree);
         Debug.Assert(Dialogues != null, "Error in OnGUI, failure to obtain Dialogues");
 
+        
+
         //Refresh and atLayer
         atLayer.Clear();
         Debug.Assert(atLayer != null, "Error in OnGUI, failure to refresh atLayer");
         Debug.Assert(atLayer.Count == 0, "Error in OnGUI, failure to refresh atLayer");
 
         EditorGUILayout.BeginHorizontal();
-        
+      
         // The scrollbar for the list of trees.
-        scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(120));
+        scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(150));
 
         // For every tree.
         for(int i = 0; i < trees.Count; i++)
@@ -187,6 +193,19 @@ public class CustomGUI : EditorWindow
 
             if (!treesToDelete.Contains(trees[i]))
             {
+                AllDialogues = Resources.LoadAll("DialogueTree/Tree" + trees[i]);
+
+                List<Dialogue> newList = new List<Dialogue>();
+                for (int j = 0; j < AllDialogues.Length; j++)
+                {
+                    newList.Add((Dialogue)AllDialogues[j]);
+                }
+
+                treeDialogues = findTree(trees[i], newList);
+
+                GUI.backgroundColor = Color.white;
+                isHead(treeDialogues).treeName = EditorGUILayout.TextField(isHead(treeDialogues).treeName);
+
                 // Make a button for that tree.
                 GUI.backgroundColor = Color.white;
                 // Make the button colour for the current tree cyan.
@@ -194,7 +213,7 @@ public class CustomGUI : EditorWindow
                 {
                     GUI.backgroundColor = Color.cyan;
                 }
-                if (GUILayout.Button("Tree " + trees[i]))
+                if (GUILayout.Button("Select"))
                 {
                     currentTree = trees[i];
                 }
@@ -303,8 +322,9 @@ public class CustomGUI : EditorWindow
                     dialogues[j].response = tempobj[j].response;
                     dialogues[j].next = new List<Dialogue>();
                     dialogues[j].start = tempobj[j].head;
-                    dialogues[j].tree = tempobj[j].tree;
+                    dialogues[j].tree = newTree -1;
                     dialogues[j].name = tempobj[j].dialName;
+                    dialogues[j].treeName = tempobj[j].treeName;
 
                 }
                 
@@ -320,6 +340,7 @@ public class CustomGUI : EditorWindow
                 Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree - 1));
                 
 
+ //FIX THIS IN POST
                 //for each dialogue
                 for (int j = 0; j < Dialogues.Length; j++)
                 {
@@ -340,7 +361,18 @@ public class CustomGUI : EditorWindow
                             }
                         }
                     }
+
+                    while(((Dialogue)Dialogues[j]).next.Count != ((Dialogue)Dialogues[j]).response.Count)
+                    {
+                        ((Dialogue)Dialogues[j]).next.Add(null);
+                    }
+                    
+
+                    
                 }
+
+
+
             }
             catch
             {
@@ -837,6 +869,7 @@ public class CustomGUI : EditorWindow
 
     class tempObject
     {
+        public string treeName;
         public string prompt;
         public List<string> response;
         public List<string> next;
@@ -850,6 +883,7 @@ public class CustomGUI : EditorWindow
         //copy the prompt and responses
         tempObject temp = new tempObject
         {
+            treeName = dialogue.treeName,
             prompt = dialogue.prompt,
             response = dialogue.response,
             next = new List<string>(),
@@ -862,10 +896,45 @@ public class CustomGUI : EditorWindow
         // For every next[] in the dialogue
         for(int i = 0; i < dialogue.next.Count; i++)
         {
-            temp.next.Add(dialogue.next[i].name);
+            if (dialogue.next[i] != null)
+            {
+                temp.next.Add(dialogue.next[i].name);
+            }
         }
 
         return temp;
+    }
+
+    Dialogue isHead(List<Dialogue> dialogues)
+    {
+        //find the head node
+        for(int i = 0; i < dialogues.Count; i++)
+        {
+            if(dialogues[i].start == true)
+            {
+                return dialogues[i];
+            }
+        }
+
+        //else return the first node
+        return dialogues[0];
+    }
+
+    List<Dialogue> findTree(int treeId, List<Dialogue> dialogues)
+    {
+        List <Dialogue> tree = new List<Dialogue>();
+
+        for(int i = 0; i < dialogues.Count; i++)
+        {
+            if(dialogues[i].tree == treeId)
+            {
+                tree.Add(dialogues[i]);
+            }
+        }
+
+        
+
+        return tree;
     }
 }
 #endif
