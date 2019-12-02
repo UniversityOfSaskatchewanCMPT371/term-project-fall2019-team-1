@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: Dialogue1
+  m_Name: Dialogue6
   m_EditorClassIdentifier: 
   tree: 1
-  prompt: pray emoji
+  treeName: 
+  prompt: 
   response: []
   next: []
   start: 0
-  anim: {fileID: 7400000, guid: 475cd2175e2f79342a8ca0735190825e, type: 3}
+  anim: {fileID: 0}

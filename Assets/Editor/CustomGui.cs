@@ -26,9 +26,17 @@ using System;
 /// </authors>
 public class CustomGUI : EditorWindow
 {
-    int GUIwidth;
-    int GUIheight;
-   
+    // Variables that affect the size/positions of the nodes
+    int NodeHeight = 65;
+    int NodeWidth = 175;
+    int promptXChild = 100; //The amount that the prompt node moves over per child
+    int NodeXBuffer = 20; //The amount of empty space between the edge and the nodes, and between each node
+    int NodeYLayer = 100; //The amount that the prompt node moves down per vertical layer
+    int NodeYBuffer = 10; //The amount of empty space between the edge and the nodes, and between each node
+    int NodeFieldHeight = 20; //The height of the buttons/text field in the prompt.
+    int exitButtonSize = 15; //The size of the exit button
+
+
     //variables that affect the lines thickness, colour, etc...
     int shadowLine = 1;
     int shadowEdge = 4;
@@ -40,14 +48,17 @@ public class CustomGUI : EditorWindow
 
     // A list of the response windows.
     public List<Rect> responsewindows = new List<Rect>();
-    
-    // A list of all Dialogue objects.
+
+    // A list of all Dialogue objects. Used when having to load Dialogues from other trees.
+    public UnityEngine.Object[] nonCurrentDialogues;
+
+    // A list of the Dialogue objects of the current tree (Object[] format).
     public UnityEngine.Object[] Dialogues;
 
-    // A list of the Dialogues of the current tree.
+    // A list of the Dialogues of the current tree (Dialogue list format).
     public List<Dialogue> treeDialogues;
 
-    // The Layer that the corrosponding node in dialogueWindows is in.
+    // The vertical Layer that the corresponding node in dialogueWindows is in.
     public List<int> NodeLayer;
 
     // The current Tree being drawn.
@@ -58,6 +69,7 @@ public class CustomGUI : EditorWindow
 
     // The Dialogue Tree ScrollBar.
     public Vector2 scrollBar2;
+    
     // A list of nodes at a given layer.
     public List<int> atLayer;
 
@@ -89,6 +101,7 @@ public class CustomGUI : EditorWindow
     /// <returns> NULL </returns>
     public void Awake()
     {
+        // Initializing variables with empty values.
         layers = 0;
         Debug.Assert(layers == 0, "failure to create found");
 
@@ -97,12 +110,22 @@ public class CustomGUI : EditorWindow
 
         treeDialogues = new List<Dialogue>();
         Debug.Assert(treeDialogues != null, "failure to create treesDialogues");
-
+        
         treesToDelete = new List<int>();
         Debug.Assert(treesToDelete != null, "failure to create treesToDelete");
-
+        
         atLayer = new List<int>();
         Debug.Assert(atLayer != null, "failure to create atlayer");
+        
+        NodeLayer = new List<int>();
+        Debug.Assert(NodeLayer != null, "failure to create nodeLayer");
+        
+        dialwindows = new List<Rect>();
+        Debug.Assert(dialwindows != null, "failure to create dialwindows");
+        
+        responsewindows = new List<Rect>();
+        Debug.Assert(responsewindows != null, "failure to create dialwindows");
+
 
         // Obtain all of the Dialogue Objects.
         Dialogues = UnityEngine.Resources.LoadAll("DialogueTree");
@@ -110,19 +133,7 @@ public class CustomGUI : EditorWindow
 
         // -1 indicates that there is no current tree selected.
         currentTree = -1;
-        Debug.Assert(currentTree < 0, "failure to set tree to first tree");
-        
-
-        NodeLayer = new List<int>();
-        Debug.Assert(NodeLayer != null, "failure to create nodeLayer");
-
-        dialwindows = new List<Rect>();
-        Debug.Assert(dialwindows != null, "failure to create dialwindows");
-
-        responsewindows = new List<Rect>();
-        Debug.Assert(responsewindows != null, "failure to create dialwindows");
-
-       
+        Debug.Assert(currentTree < 0, "failure to set tree to first tree");  
     }
 
     
@@ -132,10 +143,10 @@ public class CustomGUI : EditorWindow
     /// 
     /// Pre-condition: Node must not be NULL.
     /// 
-    /// Post-condtion: Returns a new button
+    /// Post-condtion: A new button is in the "Window" menu
     /// 
     /// </summary>
-    /// <returns>NULL</returns>
+    /// <returns> nothing </returns>
     [MenuItem("Window/customGUI")]
     static void ShowEditor()
     {
@@ -147,18 +158,21 @@ public class CustomGUI : EditorWindow
     // Called several times per frame, used to redraw the GUI
     public void OnGUI()
     {
+        // Resetting because node positions may have changed, and it needs to get recalculated.
         max_nodes_x = 0;
-
         Debug.Assert(max_nodes_x == 0, "failure in OnGui, failed to set max nodes to 0");
 
+        //Refresh and atLayer
+        atLayer.Clear();
+        Debug.Assert(atLayer != null, "Error in OnGUI, failure to refresh atLayer");
+        Debug.Assert(atLayer.Count == 0, "Error in OnGUI, failure to refresh atLayer");
 
+        // Find the amount of trees, and their IDs.
         findTrees();
         Debug.Assert(trees.Count >= 0, "Error in OnGUI, failure to obtain number of trees");
         Debug.Assert(trees != null, "Error in OnGUI, trees is null");
 
-
-
-        // If a tree was found.
+        // If there is no current tree, set it to the first tree found
         if (trees.Count > 0 && currentTree < 0)
         {
             // The first tree will be the default tree.
@@ -169,210 +183,35 @@ public class CustomGUI : EditorWindow
         // Load the dialogue objects for the given tree.
         Dialogues = Resources.LoadAll("DialogueTree/Tree" + currentTree);
         Debug.Assert(Dialogues != null, "Error in OnGUI, failure to obtain Dialogues");
-
-        //Refresh and atLayer
-        atLayer.Clear();
-        Debug.Assert(atLayer != null, "Error in OnGUI, failure to refresh atLayer");
-        Debug.Assert(atLayer.Count == 0, "Error in OnGUI, failure to refresh atLayer");
+        Debug.Assert(Dialogues.Length > 0, "Error in OnGUI, failure to obtain Dialogues");
 
         EditorGUILayout.BeginHorizontal();
-        
+      
         // The scrollbar for the list of trees.
-        scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(120));
-
-        // For every tree.
-        for(int i = 0; i < trees.Count; i++)
-        {
-            GUILayout.BeginHorizontal();
-
-            if (!treesToDelete.Contains(trees[i]))
-            {
-                // Make a button for that tree.
-                GUI.backgroundColor = Color.white;
-                // Make the button colour for the current tree cyan.
-                if(currentTree == trees[i])
-                {
-                    GUI.backgroundColor = Color.cyan;
-                }
-                if (GUILayout.Button("Tree " + trees[i]))
-                {
-                    currentTree = trees[i];
-                }
-
-                // Make a button to delete that tree.
-                GUI.backgroundColor = Color.red;
-                if (GUILayout.Button("x"))
-                {
-                    GUI.backgroundColor = Color.red;
-                    AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree/Tree" + trees[i]);
-                    treesToDelete.Add(trees[i]);
-
-                }
-            }
-
-            GUILayout.EndHorizontal();
-        }
-
-        // A button that makes a new tree.
-        GUI.backgroundColor = Color.white;
-        if (GUILayout.Button("Add"))
-        {
-            bool treeAdded = false;
-            // Make a new folder for the tree.
-            int i = 1;
-
-            // While the Tree hasn't been made yet.
-            while (!treeAdded)
-            {
-                
-
-                // Make sure that tree doesnt already exist.
-                if (!trees.Contains(i))
-                {
-                    // Make the folder.
-                    AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
-                    
-                    // Make the head dialogue.
-                    Dialogue newDial = new Dialogue();
-                    Debug.Assert(newDial != null, "failure in OnGUI, newDial creation failed");
-                    newDial.tree = i;
-                    newDial.start = true;
-
-                    AssetDatabase.CreateAsset(newDial, "Assets/Resources/DialogueTree/Tree" + i + "/" + "Dialogue.asset");
-
-                    // Add the new tree to found.
-                    trees.Add(i);
-                    treeAdded = true;
-                }
-                i++;
-            }
+        scrollBar = GUILayout.BeginScrollView(scrollBar, false, true, GUILayout.Width(150));
             
-        }
+        // Draw the selection buttons in the left scrollview
+        drawTreeSelection();
+
+        //draw the "add new tree" button
+        drawNewTreeButton();
+
+        // End the left scrollbar.
         EditorGUILayout.EndScrollView();
 
         // Create an arrea for the import/export buttons.
         EditorGUILayout.BeginVertical();
         EditorGUILayout.BeginHorizontal();
 
-        if(GUILayout.Button("import"))
-        {
-            int i = 1;
-            try
-            {
-                string path = ImportDialogGui();
-                int newTree = 0;
-                bool treeAdded = false;
-               
+        //draw the input button
+        drawImportButton();
 
-                while (!treeAdded)
-                {
-                    
+        //draw the export button
+        drawExportButton();
 
-                    // Make sure that tree doesnt already exist.
-                    if (!trees.Contains(i))
-                    {
-                        // Make the folder.
-                        AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
-
-                        // Add the new tree to found.
-                        trees.Add(i);
-                        treeAdded = true;
-                    }
-                    i++;
-                }
-                newTree = i;
-
-                //grab the file
-                StreamReader inportFile = new StreamReader(path);
-
-                //read the file
-                List<Dialogue> dialogues = new List<Dialogue>();
-                List<tempObject> tempobj = new List<tempObject>();
-                while (!inportFile.EndOfStream)
-                {
-                    tempobj.Add(JsonUtility.FromJson<tempObject>(inportFile.ReadLine()));
-                }
-
-                //for every tempObj
-                for (int j = 0; j < tempobj.Count; j++)
-                {
-
-                    //convert it into a Dialogue
-                    dialogues.Add(ScriptableObject.CreateInstance<Dialogue>());
-                    dialogues[j].prompt = tempobj[j].prompt;
-                    dialogues[j].response = tempobj[j].response;
-                    dialogues[j].next = new List<Dialogue>();
-                    dialogues[j].start = tempobj[j].head;
-                    dialogues[j].tree = tempobj[j].tree;
-                    dialogues[j].name = tempobj[j].dialName;
-
-                }
-                
-
-                //now that all of the dialogues are made, put them into the proper folder.
-                for (int j = 0; j < dialogues.Count; j++)
-                {
-                    AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + (newTree - 1) + "/" + dialogues[j].name + ".asset");
-
-                }
-
-                //change each Dialogues.next so that it matches the tempobj.next index   
-                Dialogues = Resources.LoadAll("DialogueTree/Tree" + (newTree - 1));
-                
-
-                //for each dialogue
-                for (int j = 0; j < Dialogues.Length; j++)
-                {
-                    ((Dialogue)Dialogues[j]).next = new List<Dialogue>();
-
-                    Debug.Log("dialogue name" + ((Dialogue)Dialogues[j]).name);
-
-                    //for each next[] in the tempobj
-                    for (int k = 0; k < tempobj[j].next.Count; k++)
-                    {
-                        //for each Dialogue.
-                        for (int h = 0; h < Dialogues.Length; h++)
-                        {
-                            //if that Dialogue is in the tempobjs list of next[], add it to the corresponding Dialogue
-                            if (((Dialogue)Dialogues[h]).name == tempobj[j].next[k])
-                            {
-                                ((Dialogue)Dialogues[j]).next.Add((Dialogue)(Dialogues[h]));
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree" + "/Tree" + (i-1));
-                AssetDatabase.Refresh();
-                trees.Remove(i - 1);
-             }
-        }
-
-        if(GUILayout.Button("export"))
-        {
-            string json = "";
-            string path = ExportDialogGui();
-
-            //if there is atleast 1 dialogue
-            if (Dialogues.Length != 0)
-            {
-                //add it to the json
-                json = JsonUtility.ToJson(package((Dialogue)Dialogues[0]));
-            }
-
-            //for every dialogue after the first
-            for (int i = 1; i < Dialogues.Length; i++)
-            {
-                //make a new line, then add it
-                json += "\n" + JsonUtility.ToJson(package((Dialogue)Dialogues[i]));
-            }
-
-            //put the json in a file
-            File.WriteAllText(path, json);
-        }
+        //nothing else needs to be beside the import and export button
         EditorGUILayout.EndHorizontal();
+        //anything below here will be below the import/export button
 
         // Create an area for the nodes to be in.
         scrollBar2 = GUILayout.BeginScrollView(scrollBar2, true, true);
@@ -393,7 +232,8 @@ public class CustomGUI : EditorWindow
         }
 
 
-
+        // Create invisible boxes that extend the scrollview
+        //(done becasue the nodes themselves do not do this)
         GUI.backgroundColor = Color.clear;
         GUILayout.Box("", GUILayout.Height(-15), GUILayout.Width(max_nodes_x + 175));
         GUILayout.Box("", GUILayout.Height(atLayer.Count *100 + 100), GUILayout.Width(0));
@@ -425,28 +265,18 @@ public class CustomGUI : EditorWindow
         Dialogue head = ScriptableObject.CreateInstance<Dialogue>();
 
         dialwindows.Clear();
+        Debug.Assert(dialwindows.Count == 0, "failure in drawTree, dialwindows is not cleared properly");
+       
         NodeLayer.Clear();
+        Debug.Assert(NodeLayer.Count == 0, "failure in drawTree, NodeLayer is not cleared properly");
 
+        head = findHead(convertToList(Dialogues));
+        Debug.Assert(head != null, "failure in drawTree, head is not set properly");
 
-        for (int i = 0; i < Dialogues.Length; i++)
-        {
-            // If this node belongs to the current tree, and is the head of that tree.
-            if ((((Dialogue)Dialogues[i]).tree == treeNum) && (((Dialogue)Dialogues[i]).start == true))
-            {
-                head = (Dialogue)Dialogues[i];
-                goto Found; 
-            }
-            else
-            {
-                // If it cant be found, set it ot the first one that appears.
-                head = (Dialogue)Dialogues[0];
-            }
-        }
-
-        Found:
         atLayer.Add(0);
+
+        //giving the paramter 0 becasue the first node is at the zeroith layer.
         drawPrompt(head, 0);
-      
     }
 
     /// <summary>
@@ -467,6 +297,7 @@ public class CustomGUI : EditorWindow
     {
         float biggestX = 0;
 
+        //if a new layer was added update layers
         if (layer > layers)
         {
             layers = layer;
@@ -498,26 +329,32 @@ public class CustomGUI : EditorWindow
             // Make one
             dial.next = new List<Dialogue>();
         }
-        // TODO: have node start below its parent.
-
-       
 
         // Create the position of the node.
-        Rect nodeRect = new Rect(dial.response.Count *100 + 20 + biggestX, layer * 100 + 10, 175, 65);
+        Rect nodeRect = new Rect(dial.response.Count *promptXChild + NodeXBuffer + biggestX, layer * NodeYLayer + NodeYBuffer, NodeWidth, NodeHeight);
 
         // Adjusts the x-coordinate to adjust scrolling
         if (max_nodes_x < nodeRect.x)
         {
             max_nodes_x = nodeRect.x;
         }
-        Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
-        Rect animRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
-        Rect buttonRect = new Rect(nodeRect.x, textRect.y + 45, nodeRect.width, 20);
-        Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
+
+        Rect textRect = new Rect(nodeRect.x, nodeRect.y + NodeFieldHeight, nodeRect.width, NodeFieldHeight);
+        Rect animRect = new Rect(nodeRect.x, textRect.y + NodeFieldHeight, nodeRect.width, NodeFieldHeight);
+        Rect buttonRect = new Rect(nodeRect.x, animRect.y + NodeFieldHeight, nodeRect.width, NodeFieldHeight);
+        Rect exitRect = new Rect(nodeRect.x + nodeRect.width - exitButtonSize, nodeRect.y, exitButtonSize, exitButtonSize);
+
+        Debug.Assert(textRect != null, "failure in drawPrompt. textRect was not created properly");
+        Debug.Assert(animRect != null, "failure in drawPrompt. animRect was not created properly");
+        Debug.Assert(buttonRect != null, "failure in drawPrompt. buttonRect was not created properly");
+        Debug.Assert(exitRect != null, "failure in drawPrompt. exitRect was not created properly");
 
         dialwindows.Add(nodeRect);
-
         NodeLayer.Add(layer);
+
+        Debug.Assert(dialwindows.Count > 0, "Failure in drawPrompt, dialwindows is an impossible value");
+        Debug.Assert(NodeLayer.Count > 0, "Failure in drawPrompt, NodeLayer is an imposible value");
+
 
         // Draw the node.
         EditorGUI.DrawRect(nodeRect, Color.grey);
@@ -526,9 +363,9 @@ public class CustomGUI : EditorWindow
         EditorGUI.LabelField(nodeRect, "NPC Prompt:");
         dial.prompt = EditorGUI.TextField(textRect, dial.prompt);
 
+
         // Make a field for inputting an animation.
         dial.anim = (AnimationClip)EditorGUI.ObjectField(animRect, dial.anim, typeof(AnimationClip), true);
-
 
         // Make a button for creating another node.
         if (GUI.Button(buttonRect, "new child"))
@@ -537,6 +374,9 @@ public class CustomGUI : EditorWindow
             dial.response.Add("");
             dial.next.Add(null);
         }
+
+        Debug.Assert(dial.response != null, "Failure in drawPrompt, dial.response should not be equal to null");
+        Debug.Assert(dial.next != null, "Failure in drawPrompt, dial.next should not be equal to null");
 
         // Create a delete button if this is a leaf node.
         if (dial.response.Count == 0)
@@ -576,7 +416,7 @@ public class CustomGUI : EditorWindow
         // Notify the other nodes that this node is at the current layer.
         atLayer[layer] ++;
 
-
+        //if the object still exists
         if (dial != null)
         {
             // Let unity know that the dialogue object needs to be saved.
@@ -597,7 +437,7 @@ public class CustomGUI : EditorWindow
     /// </summary>
     /// 
     /// <param name="dial">the dialogue being draw.</param>
-    /// <param name="layer">the layer of the node</param>
+    /// <param name="layer">the vetical layer of the node</param>
     /// <param name="index">the index of the response being drawn</param>
     /// 
     /// <returns>The rect of the response node</returns>
@@ -609,17 +449,24 @@ public class CustomGUI : EditorWindow
         }
 
         // Create the position of the node.
-        Rect nodeRect = new Rect((atLayer[layer] * 200) + 20, layer * 100+10, 175, 70);
+        Rect nodeRect = new Rect((atLayer[layer] * 200) + NodeXBuffer, layer * NodeYLayer + NodeYBuffer, NodeWidth, NodeHeight);
+        
         if (max_nodes_x < nodeRect.x)
         {
             max_nodes_x = nodeRect.x;
         }
-        Rect textRect = new Rect(nodeRect.x, nodeRect.y + 20, nodeRect.width, 20);
-        Rect buttonRect = new Rect(nodeRect.x, textRect.y + 25, nodeRect.width, 20);
-        Rect exitRect = new Rect(nodeRect.x + nodeRect.width - 15, nodeRect.y, 15, 15);
+        
+        Rect textRect = new Rect(nodeRect.x, nodeRect.y + NodeFieldHeight, nodeRect.width, NodeFieldHeight);
+        Rect buttonRect = new Rect(nodeRect.x, textRect.y + NodeFieldHeight, nodeRect.width, NodeFieldHeight);
+        Rect exitRect = new Rect(nodeRect.x + nodeRect.width - exitButtonSize, nodeRect.y, exitButtonSize, exitButtonSize);
+
+        Debug.Assert(textRect != null, "failure in drawResponse. textRect was not created properly");
+        Debug.Assert(buttonRect != null, "failure in drawResponse. buttonRect was not created properly");
+        Debug.Assert(exitRect != null, "failure in drawResponse. exitRect was not created properly");
 
         responsewindows.Add(nodeRect);
-        
+        Debug.Assert(responsewindows != null, "failure in drawResponse. responsewindows was null");
+        Debug.Assert(responsewindows.Count > 0, "failure in drawResponse. responsewindows.count was 0");
 
         // Draw the node.
         EditorGUI.DrawRect(nodeRect, Color.white);
@@ -644,6 +491,12 @@ public class CustomGUI : EditorWindow
                     newDial.response = new List<string>();
                     newDial.prompt = "";
                     AssetDatabase.CreateAsset(newDial, "Assets/Resources/DialogueTree/Tree" + dial.tree + "/Dialogue" + Dialogues.Length + ".asset");
+
+                    Debug.Assert(newDial != null, "failure in drawResponse. newDial was created inproperly");
+                    Debug.Assert(newDial.start == false, "failure in drawResponse. newDial.start was set inproperly");
+                    Debug.Assert(newDial.tree == dial.tree, "failure in drawResponse. newDial.tree was set inproperly");
+                    Debug.Assert(newDial.response != null, "failure in drawResponse. newDial.response was set inproperly");
+                    Debug.Assert(newDial.prompt == "", "failure in drawResponse. newDial.prompt was set inproperly");
 
                     // If the current Dialogue doesnt have a next, make one
                     if (dial.next == null)
@@ -729,12 +582,8 @@ public class CustomGUI : EditorWindow
                 return i;
             }
         }
-
         return -1;
     }
-
-
-    //TODO: find a better curve function.
 
     /// <summary>
     /// <c>DrawNodeCurve</c>
@@ -771,9 +620,9 @@ public class CustomGUI : EditorWindow
     /// 
     /// Description: Returns the amount of trees that are currently in the resources folder.
     /// 
-    /// Pre-condition:None
+    /// Pre-condition: The Resources/DialogueTree folder exists
     /// 
-    /// Post-condition: None
+    /// Post-condition: trees has been update to hold all of the treeID's
     /// 
     /// </summary>
     /// <returns>the number of trees in the resources folder</returns>
@@ -809,10 +658,7 @@ public class CustomGUI : EditorWindow
     string ImportDialogGui()
     { 
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
         return EditorUtility.OpenFilePanel("Import Json File", path, "json");
-
-        
     }
 
     /// <summary>
@@ -830,13 +676,17 @@ public class CustomGUI : EditorWindow
     string ExportDialogGui()
     { 
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
         return EditorUtility.SaveFilePanel("Export Tree To File", path, currentTree + ".json", "json");
     }
 
 
-    class tempObject
+    /// <summary>
+    /// A Class that represents a Dialogue Node, used during the export process.
+    /// Needed becasue the next[] field can not be converted to json.
+    /// </summary>
+    class packagedNode
     {
+        public string treeName;
         public string prompt;
         public List<string> response;
         public List<string> next;
@@ -845,27 +695,385 @@ public class CustomGUI : EditorWindow
         public string dialName;
     }
 
-    tempObject package(Dialogue dialogue)
+    /// <summary>
+    /// <c>package</c>
+    /// 
+    /// Description: a helper function that readies a Dialogue object for export by packaging it into a packagedNode
+    /// 
+    /// Pre-condition: dialogue is not null
+    /// 
+    /// Post-condition: None
+    /// </summary>
+    /// <param name="dialogue">a Dialogue that needs to be packaged for export</param>
+    /// <returns> A packagedObject </returns>
+    packagedNode package(Dialogue dialogue)
     {
         //copy the prompt and responses
-        tempObject temp = new tempObject
+        packagedNode temp = new packagedNode
         {
+            treeName = dialogue.treeName,
             prompt = dialogue.prompt,
             response = dialogue.response,
             next = new List<string>(),
             tree = dialogue.tree,
             head = dialogue.start,
             dialName = dialogue.name
-    };
-
+        };
 
         // For every next[] in the dialogue
-        for(int i = 0; i < dialogue.next.Count; i++)
+        for (int i = 0; i < dialogue.next.Count; i++)
         {
-            temp.next.Add(dialogue.next[i].name);
+            if (dialogue.next[i] != null)
+            {
+                temp.next.Add(dialogue.next[i].name);
+            }
         }
 
+        //check that the packaging is correct
+        Debug.Assert(temp.treeName == dialogue.treeName, "Failure in package");
+        Debug.Assert(temp.dialName == dialogue.name, "Failure in package");
+        Debug.Assert(temp.prompt == dialogue.prompt, "Failure in package");
+        Debug.Assert(temp.response == dialogue.response, "Failure in package");
+        Debug.Assert(temp.response.Count == dialogue.response.Count, "Failure in package");
+        Debug.Assert(temp.tree == dialogue.tree, "Failure in package");
+        Debug.Assert(temp.head == dialogue.start, "Failure in package");
+        Debug.Assert(temp.next.Count == dialogue.next.Count, "Failure in package");
+
         return temp;
+    }
+
+    /// <summary>
+    /// <c>findHead</c>
+    /// 
+    /// Description: a helper function that finds the head node out of a list of Dialogues
+    /// 
+    /// Pre-condition: dialogues is not null
+    /// 
+    /// Post-condition: None
+    /// </summary>
+    /// <param name="dialogues">A list of Dialogues</param>
+    /// <returns> A single Dialogue that is the head node of the list of Dialogues </returns>
+    Dialogue findHead(List<Dialogue> dialogues)
+    {
+        //find the head node
+        for(int i = 0; i < dialogues.Count; i++)
+        {
+            if(dialogues[i].start == true)
+            {
+                return dialogues[i];
+            }
+        }
+
+        //else return the first node
+        return dialogues[0];
+    }
+
+    /// <summary>
+    /// <c>convertToList</c>
+    /// 
+    /// Description: a helper function that converts a 
+    /// 
+    /// Pre-condition: objects is not null, and is a array of Dialogue Objects
+    /// 
+    /// Post-condition: None
+    /// </summary>
+    /// <param name="objects"></param>
+    /// <returns> A list of Dialogues </returns>
+    List<Dialogue> convertToList(UnityEngine.Object[] objects)
+    {
+        // Convert them from object[] to a list of Dialogues.
+        List<Dialogue> newList = new List<Dialogue>();
+        for (int j = 0; j < objects.Length; j++)
+        {
+            newList.Add((Dialogue)objects[j]);
+        }
+
+        return newList;
+    }
+
+    /// <summary>
+    /// <c>drawTreeSelection</c>
+    /// 
+    /// Description: Draws the buttons in the left sidebar, used for selecting and deleting trees.
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: The buttons have been drawn on the customGUI window
+    /// </summary>
+    /// <returns> nothing </returns>
+    void drawTreeSelection()
+    {
+        // For every tree.
+        for (int i = 0; i < trees.Count; i++)
+        {
+            // Put the following three buttons beside eachother.
+            GUILayout.BeginHorizontal();
+            
+            // If the three is going to be deleted, dont draw it
+            if (!treesToDelete.Contains(trees[i]))
+            {
+                // Grab the dialogues objects of each tree.
+                nonCurrentDialogues = Resources.LoadAll("DialogueTree/Tree" + trees[i]);
+
+                // Convert them from object[] to a list of Dialogues.
+                List<Dialogue> newList = convertToList(nonCurrentDialogues);
+
+                // Draw a text field that displays the tree's name.
+                GUI.backgroundColor = Color.white;
+                findHead(newList).treeName = EditorGUILayout.TextField(findHead(newList).treeName);
+
+                // If its drawing the current tree...
+                if (currentTree == trees[i])
+                {
+                    // Make the button colour cyan.
+                    GUI.backgroundColor = Color.cyan;
+                }
+                else
+                {
+                    // Else, make it white.
+                    GUI.backgroundColor = Color.white;
+                }
+                //Make the select button
+                if (GUILayout.Button("Select"))
+                {
+                    currentTree = trees[i];
+                }
+
+                // Make a button to delete that tree.
+                GUI.backgroundColor = Color.red;
+                if (GUILayout.Button("x"))
+                {
+                    GUI.backgroundColor = Color.red;
+                    AssetDatabase.DeleteAsset("Assets/Resources/DialogueTree/Tree" + trees[i]);
+                    treesToDelete.Add(trees[i]);
+                }
+            }
+
+            // Nothing else needs to be beside these three buttons
+            GUILayout.EndHorizontal();
+        }
+    }
+
+    /// <summary>
+    /// <c>drawNewTreeButton</c>
+    /// 
+    /// Description: Draws the buttons in the left sidebar, used for creating a new tree
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: The button have been drawn on the customGUI window
+    /// </summary>
+    /// <returns> nothing </returns>
+    void drawNewTreeButton()
+    {
+        GUI.backgroundColor = Color.white;
+        if (GUILayout.Button("Add"))
+        {
+            bool treeAdded = false;
+            // Make a new folder for the tree.
+            int i = 1;
+
+            // While the Tree hasn't been made yet.
+            while (!treeAdded)
+            {
+                // Make sure that tree doesnt already exist.
+                if (!trees.Contains(i))
+                {
+                    // Make the folder.
+                    AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
+
+                    // Make the head dialogue.
+                    Dialogue newDial = ScriptableObject.CreateInstance<Dialogue>();
+                    Debug.Assert(newDial != null, "failure in OnGUI, newDial creation failed");
+                    newDial.tree = i;
+                    newDial.start = true;
+                    newDial.treeName = "Tree" + i;
+
+                    AssetDatabase.CreateAsset(newDial, "Assets/Resources/DialogueTree/Tree" + i + "/" + "Dialogue.asset");
+
+                    // Add the new tree to found.
+                    trees.Add(i);
+                    treeAdded = true;
+                }
+                i++;
+            }
+        }
+    }
+
+    /// <summary>
+    /// <c>drawImportButton</c>
+    /// 
+    /// Description: Draws the buttons above the Node View, used for importing a tree.
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: The button have been drawn on the customGUI window
+    /// </summary>
+    /// <returns> nothing </returns>
+    void drawImportButton()
+    {
+        // button creation
+        if (GUILayout.Button("import"))
+        {
+            //iterable
+            int i = 1;
+
+            try
+            {
+                // Obtaining the path of the file that is being imported
+                string path = ImportDialogGui();
+                
+                // The ID of the new tree that will be created by the import
+                int newTree = 0;
+
+                // Keeps track of whether a new tree has been made.
+                bool treeAdded = false;
+
+                //while the tree has not been created
+                while (!treeAdded)
+                {
+                    // Find the lowest ID that is not being used
+                    if (!trees.Contains(i))
+                    {
+                        // Make the folder.
+                        AssetDatabase.CreateFolder("Assets/Resources/DialogueTree", "Tree" + i);
+
+                        // Add the new tree to the lsit of trees.
+                        trees.Add(i);
+                        treeAdded = true;
+                    }
+                    //if a tree has not been created, iterate by 1
+                        i++;
+                }
+                //-1 to account for the last i++;
+                newTree = i -1;
+
+                // Grab the file
+                StreamReader inportFile = new StreamReader(path);
+
+                // Read the file, and convert it into a packagedNode
+                List<Dialogue> dialogues = new List<Dialogue>();
+                List<packagedNode> tempobj = new List<packagedNode>();
+                while (!inportFile.EndOfStream)
+                {
+                    tempobj.Add(JsonUtility.FromJson<packagedNode>(inportFile.ReadLine()));
+                }
+
+                //for every packagedNode
+                for (int j = 0; j < tempobj.Count; j++)
+                {
+                    //convert it into a Dialogue
+                    dialogues.Add(ScriptableObject.CreateInstance<Dialogue>());
+                    dialogues[j].prompt = tempobj[j].prompt;
+                    dialogues[j].response = tempobj[j].response;
+                    dialogues[j].next = new List<Dialogue>();
+                    dialogues[j].start = tempobj[j].head;
+                    dialogues[j].tree = newTree;
+                    dialogues[j].name = tempobj[j].dialName;
+                    dialogues[j].treeName = tempobj[j].treeName;
+                }
+
+                //now that all of the dialogues are made, put them into the proper folder.
+                for (int j = 0; j < dialogues.Count; j++)
+                {
+                    AssetDatabase.CreateAsset(dialogues[j], "Assets/Resources/DialogueTree/Tree" + newTree + "/" + dialogues[j].name + ".asset");
+                }
+
+                // A dialogues's next[] field can be directly imported, so we have to assign it now.
+                
+                // Load all of the Objects from the new folder (reloading them just to be safe)
+                Dialogues = Resources.LoadAll("DialogueTree/Tree" + newTree);
+
+                // For each Dialogue
+                for (int dial = 0; dial < Dialogues.Length; dial++)
+                {
+                    // Give it a new next[]
+                    ((Dialogue)Dialogues[dial]).next = new List<Dialogue>();
+                    Debug.Assert(((Dialogue)Dialogues[dial]).next != null, "failure in drawImport. failure to create next[]");
+
+                    //for each next[] in the tempobj
+                    for (int next = 0; next < tempobj[dial].next.Count; next++)
+                    {
+                        //for each Dialogue.(I have to iterate again because these are the Dialogues that will occupy the next[] field of dial)
+                        for (int dial2 = 0; dial2 < Dialogues.Length; dial2++)
+                        {
+                            // If there is a next field with the same name as a Dialogue(dial2) that exists...
+                            if (((Dialogue)Dialogues[dial2]).name == tempobj[dial].next[next])
+                            {
+                                // Add that Dialogue(dial2) to the next[] of the current Dialogue(dial)
+                                ((Dialogue)Dialogues[dial]).next.Add((Dialogue)(Dialogues[dial2]));
+                            }
+                        }
+                    }
+
+                    // If the Dialogue object has a reponse[], but no corresponding next[], give it one
+                    while (((Dialogue)Dialogues[dial]).next.Count != ((Dialogue)Dialogues[dial]).response.Count)
+                    {
+                        ((Dialogue)Dialogues[dial]).next.Add(null);
+                    }
+                   
+                    Debug.Assert(((Dialogue)Dialogues[dial]).next.Count == ((Dialogue)Dialogues[dial]).response.Count,"Failure in drawImport," +
+                        "response[].count doesnt equal next[].count");
+                    Debug.Assert(((Dialogue)Dialogues[dial]).response.Count == tempobj[dial].response.Count, "Failure in drawImport," +
+                        "response.count is not import properly");
+                    Debug.Assert(((Dialogue)Dialogues[dial]).response == tempobj[dial].response,"Failure in drawImport" +
+                        "response is not import properly");
+                    Debug.Assert(((Dialogue)Dialogues[dial]).name == tempobj[dial].dialName,"Failure in drawImport" + 
+                        "name is not import properly");
+                    Debug.Assert(((Dialogue)Dialogues[dial]).prompt == tempobj[dial].prompt,"Failure in drawImport" + 
+                        "prompt is not import properly");
+                    Debug.Assert(((Dialogue)Dialogues[dial]).start == tempobj[dial].head , "Failure in drawImport" + 
+                        "start is not import properly");
+                    Debug.Assert(((Dialogue)Dialogues[dial]).treeName == tempobj[dial].treeName,"Failure in drawImport" + 
+                        "treeName is not import properly");
+                }
+            }
+            catch
+            {
+                Debug.Log("Failure in drawImport. Try threw an exception");
+            }
+        }
+    }
+
+    /// <summary>
+    /// <c>drawExportButton</c>
+    /// 
+    /// Description: Draws the buttons above the Node View, used for exporting a tree.
+    /// 
+    /// Pre-condition: None
+    /// 
+    /// Post-condition: The button have been drawn on the customGUI window
+    /// </summary>
+    /// <returns> nothing </returns>
+    void drawExportButton()
+    {
+        // Make the "export" button.
+        if (GUILayout.Button("export"))
+        {
+
+            //create a new json string
+            string json = "";
+            
+            //obtain the path to create a new file
+            string path = ExportDialogGui();
+
+            //if there is atleast 1 dialogue
+            if (Dialogues.Length != 0)
+            {
+                //add it to the json
+                json = JsonUtility.ToJson(package((Dialogue)Dialogues[0]));
+            }
+
+            //for every dialogue after the first
+            for (int i = 1; i < Dialogues.Length; i++)
+            {
+                //make a new line, then add it
+                json += "\n" + JsonUtility.ToJson(package((Dialogue)Dialogues[i]));
+            }
+
+            //put the json in a file
+            File.WriteAllText(path, json);
+        }
     }
 }
 #endif

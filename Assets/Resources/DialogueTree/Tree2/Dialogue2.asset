@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: Dialogue
+  m_Name: Dialogue2
   m_EditorClassIdentifier: 
-  tree: 1
-  prompt: hello matt R
-  response:
-  - cool
-  next:
-  - {fileID: 11400000, guid: 6dc5a8c3d26331f4a8781c7e4d114bf3, type: 2}
-  start: 1
-  anim: {fileID: 7400000, guid: 475cd2175e2f79342a8ca0735190825e, type: 3}
+  tree: 2
+  treeName: 
+  prompt: 
+  response: []
+  next: []
+  start: 0
+  anim: {fileID: 0}
