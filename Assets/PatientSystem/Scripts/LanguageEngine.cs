@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text.RegularExpressions; 
+using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -33,11 +34,16 @@ public class LanguageEngine : MonoBehaviour
     // The patient system.
     public SpeechToText STT;
 
+    public GameObject endGameWindow; 
+
     // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
     
-    public bool KMPComparison; 
+    public bool KMPComparison;
+
+    private bool end; 
+    
 
     /// <summary>
     /// <c>Recieve Input</c>
@@ -80,7 +86,9 @@ public class LanguageEngine : MonoBehaviour
             // say a placeholder saying its done
             TTS.RunSpeech("We are finished, thank you.");
 
-            // stop reading speech
+            end = true;
+
+            // stop reading s peech
             STT.StopReadingSpeech();
             return;
         }
@@ -94,6 +102,13 @@ public class LanguageEngine : MonoBehaviour
 
         // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
+    }
+
+
+    private void dialougeRecenter()
+    {
+        // Load in file later time!
+        endGameWindow.SetActive(true);
     }
 
     /// <summary>
@@ -117,7 +132,14 @@ public class LanguageEngine : MonoBehaviour
         {
             throw new NoOptionsAvailable();
         }
-       
+        
+        if(this.wordComparison && this.KMPComparison)
+        {
+            Debug.Log("cannot have both word comparison and KMP checked!");
+
+            return -1; 
+        }
+
         if (this.wordComparison)
         {
           
@@ -427,6 +449,25 @@ public class LanguageEngine : MonoBehaviour
 
         tree.RunAnim();
         TTS.RunSpeech(tree.GetCurrentPrompt());
+
+        end = false; 
+    }
+
+    private void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (end)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+
+        if (end)
+        {
+            dialougeRecenter(); 
+        }
 
     }
 }

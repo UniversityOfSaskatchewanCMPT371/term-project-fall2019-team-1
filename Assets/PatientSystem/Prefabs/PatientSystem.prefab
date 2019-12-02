@@ -385,6 +385,7 @@ MonoBehaviour:
   tree: {fileID: 6265206989134906742}
   TTS: {fileID: 7872390931817968197}
   STT: {fileID: 8839418603167607655}
+  endGameWindow: {fileID: 0}
   wordComparison: 1
   KMPComparison: 0
 --- !u!1 &2536332081543928970
@@ -474,7 +475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88fb16c26556fa4c976ebc1a3648c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentNode: {fileID: 0}
+  currentNode: {fileID: 11400000, guid: f290344f7ce0ccb478b6b24897ace747, type: 2}
+  animator: {fileID: 0}
 --- !u!1 &4663104271048715013
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logBufferCount: 10
   bufferTextUI: {fileID: 402598130082341023}
+  logFile: {fileID: 0}
 --- !u!1 &5588453296826474213
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3091829990067647080
 RectTransform:
   m_ObjectHideFlags: 0
@@ -623,7 +626,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &5610211707545972979
 MonoBehaviour:
