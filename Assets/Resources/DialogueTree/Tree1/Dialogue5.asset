@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: Dialogue
+  m_Name: Dialogue5
   m_EditorClassIdentifier: 
-  tree: 4
-  treeName: Tree4
+  tree: 1
+  treeName: 
   prompt: 
   response: []
   next: []
-  start: 1
+  start: 0
   anim: {fileID: 0}
