@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System;
 
 /// <summary>
 /// 
@@ -33,6 +37,9 @@ public class DebugLog : MonoBehaviour
     /// </summary>
     public Text bufferTextUI;
 
+    public TextAsset logFile;
+
+
     /// <summary>
     /// Subscribes to the logger when it receives a message, this needs to be on Awake (before Start) because it needs to hook the log messages before Start.
     /// </summary>
@@ -40,6 +47,10 @@ public class DebugLog : MonoBehaviour
     {
         // init the buffer
         logBuffer = new List<string>();
+
+        // Clear the log file when scene starts.
+        File.WriteAllText("logfile.txt", string.Empty); 
+
 
         // clear the text now.
         Debug.Assert(bufferTextUI != null);
@@ -79,6 +90,25 @@ public class DebugLog : MonoBehaviour
         logBuffer.ForEach((logMsg) =>
         {
             bufferTextUI.text += logMsg + "\n";
+
+            writeToFile(logMsg + "\n"); 
         });
     }
+
+    private void writeToFile(string text)
+    {
+        if (logFile != null)
+        {
+            // Build stream writer for the log file.
+            StreamWriter sw = new StreamWriter("logfile.txt", append: true);
+            // Prepend time to text.
+            string finalAnswer = DateTime.Now.ToString("h:mm:ss tt") + ": " + text;
+
+            sw.WriteLine(finalAnswer);
+            sw.Close();
+        }
+
+    }
+
+
 }
