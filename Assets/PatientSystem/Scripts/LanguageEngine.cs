@@ -99,7 +99,10 @@ public class LanguageEngine : MonoBehaviour
 
         // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
-
+        
+        // Play the animation, if one exists
+        tree.RunAnim();
+        
         // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
     }
