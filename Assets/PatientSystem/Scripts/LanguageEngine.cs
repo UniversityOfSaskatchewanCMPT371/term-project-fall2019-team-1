@@ -77,6 +77,9 @@ public class LanguageEngine : MonoBehaviour
         catch (NoBestDecision e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+
+            TTS.RunSpeech("sorry, but can you repeat that?"); 
+
             return;
         }
         catch (NoOptionsAvailable e)
@@ -92,6 +95,15 @@ public class LanguageEngine : MonoBehaviour
             STT.StopReadingSpeech();
             return;
         }
+        catch(inspectorSetupInCorrectly e)
+        {
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: Two string algorithms choosen!: {0}", e));
+
+            TTS.RunSpeech("I am not set up correctly!");
+
+            return; 
+        }
+
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
 
         // Log our options
@@ -138,9 +150,7 @@ public class LanguageEngine : MonoBehaviour
         
         if(this.wordComparison && this.KMPComparison)
         {
-            Debug.Log("cannot have both word comparison and KMP checked!");
-
-            return -1; 
+            throw new inspectorSetupInCorrectly();
         }
 
         if (this.wordComparison)
@@ -383,6 +393,11 @@ public class LanguageEngine : MonoBehaviour
 
   
             ListCounter++; 
+        }
+
+        if (max_percent_index == -1)
+        {
+            throw new NoBestDecision("max_percent_index did not get changed within the calculation above");
         }
 
         return max_percent_index; 
