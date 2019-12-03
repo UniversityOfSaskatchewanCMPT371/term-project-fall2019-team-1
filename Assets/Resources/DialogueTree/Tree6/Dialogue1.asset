@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
   m_Name: Dialogue1
   m_EditorClassIdentifier: 
-  tree: 2
+  tree: 6
   treeName: 
-  prompt: 
+  prompt: yeet Yaw
   response: []
   next: []
   start: 0
-  anim: {fileID: 0}
+  anim: {fileID: 7400000, guid: f449a603e94a51e479161bfff0d177dc, type: 3}

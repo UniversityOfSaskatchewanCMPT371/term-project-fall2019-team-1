@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text.RegularExpressions; 
+using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -33,11 +34,16 @@ public class LanguageEngine : MonoBehaviour
     // The patient system.
     public SpeechToText STT;
 
+    public GameObject endGameWindow; 
+
     // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
     
-    public bool KMPComparison; 
+    public bool KMPComparison;
+
+    private bool end; 
+    
 
     /// <summary>
     /// <c>Recieve Input</c>
@@ -71,6 +77,9 @@ public class LanguageEngine : MonoBehaviour
         catch (NoBestDecision e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
+
+            TTS.RunSpeech("sorry, but can you repeat that?"); 
+
             return;
         }
         catch (NoOptionsAvailable e)
@@ -80,10 +89,21 @@ public class LanguageEngine : MonoBehaviour
             // say a placeholder saying its done
             TTS.RunSpeech("We are finished, thank you.");
 
-            // stop reading speech
+            end = true;
+
+            // stop reading s peech
             STT.StopReadingSpeech();
             return;
         }
+        catch(inspectorSetupInCorrectly e)
+        {
+            Debug.Log(string.Format("LanguageEngine::RecieveInput: Two string algorithms choosen!: {0}", e));
+
+            TTS.RunSpeech("I am not set up correctly!");
+
+            return; 
+        }
+
         Debug.Assert(decisionIndex >= 0 && decisionIndex < options.Count, "decisionIndex is out of bounds of options");
 
         // Log our options
@@ -91,9 +111,19 @@ public class LanguageEngine : MonoBehaviour
 
         // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
-
+        
+        // Play the animation, if one exists
+        tree.RunAnim();
+        
         // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
+    }
+
+
+    private void dialougeRecenter()
+    {
+        // Load in file later time!
+        endGameWindow.SetActive(true);
     }
 
     /// <summary>
@@ -117,7 +147,12 @@ public class LanguageEngine : MonoBehaviour
         {
             throw new NoOptionsAvailable();
         }
-       
+        
+        if(this.wordComparison && this.KMPComparison)
+        {
+            throw new inspectorSetupInCorrectly();
+        }
+
         if (this.wordComparison)
         {
           
@@ -360,6 +395,11 @@ public class LanguageEngine : MonoBehaviour
             ListCounter++; 
         }
 
+        if (max_percent_index == -1)
+        {
+            throw new NoBestDecision("max_percent_index did not get changed within the calculation above");
+        }
+
         return max_percent_index; 
     }
     /// <summary>
@@ -427,6 +467,25 @@ public class LanguageEngine : MonoBehaviour
 
         tree.RunAnim();
         TTS.RunSpeech(tree.GetCurrentPrompt());
+
+        end = false; 
+    }
+
+    private void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (end)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+
+        if (end)
+        {
+            dialougeRecenter(); 
+        }
 
     }
 }
