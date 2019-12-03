@@ -77,6 +77,53 @@ namespace Tests
         }
 
         /// <summary>
+        /// Checks to see that the uiText contains all options
+        /// that are in the dialogue trees current node.
+        /// </summary>
+        /// <returns></returns>
+        [UnityTest]
+        public IEnumerator ShowAllOptionsTextContainsOptions()
+        {
+            var logSystem = setUpLogSystem();
+            yield return null;
+            var dialogue = ScriptableObject.CreateInstance<Dialogue>();
+            dialogue.tree = 1;
+            dialogue.prompt = "Hello World";
+            dialogue.response = new List<string>() { "Yes", "No" };
+            dialogue.start = true;
+
+            logSystem.dialogueTree = new DialogueTreeMock() {
+                currentNode = dialogue
+            };
+
+            yield return null;
+            logSystem.ShowAllOptions();
+            string match = dialogue.response[0] + "\r\n" + dialogue.response[1] + "\r\n";
+            Assert.AreEqual(logSystem.UIText.text, match);
+        }
+
+        /// <summary>
+        /// Asserts that the start function of the Log System finds the
+        /// dialogue tree and sets the log systems dialogue tree to be that.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator StartFindsDialogueTree()
+        {
+            var logSystem = setUpLogSystem();
+
+            GameObject gameObject = new GameObject();
+            gameObject.AddComponent<DialogueTree>();
+            
+            DialogueTree dialogueTree = gameObject.GetComponent<DialogueTree>();
+            dialogueTree.tree = 1;
+            GameObject.Instantiate(gameObject);
+
+
+            yield return null;
+            Assert.NotNull(logSystem.dialogueTree);
+        }
+
+        /// <summary>
         /// Checks that calling toggle debug once turns on the UIText
         /// of the log system.
         /// </summary>

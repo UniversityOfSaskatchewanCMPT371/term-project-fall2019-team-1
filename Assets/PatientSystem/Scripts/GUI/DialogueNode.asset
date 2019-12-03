@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
-  m_Name: Dialogue
-  m_EditorClassIdentifier: 
-  tree: 1
+  m_Script: {fileID: 0}
+  m_Name: DialogueNode
+  m_EditorClassIdentifier: Project::DialogueNode
   prompt: 
-  response:
-  - 
-  next:
-  - {fileID: 0}
-  start: 1
-  anim: {fileID: 7400000, guid: 60dabac2fc94db4429ca6b8047db5403, type: 3}
+  options:
+  - options: []
+    node: {fileID: 0}
