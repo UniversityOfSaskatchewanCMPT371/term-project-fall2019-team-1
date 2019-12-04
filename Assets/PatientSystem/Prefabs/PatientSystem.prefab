@@ -385,8 +385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 6265206989134906742}
   TTS: {fileID: 7872390931817968197}
+  patientSystem: {fileID: 2523089473552147043}
   STT: {fileID: 8839418603167607655}
-  endGameWindow: {fileID: 0}
   wordComparison: 1
   KMPComparison: 0
 --- !u!1 &2536332081543928970

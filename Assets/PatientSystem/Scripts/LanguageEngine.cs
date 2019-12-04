@@ -32,17 +32,15 @@ public class LanguageEngine : MonoBehaviour
     public TextToSpeech TTS;
 
     // The patient system.
-    public SpeechToText STT;
+    public PatientSystem patientSystem;
 
-    public GameObject endGameWindow; 
+    public SpeechToText STT;
 
     // A tick box of type of Language Processing to do.
     public bool wordComparison;
 
     
     public bool KMPComparison;
-
-    private bool end; 
     
 
     /// <summary>
@@ -89,13 +87,13 @@ public class LanguageEngine : MonoBehaviour
             // say a placeholder saying its done
             TTS.RunSpeech("We are finished, thank you.");
 
-            end = true;
-
             // stop reading s peech
             STT.StopReadingSpeech();
+
+            patientSystem.FinishedTree();
             return;
         }
-        catch(inspectorSetupInCorrectly e)
+        catch(InspectorSetupInCorrectly e)
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: Two string algorithms choosen!: {0}", e));
 
@@ -117,13 +115,14 @@ public class LanguageEngine : MonoBehaviour
         
         // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
-    }
 
+        // check if there are no options left now.
+        if (tree.GetCurrentOptions().Count <= 0)
+        {
+            STT.StopReadingSpeech();
 
-    private void dialougeRecenter()
-    {
-        // Load in file later time!
-        endGameWindow.SetActive(true);
+            patientSystem.FinishedTree();
+        }
     }
 
     /// <summary>
@@ -150,7 +149,7 @@ public class LanguageEngine : MonoBehaviour
         
         if(this.wordComparison && this.KMPComparison)
         {
-            throw new inspectorSetupInCorrectly();
+            throw new InspectorSetupInCorrectly();
         }
 
         if (this.wordComparison)
@@ -189,7 +188,7 @@ public class LanguageEngine : MonoBehaviour
         }
         else
         {
-            throw new NoBestDecision("Language Engine not setup correctly within unity!");
+            throw new InspectorSetupInCorrectly("Language Engine not setup correctly within unity!");
         }
     }
 
@@ -467,25 +466,5 @@ public class LanguageEngine : MonoBehaviour
 
         tree.RunAnim();
         TTS.RunSpeech(tree.GetCurrentPrompt());
-
-        end = false; 
-    }
-
-    private void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (end)
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
-        }
-
-        if (end)
-        {
-            dialougeRecenter(); 
-        }
-
     }
 }

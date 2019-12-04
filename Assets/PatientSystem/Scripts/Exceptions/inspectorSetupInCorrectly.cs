@@ -10,19 +10,19 @@
 /// 
 /// </summary>
 /// <author> Matt Radke </author>
-public class inspectorSetupInCorrectly : Exception
+public class InspectorSetupInCorrectly : Exception
 {
-    public inspectorSetupInCorrectly()
+    public InspectorSetupInCorrectly()
         : base()
     {
     }
 
-    public inspectorSetupInCorrectly(string message)
+    public InspectorSetupInCorrectly(string message)
         : base(message)
     {
     }
 
-    public inspectorSetupInCorrectly(string message, Exception inner)
+    public InspectorSetupInCorrectly(string message, Exception inner)
         : base(message, inner)
     {
     }
