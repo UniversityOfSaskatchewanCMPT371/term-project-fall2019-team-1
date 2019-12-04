@@ -324,6 +324,7 @@ Transform:
   m_Children:
   - {fileID: 1954660575}
   - {fileID: 614762646}
+  - {fileID: 2253003173864005434}
   m_Father: {fileID: 3969328499968571132}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -432,6 +433,84 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   STT: {fileID: 8839418603167607655}
+--- !u!1 &3224170650966749323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2253003173864005434}
+  - component: {fileID: 5146317690356259938}
+  m_Layer: 0
+  m_Name: ResetSceneButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2253003173864005434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3224170650966749323}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9162568796512687265}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5146317690356259938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3224170650966749323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fd299fedf620074b8e4ce0978a7f425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActivationStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.Action+BooleanUnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  defaultValue: 0
+  sources:
+  - {fileID: 0}
+  - {fileID: 0}
+  Activated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.BooleanAction+UnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ValueChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Zinnia.Action.BooleanAction+UnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Zinnia.Action.BooleanAction+UnityEvent, Zinnia.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4179876845708777209
 GameObject:
   m_ObjectHideFlags: 0

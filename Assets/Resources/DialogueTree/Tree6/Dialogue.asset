@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   tree: 6
-  treeName: hi dude!
+  treeName: '!i dude!'
   prompt: test my guys
   response:
   - hello sir
