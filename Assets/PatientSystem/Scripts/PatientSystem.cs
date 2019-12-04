@@ -41,6 +41,16 @@ public class PatientSystem : MonoBehaviour
     /// </summary>
     public void FinishedTree()
     {
+        StartCoroutine(WaitBeforeShowEndgameScreen());
+    }
+
+    /// <summary>
+    /// Waits 5 seconds and then shows the endgame screen.
+    /// </summary>
+    private IEnumerator WaitBeforeShowEndgameScreen()
+    {
+        yield return new WaitForSeconds(5);
+
         endGameCanvas.gameObject.SetActive(true);
     }
 }
