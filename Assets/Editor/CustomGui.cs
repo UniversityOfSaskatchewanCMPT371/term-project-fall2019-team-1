@@ -674,9 +674,9 @@ public class CustomGUI : EditorWindow
     /// </summary>
     /// <returns>Path to save location</returns>
     string ExportDialogGui()
-    { 
+    {
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        return EditorUtility.SaveFilePanel("Export Tree To File", path, currentTree + ".json", "json");
+        return EditorUtility.SaveFilePanel("Export Tree To File", path,  "Tree"+ currentTree+ ".json", "json");
     }
 
 
@@ -737,7 +737,6 @@ public class CustomGUI : EditorWindow
         Debug.Assert(temp.response.Count == dialogue.response.Count, "Failure in package");
         Debug.Assert(temp.tree == dialogue.tree, "Failure in package");
         Debug.Assert(temp.head == dialogue.start, "Failure in package");
-        Debug.Assert(temp.next.Count == dialogue.next.Count, "Failure in package");
 
         return temp;
     }

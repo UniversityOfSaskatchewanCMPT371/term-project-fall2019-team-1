@@ -109,6 +109,21 @@ public class LanguageEngine : MonoBehaviour
         // Log our options
         Debug.Log(string.Format("LanguageEngine::RecieveInput: decision: {0}", decisionIndex));
 
+        // If the option that was chosen doesnt have a next node 
+        if(tree.GetNext()[decisionIndex] == null)
+        {
+            Debug.Log("There is no next[] for the selected option.");
+
+            // say a placeholder saying its done
+            TTS.RunSpeech("We are finished, thank you.");
+
+            end = true;
+
+            // stop reading s peech
+            STT.StopReadingSpeech();
+            return;
+        }
+
         // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
         
@@ -117,6 +132,7 @@ public class LanguageEngine : MonoBehaviour
         
         // Now say the next prompt
         TTS.RunSpeech(tree.GetCurrentPrompt());
+
     }
 
 

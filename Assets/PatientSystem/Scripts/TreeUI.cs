@@ -48,6 +48,24 @@ public class TreeUI : MonoBehaviour
         return currentNode.response;
     }
 
+    /// <summary>
+    /// 
+    /// <c>GetNext</c>
+    /// 
+    /// Description:Returns the next parameter of the current dialogue.
+    /// 
+    /// pre-conditions:We must be on a valid node in the tree ui.
+    /// 
+    /// Post-condition: None
+    /// 
+    /// </summary>
+    /// 
+    /// <returns>The next paramter of the current node.</returns>
+    public List<Dialogue> GetNext()
+    {
+        return currentNode.next;
+    }
+
 
     /// <summary>
     /// 
