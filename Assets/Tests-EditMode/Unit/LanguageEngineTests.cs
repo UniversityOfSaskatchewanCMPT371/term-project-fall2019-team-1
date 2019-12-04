@@ -189,9 +189,14 @@ namespace Tests
             Leng.wordComparison = false;
             Leng.KMPComparison = true;
 
-            int expectedbest = Leng.BestDecision("Friday", treemock);
+            
             // Debug.Log(expectedbest);
-            Assert.AreEqual(expectedbest, -1);
+            //Assert.AreEqual(expectedbest, -1);
+
+            Assert.Throws<NoBestDecision>(() =>
+            {
+                int expectedbest = Leng.BestDecision("Friday", treemock);
+            });
         }
 
         [Test]
