@@ -1902,43 +1902,8 @@ PrefabInstance:
       objectReference: {fileID: 1287050310}
     - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3969328499968571132, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}
@@ -1966,11 +1931,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0248a60cdb0500647bf37e555b3e03a5,
         type: 2}
-    - target: {fileID: 4858877604402941688, guid: 87ec392c4dbe1504b844c8e546cad406,
-        type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4858877604402941688, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}
       propertyPath: animator
