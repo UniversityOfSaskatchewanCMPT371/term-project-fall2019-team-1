@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   tree: 6
-  prompt: hello
+  treeName: hi dude!
+  prompt: test my guys
   response:
-  - yes
+  - hello sir
+  - yeet
+  - test test
   next:
-  - {fileID: 11400000, guid: 840ff97fbbcd68a4caf61d1223d72828, type: 2}
+  - {fileID: 11400000, guid: 8852a418cb00ef44d8795c5f0e72bdbb, type: 2}
+  - {fileID: 11400000, guid: 13013fa83039144458dabff5685fd5dd, type: 2}
+  - {fileID: 11400000, guid: 2e805360d96c3464294fdae01a7bfdeb, type: 2}
   start: 1
-  anim: {fileID: 0}
+  anim: {fileID: 7400000, guid: 048207f93a0bc134dac12cc06ca091d2, type: 3}

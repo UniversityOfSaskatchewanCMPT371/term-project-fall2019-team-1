@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Dialogue1
   m_EditorClassIdentifier: 
   tree: 6
-  prompt: yes
-  response:
-  - no
-  next:
-  - {fileID: 11400000, guid: 90e44f0b2dc4d884192e2ac6aa1c158f, type: 2}
+  treeName: 
+  prompt: yeet Yaw
+  response: []
+  next: []
   start: 0
-  anim: {fileID: 0}
+  anim: {fileID: 7400000, guid: f449a603e94a51e479161bfff0d177dc, type: 3}
