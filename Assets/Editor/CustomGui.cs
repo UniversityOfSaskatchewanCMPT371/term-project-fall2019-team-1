@@ -24,7 +24,7 @@ using System;
 /// <authors>
 /// Clayton VanderStelt, Oluwaseyi Kareem, Sam Horovatin
 /// </authors>
-public class CustomGUI : EditorWindow
+public class DialogueBuilder : EditorWindow
 {
     // Variables that affect the size/positions of the nodes
     int NodeHeight = 65;
@@ -147,10 +147,10 @@ public class CustomGUI : EditorWindow
     /// 
     /// </summary>
     /// <returns> nothing </returns>
-    [MenuItem("Window/customGUI")]
+    [MenuItem("Window/Dialogue Builder")]
     static void ShowEditor()
     {
-        CustomGUI editor = EditorWindow.GetWindow<CustomGUI>();
+        DialogueBuilder editor = EditorWindow.GetWindow<DialogueBuilder>();
         editor.Show();
         Debug.Assert(editor != null, "there is no editor");
     }
