@@ -76,7 +76,7 @@ public class LanguageEngine : MonoBehaviour
         {
             Debug.Log(string.Format("LanguageEngine::RecieveInput: NoBestDecision: {0}", e));
 
-            TTS.RunSpeech("sorry, but can you repeat that?"); 
+            TTS.RunSpeech("I did not understand that, could you say it differently?"); 
 
             return;
         }

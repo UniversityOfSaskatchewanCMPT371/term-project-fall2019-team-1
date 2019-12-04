@@ -51,7 +51,7 @@ public class SpeechToText : MonoBehaviour
         {
             Debug.Log("DictationCompletionCause: " + cause);
 
-            if (cause != DictationCompletionCause.Canceled && cause != DictationCompletionCause.Complete)
+            if (/*cause != DictationCompletionCause.Canceled && */cause != DictationCompletionCause.Complete)
                 dictationRecognizer.Start();
         };
 
