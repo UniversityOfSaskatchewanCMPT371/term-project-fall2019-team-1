@@ -27,7 +27,7 @@ public class TreeUI : MonoBehaviour
     /// <summary>
     /// The Animator object that hendles animations.
     /// </summary>
-    public Animator animator;
+    public NPC npc;
 
 
     /// <summary>
@@ -97,7 +97,7 @@ public class TreeUI : MonoBehaviour
         // A try catch to stop it from printing an error if there is no animation.
         try
         {
-            animator.Play(currentNode.anim.name);
+            npc.animator.Play(currentNode.anim.name);
         }
         catch 
         {
