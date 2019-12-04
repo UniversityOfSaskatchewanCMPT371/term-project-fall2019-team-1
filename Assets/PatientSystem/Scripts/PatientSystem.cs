@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// <c>PatientSystem</c>
@@ -18,4 +19,8 @@ using UnityEngine;
 /// </authors>
 public class PatientSystem : MonoBehaviour
 {
+    public void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
