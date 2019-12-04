@@ -55,6 +55,12 @@ public class SpeechToText : MonoBehaviour
                 dictationRecognizer.Start();
         };
 
+        // catch errors and debug them.
+        dictationRecognizer.DictationError += (string error, int hresult) =>
+        {
+            Debug.LogError("DictationError: " + error);
+        };
+
         // start it now.
         dictationRecognizer.Start();
     }

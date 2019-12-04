@@ -8,10 +8,6 @@ using UnityEngine.SceneManagement;
 /// 
 /// Description: The top level game object for the Patient System.
 /// 
-/// pre-condition: None
-/// 
-/// post-condition: container for entire system.
-/// 
 /// </summary>
 /// <authors>
 /// 
@@ -19,13 +15,30 @@ using UnityEngine.SceneManagement;
 /// </authors>
 public class PatientSystem : MonoBehaviour
 {
+    /// <summary>
+    /// The canvas to show when the tree is completed.
+    /// </summary>
     public Canvas endGameCanvas;
 
+    /// <summary>
+    /// Resets the scene entirely. (everything gets destroyed and recreated)
+    /// 
+    /// pre-condition: None
+    /// 
+    /// post-condition: the entire scene is restarted.
+    /// </summary>
     public void ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /// <summary>
+    /// Called when the tree has been completed. Show the endgame screen.
+    /// 
+    /// pre-condition: None
+    /// 
+    /// post-condition: The end game canvas is set to active.
+    /// </summary>
     public void FinishedTree()
     {
         endGameCanvas.gameObject.SetActive(true);
