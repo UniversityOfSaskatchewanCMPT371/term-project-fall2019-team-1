@@ -2,7 +2,7 @@ Intractable Dialogue System (replace with name of project)
 
 # Intro
 
-This is an intractable dialogue system which will allow interactions with in-game NPCs designed for VR.
+This is an intractable dialogue system which will allow interactions with in-game NPCs designed for VR (VRTK).
 
 Users will be able to create custom Dialogue trees and traverse said trees using speech.
 
@@ -13,7 +13,8 @@ The NPC will appear to be immersive to the users who strikes a conversation.
 - At least Unity 2018.4
 - Basic knowledge and terminology of Unity.
 - Windows 10
-- Oculus Rift (preferred)
+- Oculus Rift (preferred, for VR)
+- VRTK (for VR, [setup](https://github.com/ExtendRealityLtd/VRTK.Prefabs))
 - An on-going internet connection
 - Audio input device (microphone)
 - Audio output device (speakers)
@@ -76,12 +77,36 @@ Drag the `Dialogue` (no numbered node represents root) node from the Project Pan
 
 ![](./MDPics/addnodetoprefab.gif)
 
+## Step 7
 
+The system is good to go, once the scene is ran, the root Dialogue node's prompt will be said by the NPC.
 
+The user can then give Audio Input to the system and if language engine detects a match, it traverse to that branch.
 
+If no match found, the NPC will repeat the previous prompt.
 
+Once the tree had hit a leaf node, the NPC will indicate the end of the conversation and the NPC will stop listening for input.
 
+# Common Errors
 
+## 'Dictation Support is not enabled on this Device'
 
+We need to enable the `Online Speech Recognition` option in Windows.
+
+So open Windows Settings, open the `Privacy` menu, and the `Speech` menu, and enable the `Online Speech Recognition` option.
 
 ![](./MDPics/sttsettingerror.gif)
+
+# Known bugs
+
+(Fill it in)
+
+# Credits
+
+(needs better formatting)
+
+Scene uses `https://github.com/ExtendRealityLtd/VRTK`
+
+(find speechlib, SpVoice object)
+
+(insert roles and contributions)
