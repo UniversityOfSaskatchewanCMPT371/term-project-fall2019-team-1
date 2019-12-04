@@ -19,6 +19,8 @@ using UnityEngine.SceneManagement;
 /// </authors>
 public class PatientSystem : MonoBehaviour
 {
+    public Canvas endGameCanvas;
+
     public void ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -26,6 +28,6 @@ public class PatientSystem : MonoBehaviour
 
     public void FinishedTree()
     {
-
+        endGameCanvas.gameObject.SetActive(true);
     }
 }
