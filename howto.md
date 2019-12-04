@@ -89,6 +89,8 @@ Once the tree had hit a leaf node, the NPC will indicate the end of the conversa
 
 # Common Errors
 
+(add more errors)
+
 ## 'Dictation Support is not enabled on this Device'
 
 We need to enable the `Online Speech Recognition` option in Windows.
