@@ -14,7 +14,7 @@ The NPC will appear to be immersive to the users who strikes a conversation.
 - Basic knowledge and terminology of Unity.
 - Windows 10
 - Oculus Rift (preferred, for VR)
-- VRTK (for VR, [setup](https://github.com/ExtendRealityLtd/VRTK.Prefabs))
+- VRTK (for VR, [setup](https://github.com/ExtendRealityLtd/VRTK.Prefabs), this project and SampleScene has everything setup already)
 - An on-going internet connection
 - Audio input device (microphone)
 - Audio output device (speakers)
@@ -51,7 +51,7 @@ Drag the game object with the `Animator` component onto the `Animator` field in 
 
 ## Step 5
 
-To open the Tree Editor window, in the top menu bar, click `Window`, and click the `customGUI` option.
+To open the Tree Editor window, in the top menu bar, click `Window`, and click the `DialogueBuilder` option.
 
 This is the Tree Editor where we create trees, nodes, and modify various responses.
 
