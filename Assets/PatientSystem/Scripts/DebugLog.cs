@@ -60,6 +60,14 @@ public class DebugLog : MonoBehaviour
     }
 
     /// <summary>
+    /// Removes the delegate from the application when we are destroyed.
+    /// </summary>
+    private void OnDestroy()
+    {
+        Application.logMessageReceived -= LogMessageReceived;
+    }
+
+    /// <summary>
     /// When the logger received a message, this is called.
     /// 
     /// Pre-condition: 
