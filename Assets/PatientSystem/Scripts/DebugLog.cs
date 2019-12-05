@@ -36,6 +36,16 @@ public class DebugLog : MonoBehaviour
     /// </summary>
     public Text bufferTextUI;
 
+    /// <summary>
+    /// The text object to show the log
+    /// </summary>
+    public Text optionsTextUI;
+
+    /// <summary>
+    /// The tree to get options from
+    /// </summary>
+    public TreeUI tree;
+
     public TextAsset logFile;
 
 
@@ -117,5 +127,13 @@ public class DebugLog : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// ON every frame, update the text
+    /// </summary>
+    private void Update()
+    {
+        if (tree.currentNode == null) return;
 
+        optionsTextUI.text = "Options: " + string.Join(", ", tree.GetCurrentOptions());
+    }
 }

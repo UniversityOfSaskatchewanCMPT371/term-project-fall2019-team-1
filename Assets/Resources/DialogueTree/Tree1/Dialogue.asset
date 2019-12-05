@@ -15,7 +15,13 @@ MonoBehaviour:
   tree: 1
   treeName: Tree1
   prompt: hi
-  response: []
-  next: []
+  response:
+  - HELLO
+  - hi there
+  - ok boom times gamer times is awesomeeeeeeee
+  next:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   start: 1
   anim: {fileID: 7400000, guid: d2ed637786f382d4baa1aebd70e87777, type: 3}
