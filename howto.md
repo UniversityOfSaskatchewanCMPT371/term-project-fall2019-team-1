@@ -107,7 +107,7 @@ So open Windows Settings, open the `Privacy` menu, and the `Speech` menu, and en
 
 (needs better formatting)
 
-Scene uses `https://github.com/ExtendRealityLtd/VRTK`
+Scene/project uses `https://github.com/ExtendRealityLtd/VRTK`
 
 (find speechlib, SpVoice object)
 
