@@ -14,7 +14,7 @@ namespace Tests
         {
             // Creating variables for testing.
             Object[] nodes = Resources.LoadAll("DialogueTree/Tree1");
-            CustomGUI GUI = ScriptableObject.CreateInstance<CustomGUI>();
+            DialogueBuilder GUI = ScriptableObject.CreateInstance<DialogueBuilder>();
 
             // Testing that relies on awake().
             Debug.Assert(GUI.layers == 0, "failure to create found");
