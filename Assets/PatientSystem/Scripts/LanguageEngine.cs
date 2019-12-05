@@ -62,15 +62,23 @@ public class LanguageEngine : MonoBehaviour
         Debug.Log(string.Format("LanguageEngine::RecieveInput: input: '{0}'", input));
 
         // get options we have at current node.
-        List<string> options = tree.GetCurrentOptions();
+        List<string> optionsNow = tree.GetCurrentOptions();
 
-        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: '{0}'", string.Join(", ", options)));
+        // add the options as lower cased
+        var options = new List<string>();
+
+        optionsNow.ForEach((opt) =>
+        {
+            options.Add(opt.ToLower());
+        });
+
+        Debug.Log(string.Format("LanguageEngine::RecieveInput: options: '{0}'", string.Join(", ", optionsNow)));
 
         // now get the decision to make
         int decisionIndex;
         try
         {
-            decisionIndex = BestDecision(input, options);
+            decisionIndex = BestDecision(input.ToLower(), options);
         }
         catch (NoBestDecision e)
         {
