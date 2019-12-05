@@ -63,6 +63,8 @@ public class LanguageEngine : MonoBehaviour
 
         // get options we have at current node.
         List<string> optionsNow = tree.GetCurrentOptions();
+        if (optionsNow == null)
+            optionsNow = new List<string>();
 
         // add the options as lower cased
         var options = new List<string>();
@@ -117,7 +119,17 @@ public class LanguageEngine : MonoBehaviour
 
         // With the decision, traverse the tree.
         tree.TakeOption(decisionIndex);
-        
+
+        // if no node then end it.
+        if (tree.currentNode == null)
+        {
+            STT.StopReadingSpeech();
+
+            patientSystem.FinishedTree();
+
+            return;
+        }
+
         // Play the animation, if one exists
         tree.RunAnim();
         
