@@ -207,13 +207,11 @@ public class TreeUI : MonoBehaviour
     /// <returns>the number of trees in the resources folder</returns>
     public int findTrees()
     {
-        Dialogues = Resources.LoadAll("DialogueTree");
-
         // For every node
         for (int i = 0; i < Dialogues.Length; i++)
         {
             // If that node belongs to a tree that has not been found yet. 
-            if (!treeNames.Contains(((Dialogue)Dialogues[i]).treeName))
+            if (!treeNames.Contains(((Dialogue)Dialogues[i]).treeName) && ((Dialogue)Dialogues[0]).treeName != "")
             {
                 treeNames.Add(((Dialogue)Dialogues[i]).treeName);
             }
@@ -235,18 +233,16 @@ public class TreeUI : MonoBehaviour
     /// <returns>the Id of the treeName</returns>
     public int findID()
     {
-        Dialogues = Resources.LoadAll("DialogueTree");
-
         // For every node
         for (int i = 0; i < Dialogues.Length; i++)
         {
-            // If that node belongs to a tree that has not been found yet. 
-            if (currentTree == ((Dialogue)Dialogues[0]).treeName)
+            // If that node has the same name as the currentTree 
+            if (currentTree == ((Dialogue)Dialogues[i]).treeName)
             {
+                //return that nodes treeID
                 return ((Dialogue)Dialogues[i]).tree;
             }
         }
-
         return -1;
     }
 }
