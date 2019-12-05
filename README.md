@@ -20,7 +20,6 @@ The NPC will appear to be immersive to the users who strikes a conversation.
 ## Software Requirements
 - VRTK (for VR, [setup](https://github.com/ExtendRealityLtd/VRTK.Prefabs))
 - An on-going internet connection
-- 
 
 ## Setup
 
@@ -38,7 +37,8 @@ In this case, it will be blank scene.
 Within the opened scene, navigate within the Project panel to
 `Assets\PatientSystem\Prefabs`, click the folder and drag the prefab into the Hierarchy.
 
-![](:storage\89dc3050-b3a7-4f0f-822a-29ae08b7f9df\089322bb.gif)
+![](https://media.githubusercontent.com/media/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/ID5/MDPics/prefabdrag.gif)
+*Figure 1: Dragging A prefab into Unity Project Panel*
 
 ### Step 4 (for animating, optional)
 
@@ -50,7 +50,8 @@ Drag the game object with the `Animator` component onto the `Animator` field in 
 
 (AudioSource is not implemented)
 
-![](:storage\89dc3050-b3a7-4f0f-822a-29ae08b7f9df\8d325cb8.gif)
+![](https://media.githubusercontent.com/media/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/ID5/MDPics/npcprefablink.gif)
+*Figure 2: Dragging an animation into a scene*
 
 ### Step 5
 
@@ -66,7 +67,8 @@ A grey node is a NPC prompt, this is what the NPC will say to the user and play 
 
 There is a `New Child` button to add a user response depicted by the white nodes. If this response is matched by the verbal user input and the language engine, the system will traverse this branch.
 
-![](:storage\89dc3050-b3a7-4f0f-822a-29ae08b7f9df\934c55dc.gif)
+![](https://media.githubusercontent.com/media/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/ID5/MDPics/treecreategui.gif)
+*Figure 3: Navigating to a the tree creation menu*
 
 ### Step 6
 
@@ -78,7 +80,8 @@ In the Hierarchy, expand the `PatientSystem` game object, and open the `TreeUI` 
 
 Drag the `Dialogue` (with no numbered node represents root) node from the Project Panel over to the `Current Node` field in the Inspector.
 
-![](:storage\89dc3050-b3a7-4f0f-822a-29ae08b7f9df\541271f9.gif)
+![](https://media.githubusercontent.com/media/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/ID5/MDPics/addnodetoprefab.gif)
+*Figure 4: Applying a tree to a scene*
 
 ### Step 7
 
@@ -98,7 +101,8 @@ The `Online Speech Recognition` option needs to be enabled in Windows.
 
 To do this, open Windows Settings, open the `Privacy` menu, and the `Speech` menu, and enable the `Online Speech Recognition` option.
 
-![](:storage\89dc3050-b3a7-4f0f-822a-29ae08b7f9df\fdc68c37.gif)
+![](https://media.githubusercontent.com/media/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/ID5/MDPics/sttsettingerror.gif)
+*Figure 5: Configuring windows speech libraries*
 
 ## Known bugs
 
