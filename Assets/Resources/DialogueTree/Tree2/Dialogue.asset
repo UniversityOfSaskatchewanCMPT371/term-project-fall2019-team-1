@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
   m_Name: Dialogue
   m_EditorClassIdentifier: 
-  tree: 1
-  treeName: Tree1
+  tree: 2
+  treeName: Tree3
   prompt: hi
   response: []
   next: []
   start: 1
-  anim: {fileID: 7400000, guid: d2ed637786f382d4baa1aebd70e87777, type: 3}
+  anim: {fileID: 7400000, guid: 54c8d5b696f470540a97496f84550fff, type: 3}

@@ -1931,6 +1931,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0248a60cdb0500647bf37e555b3e03a5,
         type: 2}
+    - target: {fileID: 6265206989134906742, guid: 87ec392c4dbe1504b844c8e546cad406,
+        type: 3}
+      propertyPath: currentTree
+      value: Tree3
+      objectReference: {fileID: 0}
     - target: {fileID: 4858877604402941688, guid: 87ec392c4dbe1504b844c8e546cad406,
         type: 3}
       propertyPath: animator
