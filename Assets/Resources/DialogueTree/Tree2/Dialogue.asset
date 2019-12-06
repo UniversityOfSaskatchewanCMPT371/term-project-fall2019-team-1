@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   tree: 2
-  treeName: Tree2
-  prompt: 
+  treeName: Tree3
+  prompt: hi
   response: []
   next: []
   start: 1
-  anim: {fileID: 0}
+  anim: {fileID: 7400000, guid: 54c8d5b696f470540a97496f84550fff, type: 3}
+
