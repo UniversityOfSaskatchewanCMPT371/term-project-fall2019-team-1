@@ -14,7 +14,7 @@ The NPC will appear to be immersive to the users who strikes a conversation.
 - Basic knowledge and terminology of Unity.
 - Windows 10
 - Oculus Rift (preferred, for VR)
-- VRTK (for VR, [setup](https://github.com/ExtendRealityLtd/VRTK.Prefabs))
+- VRTK (for VR, [setup](https://github.com/ExtendRealityLtd/VRTK.Prefabs), this project and SampleScene has everything setup already)
 - An on-going internet connection
 - Audio input device (microphone)
 - Audio output device (speakers)
@@ -51,11 +51,11 @@ Drag the game object with the `Animator` component onto the `Animator` field in 
 
 ## Step 5
 
-To open the Tree Editor window, in the top menu bar, click `Window`, and click the `customGUI` option.
+To open the Tree Editor window, in the top menu bar, click `Window`, and click the `DialogueBuilder` option.
 
 This is the Tree Editor where we create trees, nodes, and modify various responses.
 
-The left side of the window shows the Dialogue Trees for the project. To create or add a tree, press the `Add` button.
+The left side of the window shows the Dialogue Trees for the project. To create or add a tree, press the `Add` button. You can also rename trees with the text field.
 
 Once created a new tree will appear within the Tree Editor with an empty NPC prompt. You can click the tree within the list to focus on it.
 
@@ -67,13 +67,13 @@ There is a `New Child` button to add a user response depicted by the white nodes
 
 ## Step 6
 
-Finally, with our newly created Dialogue Tree, we need to add the root node to the `TreeUI` game object.
+Finally, with our newly created Dialogue Tree, we need to add the tree name to the `TreeUI` game object.
 
-First find the Dialogue node, so in the Project panel, navigate to `Assets\Resources\DialogueTree\TreeX` (replace X with your tree number) and click the folder.
+Find out what your desired tree name in the DialogueBuilder interface.
 
 In the Hierarchy, expand the `PatientSystem` game object, and open the `TreeUI` game object in the Inspector.
 
-Drag the `Dialogue` (no numbered node represents root) node from the Project Panel over to the `Current Node` field in the Inspector.
+Add your tree name to the `Current Tree` field in the Inspector.
 
 ![](./MDPics/addnodetoprefab.gif)
 
@@ -107,7 +107,7 @@ So open Windows Settings, open the `Privacy` menu, and the `Speech` menu, and en
 
 (needs better formatting)
 
-Scene uses `https://github.com/ExtendRealityLtd/VRTK`
+Scene/project uses `https://github.com/ExtendRealityLtd/VRTK`
 
 (find speechlib, SpVoice object)
 

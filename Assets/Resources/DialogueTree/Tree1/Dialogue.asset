@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2307009e787d6ed43863d537635240bb, type: 3}
   m_Name: Dialogue
   m_EditorClassIdentifier: 
-  tree: 6
-  treeName: '!i dude!'
-  prompt: test my guys
+  tree: 1
+  treeName: Tree1
+  prompt: hi
   response:
-  - hello sir
-  - yeet
-  - test test
+  - HELLO
+  - hi there
+  - ok boom times gamer times is awesomeeeeeeee
   next:
-  - {fileID: 11400000, guid: 8852a418cb00ef44d8795c5f0e72bdbb, type: 2}
-  - {fileID: 11400000, guid: 13013fa83039144458dabff5685fd5dd, type: 2}
-  - {fileID: 11400000, guid: 2e805360d96c3464294fdae01a7bfdeb, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   start: 1
-  anim: {fileID: 7400000, guid: 048207f93a0bc134dac12cc06ca091d2, type: 3}
+  anim: {fileID: 7400000, guid: d2ed637786f382d4baa1aebd70e87777, type: 3}
