@@ -111,6 +111,12 @@ To do this, open Windows Settings, open the `Privacy` menu, and the `Speech` men
 
 - Sometimes the scroll bars within the tree editor error, shrinking the tree menu to small to see the tree. If this occurs, delete the tree and create a new one.
 
+- In very noisy areas, the system can pick up on background noise, limiting its ability traverse dialog trees in a correct manor.
+- In instances where the user has a thicker accent, the system can have difficulty parsing the users input. This can be somewhat mediated by allowing accent recognition within the users windows setting (as the speech-to-text portion of the project leverages windows speech-to-text libraries).
+- Extremely large words may be difficult for the system to parse and recognize, causing incorrect traversal of a dialog tree.
+- When attempting to match numbers within the debug tree, be aware that occasionally the system will parse the users input into an integer value well other times it will parse it into its English form (Example: One billion will be interpreted as "One billion" Where as Forty Two will be interpreted as "42")
+
+
 ## Credits
 
 Scene uses: `https://github.com/ExtendRealityLtd/VRTK`
@@ -125,3 +131,6 @@ Creators:
 - Hibatullah
 - James Scarrow
 - Clayton Vanderstelt
+
+
+*This project was created over the course of the fall semester at the University of Saskatchewan by the CMPT 371  class of 2019 (Team 1).*
