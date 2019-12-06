@@ -10,7 +10,7 @@ using UnityEditor.SceneManagement;
 
 public class SmokeTest
 {
-    CustomGUI UsrInterface;
+    DialogueBuilder UsrInterface;
     public GameObject LEngine;
 
     /// <summary>
@@ -93,7 +93,7 @@ public class SmokeTest
 
 
         // Processes Testing
-        UsrInterface = ScriptableObject.CreateInstance<CustomGUI>();
+        UsrInterface = ScriptableObject.CreateInstance<DialogueBuilder>();
         Debug.Assert(UsrInterface.trees != null);
         Debug.Assert(UsrInterface.treeDialogues != null);
         Debug.Assert(UsrInterface.treesToDelete != null);
