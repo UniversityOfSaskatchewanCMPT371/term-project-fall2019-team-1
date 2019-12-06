@@ -1,4 +1,3 @@
-
 # Intractable Dialogue System
 
 ## Intro
@@ -93,6 +92,10 @@ If no match is found, the NPC will repeat the previous prompt.
 
 Once the tree had hit a leaf node, the NPC will indicate the end of the conversation and the NPC will stop listening for input.
 
+### Sample Scene
+
+Once the above steps are complete, I would reccomend with the [Sample Scene](https://github.com/UniversityOfSaskatchewanCMPT371/term-project-fall2019-team-1/blob/develop/SampleScene.md) included within the project to get a feel of the systems capabilities.
+
 ## Common Errors
 
 **Dictation Support is not enabled on this Device** 
@@ -111,8 +114,6 @@ To do this, open Windows Settings, open the `Privacy` menu, and the `Speech` men
 ## Credits
 
 Scene uses: `https://github.com/ExtendRealityLtd/VRTK`
-
-(find speechlib, SpVoice object)
 
 Creators:
 - Sam Horovatin
