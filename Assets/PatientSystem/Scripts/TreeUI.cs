@@ -31,6 +31,7 @@ public class TreeUI : MonoBehaviour
     [HideInInspector]
     public Dialogue currentNode;
 
+
     /// <summary>
     /// A list of the Dialogue objects of the current tree (Object[] format).
     /// </summary>
@@ -85,6 +86,9 @@ public class TreeUI : MonoBehaviour
     /// <returns>The options we can take at the current node.</returns>
     public List<string> GetCurrentOptions()
     {
+
+  
+
         return currentNode.response;
     }
 
