@@ -1,9 +1,9 @@
 
-# Intractable Dialogue System
+# Interactive Dialogue System
 
 ## Intro
 
-This is an intractable dialogue system which allows audio interactions with in-game NPCs designed for VR (VRTK).
+This is an interactive dialogue system which allows audio interactions with in-game NPCs designed for VR (VRTK).
 
 Users will be able to create custom Dialogue trees and traverse said trees using speech.
 
